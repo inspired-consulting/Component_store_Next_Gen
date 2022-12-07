@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Component</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
+    <link rel="stylesheet" href="custom.css"/>
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">ComponentStore</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Upload</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container d-flex flex-column align-items-center mt-5">
+        <h3>Upload a new Component</h3>
+        <div class="mt-3">
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="InputComponentName">Component Name</label>
+                            <input type="text" class="form-control" id="inputComponentName"
+                                aria-describedby="ComponentNameHelp">
+                            <small id="ComponentNameHelp" class="form-text text-muted">e.g. name of the company</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="InputVersion">Version</label>
+                            <input type="number" class="form-control" min="1" max="100" id="inputVersion">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="ComponentFile">File (JavaScript or Zip)</label>
+                            <input type="text" class="form-control" id="inputComponentName" readonly>
+                            <input type="file" class="form-control-file mt-3" id="ComponentFile">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="readmeTextarea">Readme (some usage information)</label>
+                            <textarea class="form-control" id="readmeTextarea" rows="5"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Upload</button>
+            </form>
+            <a role="button" href="component-detail.html" class="btn btn-primary mt-2">Show Component</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
