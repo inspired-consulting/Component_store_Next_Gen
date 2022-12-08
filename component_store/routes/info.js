@@ -6,7 +6,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-
     const { parcel } = req.body;
     console.log("parcel",parcel);
     if (!parcel){

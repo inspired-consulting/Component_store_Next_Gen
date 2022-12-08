@@ -3,7 +3,7 @@ const getBtn = document.getElementById('get')
 const postBtn = document.getElementById('post')
 const input = document.getElementById('input')
 
-const baseUrl = 'http://localhost:8383';
+const baseUrl = 'http://localhost:8383/info';
 
 getBtn.addEventListener('click', getInfo)
 postBtn.addEventListener('click', postInfo)
