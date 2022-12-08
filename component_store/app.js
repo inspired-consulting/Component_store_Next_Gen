@@ -10,8 +10,8 @@ app.use(express.static('views'))
 
 app.use(fileUpload());
 
-const InfoRouter = require('./routes/info');
-const UploadsRouter = require('./routes/uploads');
+const InfoRouter = require('./src/routes/info');
+const UploadsRouter = require('./src/routes/uploads');
 
 app.use('/info', InfoRouter);
 app.use('/upload', UploadsRouter);
