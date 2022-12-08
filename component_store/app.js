@@ -1,25 +1,21 @@
-const express = require('express')
-const app = express()
-
-const cors = require('cors')
-app.use(cors())
-
-const PORT = 8383;
-app.use(express.static('public'))
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+app.use(cors());
 app.use(express.json())
 
-app.get('/info', (req, res) => {
-  res.status(200).json({info: 'hello there again'});
-})
+const port = process.env.PORT || '8383';
+app.use(express.static('views'))
 
-app.post('/info', (req, res) => {
-  
-  const { parcel } = req.body;
-  console.log("parcel",parcel);
-  if (!parcel){
-    return res.status(400).send({status: 'failed'});
-  }
-  res.status(200).send({status: 'received'});
-})
+app.use(fileUpload());
 
-app.listen(PORT, () => {console.log(`Server listening on Port: ${PORT}`)})
+const InfoRouter = require('./routes/info');
+const UploadsRouter = require('./routes/uploads');
+
+app.use('/info', InfoRouter);
+app.use('/upload', UploadsRouter);
+
+app.listen(port, () => {
+	console.log(`Server listening on Port: ${port}`)
+})
