@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
- router.post('/', function(req, res) {
+
+router.get('/', (req, res) => {
+  res.render("fileupload", {})
+});
+
+router.post('/', function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
@@ -14,7 +19,7 @@ const router = express.Router();
     sampleFile.mv('./uploads/' + filename, function(err) {
       if (err)
         return res.status(500).send(err);
-        res.send('File uploaded!');
+        res.send('File uploaded!')
     });
 });
 

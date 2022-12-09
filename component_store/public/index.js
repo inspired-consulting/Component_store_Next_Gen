@@ -11,10 +11,14 @@ postBtn.addEventListener('click', postInfo)
 async function getInfo(e) {
     e.preventDefault()
     const res = await fetch(baseUrl, {
+        headers: {
+            'Accept': 'application/json'
+          },
         method : 'GET'
     });
+    console.log("response",res);
     const data = await res.json();
-    console.log(data);
+    console.log("data fetched###",data);
     input.value = data.info
 }
 

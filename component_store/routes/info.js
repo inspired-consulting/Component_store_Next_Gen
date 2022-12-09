@@ -1,5 +1,11 @@
 const express = require('express');
+const { json } = require('stream/consumers');
 const router = express.Router();
+
+// router.get('/', (req, res) => {
+//     res.render("index", { 
+//     })
+// })
 
 router.get('/', (req, res) => {
     res.status(200).json({info: 'hello there again'});
