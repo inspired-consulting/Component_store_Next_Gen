@@ -1,5 +1,4 @@
 const express = require('express');
-const { json } = require('stream/consumers');
 const router = express.Router();
 
 // router.get('/', (req, res) => {
@@ -8,7 +7,7 @@ const router = express.Router();
 // })
 
 router.get('/', (req, res) => {
-    res.status(200).json({info: 'hello there again'});
+    res.status(200).json({info: 'Hi,hello there!'});
 })
 
 router.post('/', (req, res) => {
