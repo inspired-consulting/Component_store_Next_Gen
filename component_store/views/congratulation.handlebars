@@ -1,5 +1,5 @@
 
-    <div class="container">
+    <div class="container mb-5">
         <div class="mt-4 alert alert-success" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -9,11 +9,22 @@
             <p>You can now integrate the link below into your web applications.</p>
         </div>
 
-        <h3 class="mt-5 ml-md-2 ml-2">Your Component</h3>
-        <div class="mt-4 ml-3 mx-md-3">
+        <h3 class="mt-5 mb-4">Your Components</h3>
+            <dl class="row">
+                <dt class="col-3">Component Name :</dt>
+                <dd class="col-9">{{componentName}}</dd>
+                <dt class="col-3">Version :</dt>
+                <dd class="col-9">{{inputVersion}}</dd>
+                <dt class="col-3">Generated Link :</dt>
+                <dd class="col-9"> https://store.componento.eu/components/{{componentName}}/{{inputVersion}}/main.js</dd>
+                <dt class="col-3">How to use the component :</dt>
+                <dd class="col-9 mb-4">To integrate this component do...First add a script tag with the source link from above,Add the tag "my-tag" into your desired html page.</dd>
+            </dl>
+
+        {{!-- <div class="mt-4 ml-3 mx-md-3">
             <div class="row">
                 <div class="col-md-6">
-                    <h6>Name</h6>
+                    <h6>Component Name</h6>
                 </div>
                 <div class="col-md-6">
                     <p>{{componentName}}</p>
@@ -31,7 +42,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <h6>Saved at location</h6>
+                    <h6>Generated Link</h6>
                 </div>
                 <div class="col-md-6">
                     <p> https://store.componento.eu/components/{{componentName}}/{{inputVersion}}/main.js</p>
@@ -48,12 +59,20 @@
                     <p class="m-0">Add the tag "my-tag" into your desired html page.</p>
                 </div>
             </div>
-
+        </div> --}}
         
-        </div>
-        <a id="link" download>link to your file (upload a file first)</a>
+        {{#each files }}
+            <dl class="row">
+                <dt class="col-2"> <img src="/uploads/{{this}}" alt="" style="width:70px; margin-bottom:10px"> </dt>
+                <dd class="col-10"> <a href="/uploads/{{this}}" download>{{this}} downlod</a></dd>
+            </dl>
+            {{!-- <li>
+                <img src="/uploads/{{this}}" alt="" style="height:50px; margin-bottom:10px">
+                <a href="/uploads/{{this}}" download>{{this}} downlod</a>
+            </li> --}}
+        {{/each}}
     </div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -61,5 +80,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
         crossorigin="anonymous"></script>
-
- <script src="/index.js" type="module"></script>

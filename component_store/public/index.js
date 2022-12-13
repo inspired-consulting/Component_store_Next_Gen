@@ -5,8 +5,8 @@ const input = document.getElementById('input')
 
 const baseUrl = 'http://localhost:8383/info';
 
-// getBtn.addEventListener('click', getInfo)
-// postBtn.addEventListener('click', postInfo)
+getBtn.addEventListener('click', getInfo)
+postBtn.addEventListener('click', postInfo)
 
 async function getInfo(e) {
     e.preventDefault()
@@ -34,25 +34,5 @@ async function postInfo(e) {
            parcel: input.value
         })
     });
-    console.log("set data");
+    console.log("Data send to backend!");
 }
-
-const uploadInput = document.getElementById('upload');
-const link = document.getElementById('link');
-console.log("link###",link);
-let objectURL;
-
-uploadInput.addEventListener('change', function () {
-  if (objectURL) {
-    // revoke the old object url to avoid using more memory than needed
-    URL.revokeObjectURL(objectURL);  
-  }
-
-  const file = this.files[0];
-  console.log("file###",file);
-  objectURL = URL.createObjectURL(file);
-  console.log("objectURL###",objectURL);
-  link.download = file.name; // this name is used when the user downloads the file
-  link.href = objectURL;
-
-});
