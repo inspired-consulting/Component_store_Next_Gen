@@ -5,8 +5,8 @@ const input = document.getElementById('input')
 
 const baseUrl = 'http://localhost:8383/info';
 
-getBtn.addEventListener('click', getInfo)
-postBtn.addEventListener('click', postInfo)
+getBtn && getBtn.addEventListener('click', getInfo)
+postBtn && postBtn.addEventListener('click', postInfo )
 
 async function getInfo(e) {
     e.preventDefault()
@@ -36,3 +36,22 @@ async function postInfo(e) {
     });
     console.log("Data send to backend!");
 }
+
+
+$('#summernote').summernote({
+  placeholder: 'Add some instructions to integrate the component.',
+      tabsize: 2,
+      height: 100,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+      ]
+});
+
+
+
