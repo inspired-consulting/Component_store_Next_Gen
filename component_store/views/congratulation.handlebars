@@ -1,0 +1,30 @@
+
+    <div class="container mb-5">
+        <div class="mt-4 alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p><strong>Congrats,</strong> your component has been uploaded!</p>
+            <hr>
+            <p>You can now integrate the link below into your web applications.</p>
+        </div>
+
+        <h3 class="mt-5 mb-4">Your Components</h3>
+            <dl class="row">
+                <dt class="col-3">Component Name :</dt>
+                <dd class="col-9">{{componentName}}</dd>
+                <dt class="col-3">Version :</dt>
+                <dd class="col-9">{{inputVersion}}</dd>
+                <dt class="col-3">Generated Link :</dt>
+                <dd class="col-9"><a href="./uploads/{{lastUpload}}" download> https://store.componento.eu/components/{{componentName}}/{{inputVersion}}/main.js</a></dd>
+                <dt class="col-3">How to use the component :</dt>
+                <dd class="col-9 mb-4">To integrate this component do...First add a script tag with the source link from above,Add the tag "my-tag" into your desired html page.</dd>
+            </dl>
+
+            {{#each files }}
+                <dl class="row">
+                    <dt class="col-3"> <img src="/uploads/{{this}}" alt="" style="width:70px; margin-bottom:10px"> </dt>
+                    <dd class="col-9"> <a href="/uploads/{{this}}" download>{{this}} downlod</a></dd>
+                </dl>
+            {{/each}}
+    </div>

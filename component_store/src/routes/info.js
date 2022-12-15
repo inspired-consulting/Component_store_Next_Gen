@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.status(200).json({info: 'hello there again'});
+    res.status(200).json({info: 'Hi,hello there!'});
 })
 
 router.post('/', (req, res) => {

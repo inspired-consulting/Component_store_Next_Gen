@@ -1,0 +1,43 @@
+    <div class="container mt-5">
+        <h1>File upload with express-fileupload</h1>
+        <form method='post' action='/upload' enctype="multipart/form-data" id="uploadFile">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="componentName">Component Name*:</label>
+                        <input type="text" class="form-control" id="componentName" aria-describedby="ComponentNameHelp" name="componentName" value="{{componentName}}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="inputVersion">Version*:</label>
+                        <input type="text" class="form-control" id="inputVersion" name="inputVersion" value="{{inputVersion}}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="fileUpload">Choose file to upload*:</label> <br>
+                        <input type='file' name='fileUpload' id="upload" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="">Include some instructions to integrate the component:</label>
+                        <textarea class="form-control" id="summernote" name="editordata" name="componentTextarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Upload components</button>
+        </form>
+    </div>
+
+    <script src="/index.js" type="module"></script> 
