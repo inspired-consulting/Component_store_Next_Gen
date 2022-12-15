@@ -36,8 +36,8 @@ router.post('/', function(req, res) {
         return res.status(400).send('No files were uploaded.');
     }
     sampleFile.mv('./uploads/' + filename, function(err) {
-        if (err) 
-        return res.status(500).send(err);
+        if (err) return res.status(500).send(err);
+        console.log("sending to uploads");
         res.redirect('/congrats');
     });
 });

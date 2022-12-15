@@ -4,9 +4,8 @@
   "description": "components store",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server",
-    "dev": "nodemon app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+   
   },
   "keywords": [],
   "author": "",

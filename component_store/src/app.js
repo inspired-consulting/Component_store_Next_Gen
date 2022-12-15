@@ -12,7 +12,7 @@ app.use(express.json())
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, './public')));
-app.use('/uploads', express.static(path.join(__dirname, './uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.set('views', './views');
 
@@ -26,9 +26,9 @@ app.use('/upload', UploadsRouter);
 app.use('/congrats', congratulationRouter);
 
 app.get('/', (req, res) => {
-	res.render("index", {})
+    res.render("index", {})
 })
 
 app.listen(port, () => {
-	console.log(`Server listening on Port: ${port}`)
+    console.log(`Server listening on Port: ${port}`)
 })
