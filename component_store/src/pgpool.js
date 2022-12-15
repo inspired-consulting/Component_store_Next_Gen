@@ -1,10 +1,9 @@
-'use strict';
 
 const { Pool } = require('pg');
 
 const poolConfig = {
-    host: "localhost",
-    port: 25432,
+    host: "127.0.0.1",
+    port: 25443,
     user: "postgres",
     password: "password",
     database: "componentstore",
@@ -14,7 +13,7 @@ var pool;
 
 module.exports = {
     getPool: function () {
-        if (pool) return pool; // if it is already there, grab it here
+        if (pool) return pool;
         pool = new Pool(poolConfig);
         return pool;
     }
