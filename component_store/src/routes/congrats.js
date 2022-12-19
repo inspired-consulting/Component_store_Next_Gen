@@ -5,15 +5,16 @@ const files = fs.readdirSync( './uploads');
 //console.log("files from folder",files);
 
 router.get('/', (req, res) => {
+    console.log("request",req);
     fs.readFile('componentData.json', (err, data) => {
         if (err) throw err;
         const loadedcomponentData = JSON.parse(data);
         const componentName = loadedcomponentData.componentName;
         const inputVersion = loadedcomponentData.inputVersion;
         res.render("congratulation", {
-            componentName: componentName,
-            inputVersion: inputVersion,
-            files: files
+           // componentName: componentName,
+            //inputVersion: inputVersion,
+           // files: files
         })
     });
 })
