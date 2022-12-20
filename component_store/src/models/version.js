@@ -17,12 +17,13 @@ const findVersionData = (key, value) => {
 
 const createVersion = (data, componentId) => {
     const versionData = {
-                componentName: data.componentName,
-                version: data.inputVersion,
-                information: data.information,
-                entryfile: data.entryFile,
-                website: data.website
-             }
+        componentName: data.componentName,
+        version: data.inputVersion,
+        information: data.information,
+        entryfile: `${data.componentName}-main.js`,
+        // entryfile: data.entryFile,
+        website: data.website
+    }
     return new Promise((resolve, reject) => {
         var pool = pgpool.getPool();
         var versionId = uuid.v4();
@@ -36,16 +37,35 @@ const createVersion = (data, componentId) => {
             if(err) { return reject(err);}
             const row = result.rows.length > 0 ? result.rows[0] : false;
             if(!row) {return reject(new InvalidResetError("versiondata could not be created"));}
-            var version = {
-                id: result.rows[0]
+            resolve(result.rows[0].id)
+        })
+    })
+}
+
+const GetComponentNameAndVersionById = (id) => {
+    var pool = pgpool.getPool();
+    return new Promise((resolve, reject) => {
+        pool.query(`
+        SELECT
+            c.name,
+            cv.version,
+            cv.information
+        FROM
+            component c
+            LEFT JOIN component_version cv ON cv.component_id = c.id
+        WHERE
+            c.id = $1;`, [id], (err, result) => {
+            if (err) { reject(err); }
+            else {
+                resolve(result.rows);
             }
-            resolve(version)
         })
     })
 }
 
 module.exports = {
     findVersionData: findVersionData,
-    createVersion: createVersion
+    createVersion: createVersion,
+    GetComponentNameAndVersionById: GetComponentNameAndVersionById
 }
 
