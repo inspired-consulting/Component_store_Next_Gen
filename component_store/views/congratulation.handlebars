@@ -9,22 +9,27 @@
             <p>You can now integrate the link below into your web applications.</p>
         </div>
 
-        <h3 class="mt-5 mb-4">Your Components</h3>
-            <dl class="row">
-                <dt class="col-3">Component Name :</dt>
-                <dd class="col-9">{{componentName}}</dd>
-                <dt class="col-3">Version :</dt>
-                <dd class="col-9">{{inputVersion}}</dd>
-                <dt class="col-3">Generated Link :</dt>
-                <dd class="col-9"><a href="./uploads/{{lastUpload}}" download> https://store.componento.eu/components/{{componentName}}/{{inputVersion}}/main.js</a></dd>
-                <dt class="col-3">How to use the component :</dt>
-                <dd class="col-9 mb-4">To integrate this component do...First add a script tag with the source link from above,Add the tag "my-tag" into your desired html page.</dd>
-            </dl>
+        <h3 class="mt-5 mb-4">Your Component</h3>
 
-            {{#each files }}
-                <dl class="row">
-                    <dt class="col-3"> <img src="/uploads/{{this}}" alt="" style="width:70px; margin-bottom:10px"> </dt>
-                    <dd class="col-9"> <a href="/uploads/{{this}}" download>{{this}} downlod</a></dd>
-                </dl>
-            {{/each}}
+        {{#each component }}
+        <dl class="row">
+            <dt class="col-3">Component Name :</dt>
+            <dd class="col-9">{{this.name}}</dd>
+            <dt class="col-3">Version :</dt>
+            <dd class="col-9">{{this.version}}</dd>
+            <dt class="col-3">Generated Link :</dt>
+            <dd class="col-9"><a href="/uploads/{{../uploadedFile}}" download> https://store.componento.eu/components/{{this.name}}/{{this.version}}/main.js</a></dd>
+            <dt class="col-3">How to use the component :</dt>
+            <dd class="col-9 mb-4">{{{this.information}}}</dd>
+        </dl>
+        {{/each}}
+        {{!-- {{#each files }}
+            <dl class="row">
+                <dt class="col-3"> <img src="/uploads/{{this}}" alt="" style="width:70px; margin-bottom:10px"> </dt>
+                <dd class="col-9"> <a href="/uploads/{{this}}" download>{{this}} downlod</a></dd>
+            </dl>
+        {{/each}} --}}
+
+        <h3>Read json data and download file:</h3>
+        <a href="/uploads/{{uploadedFile}}" download>{{uploadedFile}}-main.js</a>
     </div>

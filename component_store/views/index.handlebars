@@ -5,21 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+     <script src="/index.js" type="module"></script>
 </head>
 
 <body>
    <div class="container">
-     <form class="mt-5">
-        <h1>getting data and posting data to backend</h1>
-        <input type="text" id="input">
-        <button id="get">get</button>
-        <button id="post">post</button>
-    </form>
+        <form class="mt-5">
+            <h1>getting data and posting data to backend</h1>
+            <input type="text" id="input">
+            <button id="get">get</button>
+            <button id="post">post</button>
+        </form>
 
-    <h3 class="mt-5"><a href="/upload">click here for Upload page!</a></h3>
+        <h3 class="mt-5"><a href="/upload">click here for Upload page!</a></h3>
+        
+        <button class="mt-5 mb-4" onclick="getFiles()">Open file</button>
    </div>
+
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
-    <script src="/index.js" type="module"></script>
 </body>
 </html>
+
+<script>
+    let fileHandle;
+    async function getFiles() {
+        [fileHandle] = await window.showOpenFilePicker();
+        let fileData = await fileHandle.getFile();
+        console.log("fileData##",fileData)
+        let text = await fileData.text()
+        console.log("text##",text)
+    }
+</script>

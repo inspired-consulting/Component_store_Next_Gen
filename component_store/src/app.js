@@ -11,7 +11,7 @@ const port = process.env.PORT || '8383';
 app.use(express.json())
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.set('views', './views');
