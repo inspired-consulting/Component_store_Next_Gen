@@ -42,10 +42,10 @@ const createVersion = (data, componentId) => {
     })
 }
 
-const GetComponentNameAndVersionById = (id) => {
+const getComponentNameAndVersionById = (id) => {
     var pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
-        pool.query(`
+        pool.query (`
         SELECT
             c.name,
             cv.version,
@@ -57,6 +57,7 @@ const GetComponentNameAndVersionById = (id) => {
             c.id = $1;`, [id], (err, result) => {
             if (err) { reject(err); }
             else {
+                console.log("RESULT##",result.rows);
                 resolve(result.rows);
             }
         })
@@ -66,6 +67,6 @@ const GetComponentNameAndVersionById = (id) => {
 module.exports = {
     findVersionData: findVersionData,
     createVersion: createVersion,
-    GetComponentNameAndVersionById: GetComponentNameAndVersionById
+    getComponentNameAndVersionById: getComponentNameAndVersionById
 }
 

@@ -3,15 +3,15 @@ const fs = require('fs');
 const router = express.Router();
 const files = fs.readdirSync( './uploads');
 const Version = require('../models/version');
+//console.log("files from folder",files);
 
 const rawdata = fs.readFileSync('componentData.json');
 const jsonData = JSON.parse(rawdata)
-console.log("jsonData",jsonData);
 
 router.get('/:id', (req, res) => {
     const componentId = req.params.id;
     const latestUploadedFile = jsonData.component;
-    Version.getComponentNameAndVersionById(componentId)
+    Version.GetComponentNameAndVersionById(componentId)
     .then(component => {
         res.render("congratulation", {
             component: component,
@@ -25,38 +25,7 @@ router.get('/:id', (req, res) => {
     });
 })
 
-module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// version1
 
 // router.get('/:id', (req, res) => {
 //     console.log("request",req.params.id);
@@ -73,3 +42,4 @@ module.exports = router;
 //     });
 // })
 
+module.exports = router;

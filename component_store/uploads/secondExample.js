@@ -22,7 +22,6 @@ router.post('/', (req, res, next) => {
         if (err) throw err;
         console.log('componentData saved!');
     });
-
     if (!req.files || Object.keys(req.files).length == 0) {
         return res.status(400).send('No files were uploaded.');
     }
@@ -31,7 +30,7 @@ router.post('/', (req, res, next) => {
     .then(result => {
         Version.createVersion(data, result)
         .then(id => {
-            sampleFile.mv('./uploads/' + filename, function(err) {//include compüonent name between path and file name
+            sampleFile.mv('./uploads/' + filename, function(err) {
                 if (err) return res.status(500).send(err);
                 console.log("sending files to uploads");
                 return res.redirect(`/congrats/${id}`);
@@ -43,15 +42,6 @@ router.post('/', (req, res, next) => {
         return next(err);
     })
 });
-
-
-module.exports = router;
-
-
-
-
-
-
 
 
 
@@ -104,3 +94,4 @@ module.exports = router;
 //     });
 // });
 
+module.exports = router;

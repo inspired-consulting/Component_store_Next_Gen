@@ -26,7 +26,7 @@ const createComponent = (data) => {
                     (id, uuid, name, website) 
                 VALUES
                     ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3)
-                RETURNING id`, 
+                RETURNING id`,
         [componentId, componentData.name, componentData.website],
         (err, result) => {
             if(err) { return reject(err);}

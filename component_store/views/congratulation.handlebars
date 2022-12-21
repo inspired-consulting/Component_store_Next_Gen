@@ -18,7 +18,7 @@
             <dt class="col-3">Version :</dt>
             <dd class="col-9">{{this.version}}</dd>
             <dt class="col-3">Generated Link :</dt>
-            <dd class="col-9"><a href="/uploads/{{../jsonData}}" download> https://store.componento.eu/components/{{this.name}}/{{this.version}}/main.js</a></dd>
+            <dd class="col-9"><a href="/uploads/{{../latestUploadedFile}}" download> https://store.componento.eu/components/{{this.name}}/{{this.version}}/main.js</a></dd>
             <dt class="col-3">How to use the component :</dt>
             <dd class="col-9 mb-4">{{{this.information}}}</dd>
         </dl>
@@ -31,5 +31,5 @@
         {{/each}} --}}
 
         <h3>Read json data and download file:</h3>
-        <a href="/uploads/{{jsonData}}" download>{{jsonData}}-main.js</a>
+        <a href="/uploads/{{latestUploadedFile}}" download>{{latestUploadedFile}}-main.js</a>
     </div>
