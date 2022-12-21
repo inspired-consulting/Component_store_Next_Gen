@@ -5,37 +5,32 @@ const Component = require('../models/component');
 const Version = require('../models/version');
 
 router.get('/', (req, res) => {
-    res.render("fileupload", {})
+    res.render("fileupload", {
+
+    })
 });
 
 router.post('/', (req, res, next) => {
     const data = req.body;
     const sampleFile = req.files.fileUpload;
     const filename = sampleFile.name;
-    console.log("sampleFile", sampleFile);
-    console.log("filename", filename);
 
-    const componentData = {
-        'component': filename
-    }
-    fs.writeFile('componentData.json', JSON.stringify(componentData), (err) => {
-        if (err) throw err;
-        console.log('componentData saved!');
-    });
-
-    if (!req.files || Object.keys(req.files).length == 0) {
-        return res.status(400).send('No files were uploaded.');
-    }
-
-    Component.createComponent(data)
-    .then(result => {
-        Version.createVersion(data, result)
-        .then(id => {
-            sampleFile.mv('./uploads/' + filename, function(err) {//include compüonent name between path and file name
-                if (err) return res.status(500).send(err);
-                console.log("sending files to uploads");
-                return res.redirect(`/congrats/${id}`);
-            });
+    writeFileLocally(filename)
+   .then(result => {
+        Component.createComponent(data)
+        .then(result => {
+            Version.createVersion(data, result)
+            .then(id => {
+                sampleFile.mv('./uploads/' + filename, function(err) {//include compüonent name between path and file name
+                    if (err) return res.status(500).send(err);
+                    console.log("sending files to uploads");
+                    return res.redirect(`/congrats/${id}`);
+                });
+            })
+        })
+        .catch(err => {
+            if (err) return res.status(500).send(err);
+            return next(err);
         })
     })
     .catch(err => {
@@ -44,6 +39,16 @@ router.post('/', (req, res, next) => {
     })
 });
 
+async function writeFileLocally(filename) {
+    try {
+        const componentData = {
+            'component': filename
+        }
+        return await fs.promises.writeFile('componentData.json', JSON.stringify(componentData));
+    } catch (err) {
+      console.error('Error occurred while writing file!', err);
+    }
+}
 
 module.exports = router;
 

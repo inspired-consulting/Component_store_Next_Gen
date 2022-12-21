@@ -57,7 +57,6 @@ const getComponentNameAndVersionById = (id) => {
             c.id = $1;`, [id], (err, result) => {
             if (err) { reject(err); }
             else {
-                console.log("RESULT##",result.rows);
                 resolve(result.rows);
             }
         })

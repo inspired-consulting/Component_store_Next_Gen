@@ -4,19 +4,18 @@ const router = express.Router();
 const files = fs.readdirSync( './uploads');
 const Version = require('../models/version');
 
-const rawdata = fs.readFileSync('componentData.json');
-const jsonData = JSON.parse(rawdata)
-console.log("jsonData",jsonData);
 
 router.get('/:id', (req, res) => {
     const componentId = req.params.id;
-    const latestUploadedFile = jsonData.component;
-    Version.getComponentNameAndVersionById(componentId)
-    .then(component => {
-        res.render("congratulation", {
-            component: component,
-            files: files,
-            latestUploadedFile: latestUploadedFile
+    const latestUploadedFile = readFileLocally()
+    .then(uploadedFile => {
+        Version.getComponentNameAndVersionById(componentId)
+        .then(component => {
+            res.render("congratulation", {
+                component: component,
+                files: files,
+                uploadedFile: uploadedFile
+            })
         })
     })
     .catch(err => {
@@ -24,6 +23,17 @@ router.get('/:id', (req, res) => {
         return next(err);
     });
 })
+
+async function readFileLocally() {
+    try {
+        const rawdata = await fs.promises.readFile('componentData.json');
+        const jsonData = JSON.parse(rawdata)
+        return jsonData.component; 
+    } catch (err) {
+      console.error('Error occurred while reading file!', err);
+    }
+}
+
 
 module.exports = router;
 
