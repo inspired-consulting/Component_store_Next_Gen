@@ -11,6 +11,8 @@
 
         <h3 class="mt-5 mb-4">Your Component</h3>
 
+https://store.componento.eu/components/geo-legal-tech/1.0.0/main.js
+
         {{#each component }}
         <dl class="row">
             <dt class="col-3">Component Name :</dt>
@@ -18,7 +20,7 @@
             <dt class="col-3">Version :</dt>
             <dd class="col-9">{{this.version}}</dd>
             <dt class="col-3">Generated Link :</dt>
-            <dd class="col-9"><a href="/uploads/{{../uploadedFile}}" download> https://store.componento.eu/components/{{this.name}}/{{this.version}}/main.js</a></dd>
+            <dd class="col-9"><a href="/components/{{../uploadedFile}}" download> https://store.componento.eu/components/{{this.name}}/{{this.version}}/{{../uploadedFile}}</a></dd>
             <dt class="col-3">How to use the component :</dt>
             <dd class="col-9 mb-4">{{{this.information}}}</dd>
         </dl>
@@ -31,5 +33,5 @@
         {{/each}} --}}
 
         <h3>Read json data and download file:</h3>
-        <a href="/uploads/{{uploadedFile}}" download>{{uploadedFile}}-main.js</a>
+        <a href="/components/{{uploadedFile}}" download>{{uploadedFile}}</a>
     </div>

@@ -13,13 +13,14 @@ router.get('/', (req, res) => {
 router.post('/', (req, res, next) => {
     const data = req.body;
     const sampleFile = req.files.fileUpload;
+
     const filename = sampleFile.name;
 
     writeFileLocally(filename)
    .then(result => {
         Component.createComponent(data)
         .then(result => {
-            Version.createVersion(data, result)
+            Version.createVersion(data, result, filename)
             .then(id => {
                 sampleFile.mv('./uploads/' + filename, function(err) {//include compüonent name between path and file name
                     if (err) return res.status(500).send(err);
@@ -29,7 +30,7 @@ router.post('/', (req, res, next) => {
             })
         })
         .catch(err => {
-            if (err) return res.status(500).send(err);
+            if (err) return res.status(500).send("Error while inserting component value.",err);
             return next(err);
         })
     })
@@ -46,7 +47,7 @@ async function writeFileLocally(filename) {
         }
         return await fs.promises.writeFile('componentData.json', JSON.stringify(componentData));
     } catch (err) {
-      console.error('Error occurred while writing file!', err);
+        console.error('Error occurred while writing file!', err);
     }
 }
 

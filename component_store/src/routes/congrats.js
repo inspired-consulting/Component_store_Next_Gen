@@ -11,8 +11,13 @@ router.get('/:id', (req, res) => {
     .then(uploadedFile => {
         Version.getComponentNameAndVersionById(componentId)
         .then(component => {
+
+            console.log("component", component[0].name);
+            console.log("component12", component[0].version);
             res.render("congratulation", {
                 component: component,
+                name: component[0].name,
+                version: component[0].version,
                 files: files,
                 uploadedFile: uploadedFile
             })
