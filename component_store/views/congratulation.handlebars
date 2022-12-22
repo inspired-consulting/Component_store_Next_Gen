@@ -11,18 +11,17 @@
 
         <h3 class="mt-5 mb-4">Your Component</h3>
 
-        {{#each component }}
         <dl class="row">
             <dt class="col-3">Component Name :</dt>
-            <dd class="col-9">{{this.name}}</dd>
+            <dd class="col-9">{{name}}</dd>
             <dt class="col-3">Version :</dt>
-            <dd class="col-9">{{this.version}}</dd>
+            <dd class="col-9">{{version}}</dd>
             <dt class="col-3">Generated Link :</dt>
-            <dd class="col-9"><a href="/uploads/{{../uploadedFile}}" download> https://store.componento.eu/components/{{this.name}}/{{this.version}}/main.js</a></dd>
+            <dd class="col-9"><a href="/components/{{name}}/{{version}}/{{entryFile}}" download> https://store.componento.eu/components/{{name}}/{{version}}/{{entryFile}}</a></dd>
             <dt class="col-3">How to use the component :</dt>
-            <dd class="col-9 mb-4">{{{this.information}}}</dd>
+            <dd class="col-9 mb-4">{{{information}}}</dd>
         </dl>
-        {{/each}}
+       
         {{!-- {{#each files }}
             <dl class="row">
                 <dt class="col-3"> <img src="/uploads/{{this}}" alt="" style="width:70px; margin-bottom:10px"> </dt>
@@ -31,5 +30,5 @@
         {{/each}} --}}
 
         <h3>Read json data and download file:</h3>
-        <a href="/uploads/{{uploadedFile}}" download>{{uploadedFile}}-main.js</a>
+        <a href="/components/{{name}}/{{version}}/{{entryFile}}" download>https://store.componento.eu/components/{{name}}/{{version}}/{{entryFile}}</a>
     </div>
