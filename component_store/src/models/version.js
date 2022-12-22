@@ -50,7 +50,8 @@ const getComponentNameAndVersionById = (id) => {
         SELECT
             c.name,
             cv.version,
-            cv.information
+            cv.information,
+            cv.entry_file
         FROM
             component c
             LEFT JOIN component_version cv ON cv.component_id = c.id

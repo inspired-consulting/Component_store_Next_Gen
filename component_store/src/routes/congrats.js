@@ -1,33 +1,54 @@
 const express = require('express');
 const fs = require('fs');
 const router = express.Router();
-const files = fs.readdirSync( './uploads');
+//const files = fs.readdirSync( './uploads');
 const Version = require('../models/version');
 
 
 router.get('/:id', (req, res) => {
     const componentId = req.params.id;
-    const latestUploadedFile = readFileLocally()
-    .then(uploadedFile => {
         Version.getComponentNameAndVersionById(componentId)
-        .then(component => {
-
-            console.log("component", component[0].name);
-            console.log("component12", component[0].version);
+        .then(rows => {
+            const component = rows.length > 0 ? rows[0] : false;
+            console.log("component", component);
             res.render("congratulation", {
                 component: component,
-                name: component[0].name,
-                version: component[0].version,
-                files: files,
-                uploadedFile: uploadedFile
+                name: component.name,
+                version: component.version,
+                entryFile: component.entry_file,
             })
         })
-    })
     .catch(err => {
         if (err) return res.status(500).send(err);
         return next(err);
-    });
+    })
 })
+
+
+// router.get('/:id', (req, res) => {
+//     const componentId = req.params.id;
+//     const latestUploadedFile = readFileLocally()
+//     .then(uploadedFile => {
+//         console.log("uploadedFile", uploadedFile);
+//         Version.getComponentNameAndVersionById(componentId)
+//         .then(rows => {
+//             const component = rows.length > 0 ? rows[0] : false;
+//             console.log("component", component);
+//             res.render("congratulation", {
+//                 component: component,
+//                 name: component.name,
+//                 version: component.version,
+//                 entryFile: component.entry_file,
+//                 //files: files,
+//                 uploadedFile: uploadedFile
+//             })
+//         })
+//     })
+//     .catch(err => {
+//         if (err) return res.status(500).send(err);
+//         return next(err);
+//     });
+// })
 
 async function readFileLocally() {
     try {

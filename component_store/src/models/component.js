@@ -15,6 +15,7 @@ const findComponents = (key, value) => {
     })
 }
 const createComponent = (data) => {
+
     const componentData = {
         name: data.componentName,
         website: data.website

@@ -5,15 +5,16 @@ const Component = require('../models/component');
 const Version = require('../models/version');
 
 router.get('/', (req, res) => {
-    res.render("fileupload", {
-
-    })
+    res.render("fileupload", {})
 });
 
 router.post('/', (req, res, next) => {
-    const data = req.body;
+    const data = req.body
+    console.log("data", data);
+    data.componentName = data.componentName.replaceAll("/",  "_");
+    data.inputVersion = data.inputVersion.replaceAll("/",  "_");
+    console.log("Newdata", data);
     const sampleFile = req.files.fileUpload;
-
     const filename = sampleFile.name;
 
     writeFileLocally(filename)
@@ -22,11 +23,14 @@ router.post('/', (req, res, next) => {
         .then(result => {
             Version.createVersion(data, result, filename)
             .then(id => {
-                sampleFile.mv('./uploads/' + filename, function(err) {//include compüonent name between path and file name
-                    if (err) return res.status(500).send(err);
-                    console.log("sending files to uploads");
-                    return res.redirect(`/congrats/${id}`);
-                });
+                fs.mkdir(`./uploads/${data.componentName}/${data.inputVersion}`, { recursive: true }, (err) => {
+                    if (err) throw err;
+                    sampleFile.mv(`./uploads/${data.componentName}/${data.inputVersion}/` + filename, function(err) {
+                        if (err) return res.status(500).send(err);
+                        console.log("sending files to uploads.");
+                        return res.redirect(`/congrats/${id}`);
+                    });
+                })
             })
         })
         .catch(err => {
