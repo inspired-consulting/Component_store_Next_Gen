@@ -1,54 +1,58 @@
-const express = require('express');
 const fs = require('fs');
+const express = require('express');
+
 const router = express.Router();
 const Component = require('../models/component');
 const Version = require('../models/version');
 
 router.get('/', (req, res) => {
-    res.render("fileupload", {})
+    res.render('fileupload', {});
 });
 
 router.post('/', (req, res, next) => {
-    const data = req.body
-    console.log("data", data);
-    data.componentName = data.componentName.replaceAll("/",  "_");
-    data.inputVersion = data.inputVersion.replaceAll("/",  "_");
-    console.log("Newdata", data);
+    const data = req.body;
+    console.log('data', data);
+    data.componentName = data.componentName.replaceAll('/', '_');
+    data.inputVersion = data.inputVersion.replaceAll('/', '_');
+    console.log('Newdata', data);
     const sampleFile = req.files.fileUpload;
     const filename = sampleFile.name;
 
     writeFileLocally(filename)
-   .then(result => {
-        Component.createComponent(data)
-        .then(result => {
-            Version.createVersion(data, result, filename)
-            .then(id => {
-                fs.mkdir(`./uploads/${data.componentName}/${data.inputVersion}`, { recursive: true }, (err) => {
-                    if (err) throw err;
-                    sampleFile.mv(`./uploads/${data.componentName}/${data.inputVersion}/` + filename, function(err) {
-                        if (err) return res.status(500).send(err);
-                        console.log("sending files to uploads.");
-                        return res.redirect(`/congrats/${id}`);
-                    });
+        .then(() => {
+            Component.createComponent(data)
+                .then((result) => {
+                    const componentId = result;
+                    Version.createVersion(data, componentId, filename)
+                        .then((id) => {
+                            fs.mkdir(`./uploads/${data.componentName}/${data.inputVersion}`, { recursive: true }, (err) => {
+                                if (err) throw err;
+                                // eslint-disable-next-line no-shadow
+                                sampleFile.mv(`./uploads/${data.componentName}/${data.inputVersion}/${filename}`, (err) => {
+                                    if (err) return res.status(500).send(err);
+                                    console.log('sending files to uploads.');
+                                    return res.redirect(`/congrats/${id}`);
+                                });
+                            });
+                        });
                 })
-            })
+                .catch((err) => {
+                    if (err) return res.status(500).send('Error while inserting component value.', err);
+                    return next(err);
+                });
         })
-        .catch(err => {
-            if (err) return res.status(500).send("Error while inserting component value.",err);
+        .catch((err) => {
+            if (err) return res.status(500).send(err);
             return next(err);
-        })
-    })
-    .catch(err => {
-        if (err) return res.status(500).send(err);
-        return next(err);
-    })
+        });
 });
 
+// eslint-disable-next-line consistent-return
 async function writeFileLocally(filename) {
     try {
         const componentData = {
-            'component': filename
-        }
+            component: filename,
+        };
         return await fs.promises.writeFile('componentData.json', JSON.stringify(componentData));
     } catch (err) {
         console.error('Error occurred while writing file!', err);
@@ -56,16 +60,6 @@ async function writeFileLocally(filename) {
 }
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
 
 // router.get('/', (req, res, next) => {
 //     Component.findComponents('id', 5)
@@ -98,12 +92,10 @@ module.exports = router;
 //         'componentName': componentName,
 //         'inputVersion': inputVersion,
 //     }
-    
-//     fs.writeFile('componentData.json', JSON.stringify(componentData), (err) => {  
+//     fs.writeFile('componentData.json', JSON.stringify(componentData), (err) => {
 //         if (err) throw err;
 //         console.log('componentData saved!');
 //     });
-   
 //     if (!req.files || Object.keys(req.files).length == 0) {
 //         return res.status(400).send('No files were uploaded.');
 //     }
@@ -113,4 +105,3 @@ module.exports = router;
 //         res.redirect('/congrats');
 //     });
 // });
-

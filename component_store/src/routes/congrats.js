@@ -1,29 +1,29 @@
 const express = require('express');
-const fs = require('fs');
-const router = express.Router();
-//const files = fs.readdirSync( './uploads');
-const Version = require('../models/version');
+// const fs = require('fs');
 
+const router = express.Router();
+// const files = fs.readdirSync( './uploads');
+const Version = require('../models/version');
 
 router.get('/:id', (req, res) => {
     const componentId = req.params.id;
-        Version.getComponentNameAndVersionById(componentId)
-        .then(rows => {
+    Version.getComponentNameAndVersionById(componentId)
+        .then((rows) => {
             const component = rows.length > 0 ? rows[0] : false;
-            console.log("component", component);
-            res.render("congratulation", {
-                component: component,
+            console.log('component', component);
+            res.render('congratulation', {
+                component,
                 name: component.name,
                 version: component.version,
                 entryFile: component.entry_file,
-            })
+            });
         })
-    .catch(err => {
-        if (err) return res.status(500).send(err);
-        return next(err);
-    })
-})
-
+        .catch((err) => {
+            if (err) return res.status(500).send(err);
+            // eslint-disable-next-line no-undef
+            return next(err);
+        });
+});
 
 // router.get('/:id', (req, res) => {
 //     const componentId = req.params.id;
@@ -50,49 +50,17 @@ router.get('/:id', (req, res) => {
 //     });
 // })
 
-async function readFileLocally() {
-    try {
-        const rawdata = await fs.promises.readFile('componentData.json');
-        const jsonData = JSON.parse(rawdata)
-        return jsonData.component; 
-    } catch (err) {
-      console.error('Error occurred while reading file!', err);
-    }
-}
-
+// async function readFileLocally() {
+//     try {
+//         const rawdata = await fs.promises.readFile('componentData.json');
+//         const jsonData = JSON.parse(rawdata)
+//         return jsonData.component;
+//     } catch (err) {
+//       console.error('Error occurred while reading file!', err);
+//     }
+// }
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // router.get('/:id', (req, res) => {
 //     console.log("request",req.params.id);
@@ -108,4 +76,3 @@ module.exports = router;
 //         })
 //     });
 // })
-

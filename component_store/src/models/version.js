@@ -1,52 +1,54 @@
-const pgpool = require('../helpers/pgpool');
 const uuid = require('uuid');
+const pgpool = require('../helpers/pgpool');
 
 const findVersionData = (key, value) => {
-    var pool = pgpool.getPool();
+    const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component_version WHERE ' + key + ' = $1', [value], (err, result) => {
-            if (err) { 
+        pool.query(`SELECT * FROM component_version WHERE ${key} = $1`, [value], (err, result) => {
+            if (err) {
                 reject(err);
-            }
-            else {
+            } else {
                 resolve(result.rows);
             }
-        })
-    })
-}
+        });
+    });
+};
 
 const createVersion = (data, componentId, filename) => {
-    console.log("inserted filename",filename);
+    console.log('inserted filename', filename);
     const versionData = {
         componentName: data.componentName,
         version: data.inputVersion,
         information: data.information,
         entryfile: filename,
         // entryfile: data.entryFile,
-        website: data.website
-    }
+        website: data.website,
+    };
     return new Promise((resolve, reject) => {
-        var pool = pgpool.getPool();
-        var versionId = uuid.v4();
+        const pool = pgpool.getPool();
+        const versionId = uuid.v4();
         pool.query(`INSERT INTO component_version
             (id, uuid, component_id, version, information, entry_file)
         VALUES
             ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2, $3, $4, $5)
         RETURNING id`,
-        [versionId, componentId, versionData.version, versionData.information, versionData.entryfile], 
+        // eslint-disable-next-line max-len
+        [versionId, componentId, versionData.version, versionData.information, versionData.entryfile],
+        // eslint-disable-next-line consistent-return
         (err, result) => {
-            if(err) { return reject(err);}
+            if (err) { return reject(err); }
             const row = result.rows.length > 0 ? result.rows[0] : false;
-            if(!row) {return reject(new InvalidResetError("versiondata could not be created"));}
-            resolve(result.rows[0].id)
-        })
-    })
-}
+            // eslint-disable-next-line no-undef
+            if (!row) { return reject(new InvalidResetError('versiondata could not be created')); }
+            resolve(result.rows[0].id);
+        });
+    });
+};
 
 const getComponentNameAndVersionById = (id) => {
-    var pool = pgpool.getPool();
+    const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
-        pool.query (`
+        pool.query(`
         SELECT
             c.name,
             cv.version,
@@ -57,17 +59,15 @@ const getComponentNameAndVersionById = (id) => {
             LEFT JOIN component_version cv ON cv.component_id = c.id
         WHERE
             c.id = $1;`, [id], (err, result) => {
-            if (err) { reject(err); }
-            else {
+            if (err) { reject(err); } else {
                 resolve(result.rows);
             }
-        })
-    })
-}
+        });
+    });
+};
 
 module.exports = {
-    findVersionData: findVersionData,
-    createVersion: createVersion,
-    getComponentNameAndVersionById: getComponentNameAndVersionById
-}
-
+    findVersionData,
+    createVersion,
+    getComponentNameAndVersionById,
+};
