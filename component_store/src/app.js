@@ -2,8 +2,12 @@ const express = require('express');
 const expressHandlebars = require('express-handlebars');
 const path = require('path');
 const app = express();
-var hbs = expressHandlebars.create({});
-var path = require('path');
+const hbs = expressHandlebars.create({
+    partialsDir: 'views/partials/',
+    helpers: {
+        getCurrentUrl (req, str) { return str === req.url || str === req.sort; }
+    }
+});
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 app.use(cors());
@@ -30,7 +34,9 @@ app.use('/congrats', congratulationRouter);
 app.use('/components/list', showComponentsRouter);
 
 app.get('/', (req, res) => {
-    res.render("index", {})
+    res.render('index', {
+        url: '/'
+    })
 })
 
 app.listen(port, () => {
