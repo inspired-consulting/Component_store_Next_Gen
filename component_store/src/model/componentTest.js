@@ -2,28 +2,61 @@ const pgpool = require('../helpers/pgpool')
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
 
-function readFromDB () {
+async function readFromDB (name) {
     const pool = pgpool.getPool()
-    pool.query('SELECT * FROM component ', (err, result) => {
-        if (!err) {
-            console.log('result', result.rows)
-            console.log('data is shown');
-        } else {
-            console.log(err.message);
-        }
-    })
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component,component_version WHERE component.name=$1 AND component.id=component_version.component_id ', [name], (err, result) => {
+            if (!err) {
+                console.log('result', result.rows);
+                console.log('data is shown');
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
+
+async function readCompNameFromDB (name) {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component WHERE UPPER(component.name)=UPPER($1) ORDER BY component.name ASC LIMIT 20', [name], (err, result) => {
+            if (!err) {
+                // console.log('result', result.rows)
+                console.log('data is shown');
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
+
+async function readCompFromDB () {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component ORDER BY component.name ASC LIMIT 20', (err, result) => {
+            if (!err) {
+                // console.log('result', result.rows)
+                console.log('data is shown');
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
 }
 
 // is there a same version?
-function checkValues (pool, componentName, id, inputVersion) {
+function checkValues (pool, componentName, id, inputVersion, inputReadme, file) {
     const queryCountdoubleRow = `SELECT * 
     FROM public.component as com, public.component_version as com_v 
     WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
     pool.query(queryCountdoubleRow, [componentName, inputVersion], (err, result) => {
         if (!err) {
-            console.log('version:' + result.rows.length);
+            console.log('version: ' + result.rows.length);
             if (result.rows.length === 0) {
-                insertIntoComponentVersion(pool, id, inputVersion);
+                insertIntoComponentVersion(pool, id, inputVersion, inputReadme, file);
             } else {
                 console.log('the version already exist!');
             }
@@ -34,11 +67,11 @@ function checkValues (pool, componentName, id, inputVersion) {
 }
 
 // inserts the data into component-version table
-function insertIntoComponentVersion (pool, id, inputVersion) {
+function insertIntoComponentVersion (pool, id, inputVersion, inputReadme, file) {
     const queryComponentVersion = `INSERT INTO component_version
     (id, uuid, component_id, version, readme, entry_file) 
-    VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, 'exampletext' , 'main.js')`
-    pool.query(queryComponentVersion, [uuidv4(), id, inputVersion], (err, result) => {
+    VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, $4 , $5)`
+    pool.query(queryComponentVersion, [uuidv4(), id, inputVersion, inputReadme, file], (err, result) => {
         if (!err) {
             console.log('inserted value into component-version!');
         } else {
@@ -48,14 +81,16 @@ function insertIntoComponentVersion (pool, id, inputVersion) {
 }
 
 // inserts data into component and component version
-function insertIntoComponentAndComponentVersion (pool, componentName, inputVersion) {
+function insertIntoComponentAndComponentVersion (pool, data, file) {
     const queryComponent = `INSERT INTO component
-        (id, uuid, name, homepage) 
-        VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, 'www.startpage.com') RETURNING id`
-    pool.query(queryComponent, [uuidv4(), componentName], (err, result) => {
+        (id, uuid, name, website) 
+        VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3)`
+    pool.query(queryComponent, [uuidv4(), data.componentName, data.website], (err, result) => {
         if (!err) {
-            console.log('inserted value', result.rows[0].id);
-            checkValues(pool, componentName, result.rows[0].id, inputVersion);
+            console.log('inserted value', result.rows.length > 0 ? result.rows[0].id : 'no result rows');
+            if (result.rows.length > 0) {
+                checkValues(pool, data.componentName, result.rows[0].id, data.inputVersion, data.information, file);
+            }
         } else {
             console.log(err.message);
         }
@@ -63,37 +98,85 @@ function insertIntoComponentAndComponentVersion (pool, componentName, inputVersi
 }
 
 // does the name already exists?
-function insertIntoDB (componentName, inputVersion) {
+function insertIntoDB (data, file) {
     const queryCountdoubleName = `SELECT id 
     FROM public.component AS com
     WHERE com.name=$1`
     const pool = pgpool.getPool();
-    pool.query(queryCountdoubleName, [componentName], (err, result) => {
+    pool.query(queryCountdoubleName, [data.componentName], (err, result) => {
         // if :
         if (!err && result.rows.length === 0) {
             // the name doesn't exists -> insert into component and component_version
-            insertIntoComponentAndComponentVersion(pool, componentName, inputVersion);
+            insertIntoComponentAndComponentVersion(pool, data, file);
         } else if (!err && result.rows.length > 0) {
             // the name already exisits -> insert only in component_version
-            checkValues(pool, componentName, result.rows[0].id, inputVersion);
+            checkValues(pool, data.componentName, result.rows[0].id, data.inputVersion, data.information, file);
         } else {
             console.log(err.message);
         }
     });
 }
 
-function addToDB () {
-    fs.readFile('componentData.json', (err, data) => {
-        if (err) throw err;
-        const loadedcomponentData = JSON.parse(data);
-        const componentName = loadedcomponentData.componentName;
-        const inputVersion = loadedcomponentData.inputVersion;
-
-        insertIntoDB(componentName, inputVersion);
-    });
+async function addToDB2 (inputdata) {
+    try {
+        const awaitfile = await fs.promises.readFile('componentData.json');
+        const loadedcomponentData = JSON.parse(awaitfile);
+        const file = loadedcomponentData.component;
+        insertIntoDB(inputdata, file);
+    } catch (error) {
+        console.error('Error occurred while reading file!', error);
+    }
 }
 
-module.exports = { addToDB, readFromDB };
+async function addToDB (inputdata) {
+    const pool = pgpool.getPool();
+
+    // queries
+    const queryComponent = `INSERT INTO component
+        (id, uuid, name, website) 
+        VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3) RETURNING id`
+
+    const queryComponentVersion = `INSERT INTO component_version
+    (id, uuid, component_id, version, readme, entry_file) 
+    VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, $4 , $5)`
+
+    const queryCountdoubleName = `SELECT id 
+    FROM public.component AS com
+    WHERE com.name=$1`
+
+    const queryCountdoubleVersion = `SELECT * 
+    FROM public.component as com, public.component_version as com_v 
+    WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
+
+    try {
+        // requests to check name and version
+        const checkName = await pool.query(queryCountdoubleName, [inputdata.componentName]);
+        const checkVersion = await pool.query(queryCountdoubleVersion, [inputdata.componentName, inputdata.inputVersion]);
+
+        // retrieve file data
+        const awaitfile = await fs.promises.readFile('componentData.json');
+        const loadedcomponentData = JSON.parse(awaitfile);
+        const file = loadedcomponentData.component;
+
+        // insert data under ceratin preconditions
+        if (checkName.rows.length > 0 && checkVersion.rows.length > 0) {
+            console.log('Name with Version exists already. (id,version)' + checkName.rows[0].id + ' ' + checkVersion.rows[0].version);
+        } else if (checkName.rows.length > 0 && checkVersion.rows.length === 0) {
+            console.log('Name existiert schon, Version noch nicht (id)' + checkName.rows[0].id);
+            const insertComponentVersion = await pool.query(queryComponentVersion, [uuidv4(), checkName.rows[0].id, inputdata.inputVersion, inputdata.information, file]);
+            console.log('insert into componentVersion' + insertComponentVersion.rows.length)
+        } else {
+            console.log('Weder der Name noch die Version existieren');
+            const insertComponent = await pool.query(queryComponent, [uuidv4(), inputdata.componentName, inputdata.website]);
+            console.log('returns ' + insertComponent.rows[0].id);
+            insertComponent.rows.length > 0 ? await pool.query(queryComponentVersion, [uuidv4(), insertComponent.rows[0].id, inputdata.inputVersion, inputdata.information, file]) : console.log('Error: failed to insert into component');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = { addToDB, readFromDB, readCompFromDB, readCompNameFromDB };
 
 // const query = `INSERT INTO component
 //     (id, uuid, name, website)
