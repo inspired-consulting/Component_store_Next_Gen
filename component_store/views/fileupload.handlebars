@@ -1,5 +1,5 @@
     <div class="container mt-5">
-        <h1>File upload with express-fileupload</h1>
+        <h3 class="mb-4">File upload with express-fileupload</h3>
         <form method='post' action='/upload' enctype="multipart/form-data" id="uploadFile">
             <div class="row">
                 <div class="col">
@@ -32,7 +32,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="information">Include some instructions to integrate the component:</label>
-                        <textarea class="form-control" id="summernote" name="information" name="componentTextarea">{{versionData.information}}</textarea>
+                        <textarea class="form-control" id="summernote" name="information" name="componentTextarea" value="{{versionData.information}}"></textarea>
                     </div>
                 </div>
             </div>
