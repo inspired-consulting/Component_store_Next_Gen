@@ -1,5 +1,6 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
+const path = require('path');
 const app = express();
 var hbs = expressHandlebars.create({});
 var path = require('path');
@@ -20,11 +21,13 @@ app.set('views', './views');
 const InfoRouter = require('./routes/info');
 const UploadsRouter = require('./routes/fileUpload');
 const congratulationRouter = require('./routes/congrats');
+const showComponentsRouter = require('./routes/showcomponents');
 
 app.use(fileUpload());
 app.use('/info', InfoRouter);
 app.use('/upload', UploadsRouter);
 app.use('/congrats', congratulationRouter);
+app.use('/components/list', showComponentsRouter);
 
 app.get('/', (req, res) => {
     res.render("index", {})

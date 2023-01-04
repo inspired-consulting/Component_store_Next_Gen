@@ -1,0 +1,65 @@
+<div class="container mb-5">
+
+    <h3 class="mt-5 mb-4 text-center text-md-left">All Components</h3>
+    <div class="d-flex flex-row align-items-start">
+        <nav class="filter mr-auto">
+            {{#unless component}}
+                <div class="alert alert-warning" role="alert">
+                Component Name {{searchName}} doesn't exists. Try another name.
+                </div>
+            {{/unless}}
+            {{#if component}}
+            <h6>Filter</h6>
+            <ul class="pagination pagination-sm">
+                <li class="page-item {{#if (getCurrentUrl this 'abc') }} active {{/if}}">
+                    <a href="/test?sort=abc" class="page-link">abc</a>
+                </li>
+                <li class="page-item {{#if (getCurrentUrl this 'new') }} active {{/if}}">
+                    <a href="/test?sort=new" class="page-link">new</a>
+                </li>
+                <li class="page-item disabled">
+                    <a href="/test?sort=fav" class="page-link">fav</a>
+                </li>
+            </ul>
+            {{/if}}
+        </nav>
+        <form action="/test" method="get" class="form-inline my-2 my-lg-0">
+            <input name="searchName" class="form-control mr-sm-2" type="search" placeholder="Search for Component"
+                aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
+        {{#each component}}
+        <div class="card mr-3 mb-3" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{this.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Component Description</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+                <div class="d-flex flex-row">
+                    <a href="{{this.website}}" class="card-link">Visit our Website</a>
+                    <a href="/congrats/{{this.name}}" class="card-link">Look at our Component</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{#if component}}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+    {{/if}}
+
+</div>
