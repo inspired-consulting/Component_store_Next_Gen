@@ -1,8 +1,6 @@
 const express = require('express');
-// const fs = require('fs');
 
 const router = express.Router();
-// const files = fs.readdirSync( './uploads');
 const Version = require('../models/version');
 
 router.get('/:id', (req, res) => {
@@ -10,7 +8,7 @@ router.get('/:id', (req, res) => {
     Version.getComponentNameAndVersionById(componentId)
         .then((rows) => {
             const component = rows.length > 0 ? rows[0] : false;
-            console.log('component', component);
+            console.log('component with ID', component);
             res.render('congratulation', {
                 component,
                 name: component.name,
@@ -61,18 +59,3 @@ router.get('/:id', (req, res) => {
 // }
 
 module.exports = router;
-
-// router.get('/:id', (req, res) => {
-//     console.log("request",req.params.id);
-//     fs.readFile('componentData.json', (err, data) => {
-//         if (err) throw err;
-//         const loadedcomponentData = JSON.parse(data);
-//         const componentName = loadedcomponentData.componentName;
-//         const inputVersion = loadedcomponentData.inputVersion;
-//         res.render("congratulation", {
-//            // componentName: componentName,
-//             //inputVersion: inputVersion,
-//            // files: files
-//         })
-//     });
-// })

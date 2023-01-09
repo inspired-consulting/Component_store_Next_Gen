@@ -15,7 +15,7 @@ const findVersionData = (key, value) => {
 };
 
 const createVersion = (data, componentId, filename) => {
-    console.log('inserted filename', filename);
+    // console.log('inserted filename', filename);
     const versionData = {
         componentName: data.componentName,
         version: data.inputVersion,
