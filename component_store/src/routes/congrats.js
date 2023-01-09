@@ -13,6 +13,7 @@ router.get('/:id', (req, res) => {
                 component: component,
                 name: component.name,
                 version: component.version,
+                information: component.information,
                 entryFile: component.entry_file,
             });
         })

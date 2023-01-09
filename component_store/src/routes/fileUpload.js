@@ -24,14 +24,14 @@ router.post('/', (req, res, next) => {
                 .then((result) => {
                     const componentId = result;
                     Version.createVersion(data, componentId, filename)
-                        .then((id) => {
+                        .then(() => {
                             fs.mkdir(`./uploads/${data.componentName}/${data.inputVersion}`, { recursive: true }, (err) => {
                                 if (err) throw err;
                                 // eslint-disable-next-line no-shadow
                                 sampleFile.mv(`./uploads/${data.componentName}/${data.inputVersion}/${filename}`, (err) => {
                                     if (err) return res.status(500).send(err);
                                     console.log('sending files to uploads.');
-                                    return res.redirect(`/congrats/${id}`);
+                                    return res.redirect(`/congrats/${componentId}`);
                                 });
                             });
                         });
