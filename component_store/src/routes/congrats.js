@@ -10,7 +10,7 @@ router.get('/:id', (req, res) => {
             const component = rows.length > 0 ? rows[0] : false;
             console.log('component with ID', component);
             res.render('congratulation', {
-                component,
+                component: component,
                 name: component.name,
                 version: component.version,
                 entryFile: component.entry_file,

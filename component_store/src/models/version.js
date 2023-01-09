@@ -21,8 +21,8 @@ const createVersion = (data, componentId, filename) => {
         version: data.inputVersion,
         information: data.information,
         entryfile: filename,
-        // entryfile: data.entryFile,
         website: data.website,
+        // entryfile: data.entryFile,
     };
     return new Promise((resolve, reject) => {
         const pool = pgpool.getPool();

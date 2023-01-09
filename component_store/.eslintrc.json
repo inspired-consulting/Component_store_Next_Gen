@@ -20,6 +20,7 @@
         }],
         "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
         "no-console": "off",
-        "function-paren-newline": ["error", "never"]
+        "function-paren-newline": ["error", "never"],
+        "object-shorthand": [2, "consistent"]
     }
 }
