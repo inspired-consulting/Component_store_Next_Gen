@@ -5,7 +5,10 @@ const app = express();
 const hbs = expressHandlebars.create({
     partialsDir: 'views/partials/',
     helpers: {
-        getCurrentUrl (req, str) { return str === req.url || str === req.sort; }
+        getCurrentUrl (req, str) { return str === req.url || str === req.sort; },
+        json: (context) => {
+            return JSON.stringify(context);
+        }
     }
 });
 const cors = require('cors');

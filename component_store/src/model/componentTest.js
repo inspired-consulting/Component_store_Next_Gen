@@ -5,10 +5,9 @@ const { v4: uuidv4 } = require('uuid')
 async function readFromDB (name) {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component,component_version WHERE component.name=$1 AND component.id=component_version.component_id ', [name], (err, result) => {
+        pool.query('SELECT * FROM component, component_version WHERE component.name=$1 AND component.id=component_version.component_id ', [name], (err, result) => {
             if (!err) {
-                console.log('result', result.rows);
-                console.log('data is shown');
+                console.log('data is shown readFromDB',result.rows);
                 resolve(result.rows);
             } else {
                 reject(err.message);
@@ -17,13 +16,12 @@ async function readFromDB (name) {
     });
 }
 
-async function readCompNameFromDB (name) {
+async function searchComponentByName (name) {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component WHERE UPPER(component.name)=UPPER($1) ORDER BY component.name ASC LIMIT 20', [name], (err, result) => {
+        pool.query('SELECT * FROM component WHERE LOWER(component.name)=LOWER($1) ORDER BY component.name ASC LIMIT 20', [name], (err, result) => {
             if (!err) {
-                // console.log('result', result.rows)
-                console.log('data is shown');
+                console.log('data is shown searchComponentByName',result.rows);
                 resolve(result.rows);
             } else {
                 reject(err.message);
@@ -32,13 +30,24 @@ async function readCompNameFromDB (name) {
     });
 }
 
-async function readCompFromDB () {
+async function sortComponentByNewest () {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component ORDER BY component.name ASC LIMIT 20', (err, result) => {
+        pool.query('SELECT * FROM component ORDER BY id DESC LIMIT 20', (err, result) => {
             if (!err) {
-                // console.log('result', result.rows)
-                console.log('data is shown');
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
+
+async function sortComponentAlphabetically () {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component ORDER BY name ASC LIMIT 20', (err, result) => {
+            if (!err) {
                 resolve(result.rows);
             } else {
                 reject(err.message);
@@ -50,7 +59,7 @@ async function readCompFromDB () {
 // is there a same version?
 function checkValues (pool, componentName, id, inputVersion, inputReadme, file) {
     const queryCountdoubleRow = `SELECT * 
-    FROM public.component as com, public.component_version as com_v 
+    FROM component as com, component_version as com_v 
     WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
     pool.query(queryCountdoubleRow, [componentName, inputVersion], (err, result) => {
         if (!err) {
@@ -117,36 +126,31 @@ function insertIntoDB (data, file) {
     });
 }
 
-async function addToDB2 (inputdata) {
-    try {
-        const awaitfile = await fs.promises.readFile('componentData.json');
-        const loadedcomponentData = JSON.parse(awaitfile);
-        const file = loadedcomponentData.component;
-        insertIntoDB(inputdata, file);
-    } catch (error) {
-        console.error('Error occurred while reading file!', error);
-    }
-}
-
 async function addToDB (inputdata) {
     const pool = pgpool.getPool();
 
     // queries
     const queryComponent = `INSERT INTO component
-        (id, uuid, name, website) 
-        VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3) RETURNING id`
+                                (id, uuid, name, website) 
+                            VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3) RETURNING id`
 
     const queryComponentVersion = `INSERT INTO component_version
-    (id, uuid, component_id, version, readme, entry_file) 
-    VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, $4 , $5)`
+                                        (id, uuid, component_id, version, information, entry_file) 
+                                    VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, $4 , $5)`
 
     const queryCountdoubleName = `SELECT id 
-    FROM public.component AS com
-    WHERE com.name=$1`
+                                FROM
+                                    component AS com
+                                WHERE
+                                    com.name=$1`
 
     const queryCountdoubleVersion = `SELECT * 
-    FROM public.component as com, public.component_version as com_v 
-    WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
+                                    FROM component as com,
+                                        component_version as com_v 
+                                    WHERE
+                                        com.id=com_v.component_id AND com.name=$1 
+                                    AND
+                                        com_v.version=$2`
 
     try {
         // requests to check name and version
@@ -176,17 +180,4 @@ async function addToDB (inputdata) {
     }
 }
 
-module.exports = { addToDB, readFromDB, readCompFromDB, readCompNameFromDB };
-
-// const query = `INSERT INTO component
-//     (id, uuid, name, website)
-//     VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component),'0e37df36-f698-11e6-8dd4-cb9ced3df976', 'example text', 'www.name.comnisha') RETURNING id`
-//     var pool = pgpool.getPool();
-//     pool.query(query, (err, result) => {
-//     if (!err) {
-//         console.log("inserted value", result.rows[0].id);
-//     }
-//     else {
-//         console.log(err.message);
-//     }
-// })
+module.exports = { addToDB, readFromDB, sortComponentByNewest, searchComponentByName, sortComponentAlphabetically };

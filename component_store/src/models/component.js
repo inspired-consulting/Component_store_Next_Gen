@@ -14,8 +14,8 @@ const findComponents = (key, value) => {
         })
     })
 }
-const createComponent = (data) => {
 
+const createComponent = (data) => {
     const componentData = {
         name: data.componentName,
         website: data.website
@@ -38,7 +38,49 @@ const createComponent = (data) => {
     })
 }
 
+const searchComponentByName = (name) => {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component WHERE LOWER(component.name)=LOWER($1) ORDER BY component.name ASC LIMIT 20', [name], (err, result) => {
+            if (!err) {
+                console.log('data is shown searchComponentByName',result.rows);
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
+
+const sortComponentByNewest = () => {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component ORDER BY id DESC LIMIT 20', (err, result) => {
+            if (!err) {
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
+
+const sortComponentAlphabetically = () => {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component ORDER BY name ASC LIMIT 20', (err, result) => {
+            if (!err) {
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
 module.exports = {
     findComponents: findComponents,
-    createComponent: createComponent
+    createComponent: createComponent,
+    searchComponentByName: searchComponentByName,
+    sortComponentByNewest: sortComponentByNewest,
+    sortComponentAlphabetically: sortComponentAlphabetically
 }
