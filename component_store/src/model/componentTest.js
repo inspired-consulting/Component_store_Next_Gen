@@ -148,6 +148,9 @@ async function addToDB (inputdata) {
     FROM public.component as com, public.component_version as com_v 
     WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
 
+    const updateFile = `UPDATE public.component_version 
+    SET entry_file=$1 WHERE component_id=$2;`
+
     try {
         // requests to check name and version
         const checkName = await pool.query(queryCountdoubleName, [inputdata.componentName]);
@@ -160,7 +163,8 @@ async function addToDB (inputdata) {
 
         // insert data under ceratin preconditions
         if (checkName.rows.length > 0 && checkVersion.rows.length > 0) {
-            console.log('Name with Version exists already. (id,version)' + checkName.rows[0].id + ' ' + checkVersion.rows[0].version);
+            // console.log('Name with Version exists already. (id,version)' + checkName.rows[0].id + ' ' + checkVersion.rows[0].version);
+            await pool.query(updateFile, [file, checkName.rows[0].id]);
         } else if (checkName.rows.length > 0 && checkVersion.rows.length === 0) {
             console.log('Name existiert schon, Version noch nicht (id)' + checkName.rows[0].id);
             const insertComponentVersion = await pool.query(queryComponentVersion, [uuidv4(), checkName.rows[0].id, inputdata.inputVersion, inputdata.information, file]);

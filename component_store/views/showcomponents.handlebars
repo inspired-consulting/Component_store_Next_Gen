@@ -12,21 +12,21 @@
             <h6>Filter</h6>
             <ul class="pagination pagination-sm">
                 <li class="page-item {{#if (getCurrentUrl this 'abc') }} active {{/if}}">
-                    <a href="/test?sort=abc" class="page-link">abc</a>
+                    <a href="/components/list?sort=abc" class="page-link">abc</a>
                 </li>
                 <li class="page-item {{#if (getCurrentUrl this 'new') }} active {{/if}}">
-                    <a href="/test?sort=new" class="page-link">new</a>
+                    <a href="/components/list?sort=new" class="page-link">new</a>
                 </li>
                 <li class="page-item disabled">
-                    <a href="/test?sort=fav" class="page-link">fav</a>
+                    <a href="/components/list?sort=fav" class="page-link">fav</a>
                 </li>
             </ul>
             {{/if}}
         </nav>
-        <form action="/test" method="get" class="form-inline my-2 my-lg-0">
+        <form action="/components/list" method="get" class="form-inline my-2 my-lg-0">
             <input name="searchName" class="form-control mr-sm-2" type="search" placeholder="Search for Component"
                 aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 

@@ -7,18 +7,23 @@ const router = express.Router();
 
 router.get('/:name', (req, res) => {
     const componentName = req.params.name;
-    readFromDB(componentName)
+    const parsedcomponentName = componentName.replaceAll('-', ' ');
+    readFromDB(parsedcomponentName)
         .then(rows => {
-            const component = rows.length > 0 ? rows.pop() : false;
-            const olderversions = rows.length > 0 ? rows.reverse() : false;
-            console.log('component', component);
+            const component = rows.length > 0 ? rows.reverse().shift() : false;
+            const newcomp = component;
+            console.log('ln 14:' + rows[0].version);
+            const olderversions = rows;
+            // const olderversions = //rows.length > 0 ? rows : false;
+            console.log('older components', olderversions);
             res.render('congratulation', {
-                component,
+                component: newcomp,
                 olderversions,
-                name: component.name,
-                version: component.version,
-                information: component.readme,
-                entryFile: component.entry_file
+                name: newcomp.name,
+                namelink: req.params.name,
+                version: newcomp.version,
+                information: newcomp.readme,
+                entryFile: newcomp.entry_file
             })
         })
         .catch(err => {

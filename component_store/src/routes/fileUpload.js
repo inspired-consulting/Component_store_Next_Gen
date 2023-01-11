@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
 router.post('/', (req, res, next) => {
     const data = req.body
     console.log('data', data);
-    data.componentName = data.componentName.replaceAll(path.sep, '_');
-    data.inputVersion = data.inputVersion.replaceAll(path.sep, '_');
+    data.componentName = data.componentName.replaceAll(path.sep, ' ');
+    data.inputVersion = data.inputVersion.replaceAll(path.sep, '');
     console.log('Newdata', data);
     const sampleFile = req.files.fileUpload;
     const filename = sampleFile.name;
@@ -22,12 +22,40 @@ router.post('/', (req, res, next) => {
     writeFileLocally(filename)
         .then(result => {
             addToDB(data).then(() => {
-                fs.mkdir(`./uploads/${data.componentName}/${data.inputVersion}`, { recursive: true }, (err) => {
-                    if (err) throw err;
-                    sampleFile.mv(`./uploads/${data.componentName}/${data.inputVersion}/` + filename, function (err) {
+                const name = data.componentName.replaceAll(' ', '-');
+                fs.mkdir(`./uploads/${name}/${data.inputVersion}`, { recursive: false }, (err) => {
+                    if (err && err.code === 'EEXIST') {
+                        fs.readdir(`./uploads/${name}/${data.inputVersion}`, (err, files) => {
+                            if (err) throw err;
+
+                            for (const file of files) {
+                                fs.unlink(path.join(`./uploads/${name}/${data.inputVersion}`, file), (err) => {
+                                    if (err) throw err;
+                                });
+                            }
+                        });
+                        sampleFile.mv(`./uploads/${name}/${data.inputVersion}/` + filename, function (err) {
+                            if (err) return res.status(500).send(err);
+                            console.log('sending files to uploads.');
+                            console.log(name);
+                            try {
+                                return res.redirect(`/congrats/${name}`);
+                            } catch (error) {
+                                console.log('redirect error:' + error);
+                            }
+                        });
+                    } else if (err) {
+                        console.log(err);
+                    }
+                    sampleFile.mv(`./uploads/${name}/${data.inputVersion}/` + filename, function (err) {
                         if (err) return res.status(500).send(err);
                         console.log('sending files to uploads.');
-                        return res.redirect(`/congrats/${data.componentName}`);
+                        console.log(name);
+                        try {
+                            return res.redirect(`/congrats/${name}`);
+                        } catch (error) {
+                            console.log('redirect error:' + error);
+                        }
                     });
                 })
             })

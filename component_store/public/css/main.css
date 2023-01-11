@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'RedHatDisplay';
+    src: url(../fonts/RedHatDisplay-VariableFont_wght.ttf) format('truetype');
+}
+
+body {
+    font-family: 'RedHatDisplay';
+    color: #2a2a49f4 !important;
+}
+
+
+
+a:hover {
+    color: #2a2a49f4 !important;
+}
+
+h3,
+text-primary,
+.page-link,
+.card-link,
+a {
+    color: #637CBE;
+}
+
+.btn-outline-primary {
+    color: #637CBE;
+    border-color: #637CBE;
+}
+
+.btn-primary,
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #637CBE;
+    border-color: #637CBE;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #586ead;
+    border-color: #586ead;
+}
+
+.bg-light {
+    background-color: #637cbe33 !important;
+}

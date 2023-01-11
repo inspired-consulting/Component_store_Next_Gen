@@ -16,22 +16,11 @@
         <dt class="col-3">Version :</dt>
         <dd class="col-9">{{version}}</dd>
         <dt class="col-3">Generated Link :</dt>
-        <dd class="col-9"><a href="/components/{{name}}/{{version}}/{{entryFile}}" download>
-                https://store.componento.eu/components/{{name}}/{{version}}/{{entryFile}}</a></dd>
+        <dd class="col-9"><a href="/components/{{namelink}}/{{version}}/{{entryFile}}" download>
+                https://store.componento.eu/components/{{namelink}}/{{version}}/{{entryFile}}</a></dd>
         <dt class="col-3">How to use the component :</dt>
         <dd class="col-9 mb-4">{{{information}}}</dd>
     </dl>
-
-    {{!-- {{#each files }}
-    <dl class="row">
-        <dt class="col-3"> <img src="/uploads/{{this}}" alt="" style="width:70px; margin-bottom:10px"> </dt>
-        <dd class="col-9"> <a href="/uploads/{{this}}" download>{{this}} downlod</a></dd>
-    </dl>
-    {{/each}} --}}
-
-    <h3>Read json data and download file:</h3>
-    <a href="/components/{{name}}/{{version}}/{{entryFile}}"
-        download>https://store.componento.eu/components/{{name}}/{{version}}/{{entryFile}}</a>
 
     {{#if olderversions}}
     <h3 class="mt-4 mb-3">Older Versions:</h3>
@@ -46,7 +35,7 @@
             {{#each olderversions }}
                 <tr>
                     <td>{{this.version}}</td>
-                    <td>https://store.componento.eu/components/{{this.name}}/{{this.version}}/{{this.entry_file}}</td>
+                    <td> <a href="/components/{{this.name}}/{{this.version}}/{{this.entry_file}}" download>https://store.componento.eu/components/{{this.name}}/{{this.version}}/{{this.entry_file}}</a> </td>
                 </tr>
             {{/each}}
         </tbody>
