@@ -23,44 +23,28 @@ router.post('/', (req, res, next) => {
         .then(result => {
             addToDB(data).then(() => {
                 const name = data.componentName.replaceAll(' ', '-');
-                fs.mkdir(`./uploads/${name}/${data.inputVersion}`, { recursive: false }, (err) => {
-                    if (err && err.code === 'EEXIST') {
-                        fs.readdir(`./uploads/${name}/${data.inputVersion}`, (err, files) => {
-                            if (err) throw err;
-
+                fs.mkdir(`./uploads/${name}/${data.inputVersion}`, { recursive: true }, (err) => {
+                    if (err) throw err;
+                    fs.readdir(`./uploads/${name}/${data.inputVersion}`, (err, files) => {
+                        if (err) throw err;
+                        if (files.length > 0) {
                             for (const file of files) {
                                 fs.unlink(path.join(`./uploads/${name}/${data.inputVersion}`, file), (err) => {
                                     if (err) throw err;
                                 });
                             }
-                        });
-                        sampleFile.mv(`./uploads/${name}/${data.inputVersion}/` + filename, function (err) {
-                            if (err) return res.status(500).send(err);
-                            console.log('sending files to uploads.');
-                            console.log(name);
-                            try {
-                                return res.redirect(`/congrats/${name}`);
-                            } catch (error) {
-                                console.log('redirect error:' + error);
-                            }
-                        });
-                    } else if (err) {
-                        console.log(err);
-                    }
+                        }
+                    });
                     sampleFile.mv(`./uploads/${name}/${data.inputVersion}/` + filename, function (err) {
                         if (err) return res.status(500).send(err);
                         console.log('sending files to uploads.');
                         console.log(name);
-                        try {
-                            return res.redirect(`/congrats/${name}`);
-                        } catch (error) {
-                            console.log('redirect error:' + error);
-                        }
+                        return res.redirect(`/congrats/${name}`);
                     });
                 })
             })
                 .catch(err => {
-                    if (err) return res.status(500).send(err);
+                    if (err) return res.status(500).send('addToDB throws error');
                     return next(err);
                 })
         })

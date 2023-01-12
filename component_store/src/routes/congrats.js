@@ -5,16 +5,18 @@ const router = express.Router();
 // const files = fs.readdirSync( './uploads');
 // const Version = require('../models/version');
 
+function compareIds (a, b) {
+    return b.id - a.id;
+}
+
 router.get('/:name', (req, res) => {
     const componentName = req.params.name;
     const parsedcomponentName = componentName.replaceAll('-', ' ');
     readFromDB(parsedcomponentName)
         .then(rows => {
-            const component = rows.length > 0 ? rows.reverse().shift() : false;
+            const component = rows.length > 0 ? rows.sort(compareIds).shift() : false;
             const newcomp = component;
-            console.log('ln 14:' + rows[0].version);
-            const olderversions = rows;
-            // const olderversions = //rows.length > 0 ? rows : false;
+            const olderversions = rows.length > 0 ? rows : false;
             console.log('older components', olderversions);
             res.render('congratulation', {
                 component: newcomp,
@@ -27,7 +29,8 @@ router.get('/:name', (req, res) => {
             })
         })
         .catch(err => {
-            if (err) return res.status(500).send(err);
+            if (err) return res.status(500).send('ln. 30 congrats');
+            console.log(err);
             return err;
         })
 })

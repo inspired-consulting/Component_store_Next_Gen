@@ -28,18 +28,25 @@ a {
 }
 
 .btn-primary,
-.btn-outline-primary:hover {
-    color: #fff;
+.btn-outline-primary:hover,
+.page-item.active .page-link {
+    color: #fff !important;
     background-color: #637CBE;
     border-color: #637CBE;
 }
 
-.btn-primary:hover {
-    color: #fff;
+.btn-primary:hover,
+.page-item.active:hover .page-link {
+    color: #fff !important;
     background-color: #586ead;
     border-color: #586ead;
 }
 
 .bg-light {
     background-color: #637cbe33 !important;
+}
+
+.table .thead-dark th {
+    color: #fff;
+    background-color: #2a2a49;
 }

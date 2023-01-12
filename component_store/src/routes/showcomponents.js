@@ -1,5 +1,5 @@
 const express = require('express');
-const { readCompFromDB, readCompNameFromDB } = require('../model/componentTest');
+const { readCompFromDB, readCompNameFromDB, readNewestCompFromDB } = require('../model/componentTest');
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -21,6 +21,20 @@ router.get('/', (req, res) => {
         })
     } else if (data.sort !== undefined && data.sort === 'new') {
         console.log('show new components');
+        readNewestCompFromDB().then(
+            rows => {
+                const component = rows.length > 0 ? rows : false;
+                res.render('showcomponents', {
+                    url: '/components/list',
+                    sort: 'new',
+                    component,
+                    name: component.name,
+                    website: component.website
+                })
+            }).catch(err => {
+            if (err) return res.status(500).send(err);
+            return err;
+        })
     } else if (data.sort !== undefined && data.sort === 'fav') {
         console.log('show favorite components');
     } else if (data.searchName !== undefined && data.searchName.length > 0) {
@@ -28,7 +42,7 @@ router.get('/', (req, res) => {
         readCompNameFromDB(data.searchName).then(rows => {
             const component = rows.length > 0 ? rows : false;
             res.render('showcomponents', {
-                url: '/test',
+                url: '/components/list',
                 component,
                 name: component.name,
                 website: component.website,
@@ -42,7 +56,7 @@ router.get('/', (req, res) => {
         readCompFromDB().then(rows => {
             const component = rows.length > 0 ? rows : false;
             res.render('showcomponents', {
-                url: '/test',
+                url: '/components/list',
                 component,
                 name: component.name,
                 website: component.website

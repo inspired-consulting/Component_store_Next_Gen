@@ -47,6 +47,21 @@ async function readCompFromDB () {
     });
 }
 
+async function readNewestCompFromDB () {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component ORDER BY id DESC LIMIT 20', (err, result) => {
+            if (!err) {
+                // console.log('result', result.rows)
+                console.log('data is shown');
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
+
 // is there a same version?
 function checkValues (pool, componentName, id, inputVersion, inputReadme, file) {
     const queryCountdoubleRow = `SELECT * 
@@ -130,7 +145,7 @@ async function addToDB2 (inputdata) {
 
 async function addToDB (inputdata) {
     const pool = pgpool.getPool();
-
+    inputdata = JSON.parse(JSON.stringify(inputdata));
     // queries
     const queryComponent = `INSERT INTO component
         (id, uuid, name, website) 
@@ -149,7 +164,10 @@ async function addToDB (inputdata) {
     WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
 
     const updateFile = `UPDATE public.component_version 
-    SET entry_file=$1 WHERE component_id=$2;`
+    SET entry_file=$1, readme=$3 WHERE component_id=$2;`
+
+    const updateWebsite = `UPDATE public.component 
+    SET website=$1 WHERE id=$2;`
 
     try {
         // requests to check name and version
@@ -164,7 +182,8 @@ async function addToDB (inputdata) {
         // insert data under ceratin preconditions
         if (checkName.rows.length > 0 && checkVersion.rows.length > 0) {
             // console.log('Name with Version exists already. (id,version)' + checkName.rows[0].id + ' ' + checkVersion.rows[0].version);
-            await pool.query(updateFile, [file, checkName.rows[0].id]);
+            await pool.query(updateFile, [file, checkName.rows[0].id, inputdata.information]);
+            await pool.query(updateWebsite, [inputdata.website, checkName.rows[0].id]);
         } else if (checkName.rows.length > 0 && checkVersion.rows.length === 0) {
             console.log('Name existiert schon, Version noch nicht (id)' + checkName.rows[0].id);
             const insertComponentVersion = await pool.query(queryComponentVersion, [uuidv4(), checkName.rows[0].id, inputdata.inputVersion, inputdata.information, file]);
@@ -180,7 +199,7 @@ async function addToDB (inputdata) {
     }
 }
 
-module.exports = { addToDB, readFromDB, readCompFromDB, readCompNameFromDB };
+module.exports = { addToDB, readFromDB, readCompFromDB, readCompNameFromDB, readNewestCompFromDB };
 
 // const query = `INSERT INTO component
 //     (id, uuid, name, website)
