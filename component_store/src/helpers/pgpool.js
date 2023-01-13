@@ -2,14 +2,14 @@
 const { Pool } = require('pg');
 
 const poolConfig = {
-    host: "127.0.0.1",
+    host: '127.0.0.1',
     port: 25443,
-    user: "postgres",
-    password: "password",
-    database: "componentstore",
+    user: 'postgres',
+    password: 'password',
+    database: 'componentstore'
 };
 
-var pool;
+let pool;
 
 module.exports = {
     getPool: function () {

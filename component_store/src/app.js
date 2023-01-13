@@ -6,7 +6,7 @@ const hbs = expressHandlebars.create({
     partialsDir: 'views/partials/',
     helpers: {
         getCurrentUrl (req, str) {
-            console.log('req##', req.url);
+            // console.log('req##', req.url);
             console.log('str', str);
             return str === req.url || str === req.sort;
         },

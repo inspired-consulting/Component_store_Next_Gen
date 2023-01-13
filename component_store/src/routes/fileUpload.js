@@ -5,7 +5,9 @@ const path = require('path');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('fileupload', {})
+    res.render('fileupload', {
+        url: '/upload'
+    })
 });
 
 router.post('/', (req, res, next) => {

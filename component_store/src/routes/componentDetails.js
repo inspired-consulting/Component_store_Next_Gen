@@ -17,6 +17,7 @@ router.get('/:name', (req, res) => {
             const olderversions = rows.length > 0 ? rows : false;
             console.log('older components', olderversions);
             res.render('componentDetails', {
+                url: '/componentDetails',
                 component: newcomp,
                 olderversions,
                 name: newcomp.name,
