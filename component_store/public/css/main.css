@@ -8,8 +8,6 @@ body {
     color: #2a2a49f4 !important;
 }
 
-
-
 a:hover {
     color: #2a2a49f4 !important;
 }
@@ -49,4 +47,16 @@ a {
 .table .thead-dark th {
     color: #fff;
     background-color: #2a2a49;
+}
+
+
+.searchIcon {
+    display: block;
+    height: 23px;
+    width: 23px;
+    background-image: url(/images/search.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #fff
 }

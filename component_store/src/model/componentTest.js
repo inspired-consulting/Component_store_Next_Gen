@@ -7,8 +7,6 @@ async function readFromDB (name) {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM component,component_version WHERE component.name=$1 AND component.id=component_version.component_id ', [name], (err, result) => {
             if (!err) {
-                console.log('result', result.rows);
-                console.log('data is shown');
                 resolve(result.rows);
             } else {
                 reject(err.message);
@@ -17,13 +15,12 @@ async function readFromDB (name) {
     });
 }
 
-async function readCompNameFromDB (name) {
+
+const searchComponentByName = (name) => {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component WHERE UPPER(component.name)=UPPER($1) ORDER BY component.name ASC LIMIT 20', [name], (err, result) => {
+        pool.query('SELECT * FROM component WHERE LOWER(component.name)=LOWER($1) ORDER BY component.name ASC LIMIT 20', [name], (err, result) => {
             if (!err) {
-                // console.log('result', result.rows)
-                console.log('data is shown');
                 resolve(result.rows);
             } else {
                 reject(err.message);
@@ -32,28 +29,11 @@ async function readCompNameFromDB (name) {
     });
 }
 
-async function readCompFromDB () {
-    const pool = pgpool.getPool()
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component ORDER BY component.name ASC LIMIT 20', (err, result) => {
-            if (!err) {
-                // console.log('result', result.rows)
-                console.log('data is shown');
-                resolve(result.rows);
-            } else {
-                reject(err.message);
-            }
-        });
-    });
-}
-
-async function readNewestCompFromDB () {
+const sortComponentByNewest = () => {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM component ORDER BY id DESC LIMIT 20', (err, result) => {
             if (!err) {
-                // console.log('result', result.rows)
-                console.log('data is shown');
                 resolve(result.rows);
             } else {
                 reject(err.message);
@@ -62,85 +42,17 @@ async function readNewestCompFromDB () {
     });
 }
 
-// is there a same version?
-function checkValues (pool, componentName, id, inputVersion, inputReadme, file) {
-    const queryCountdoubleRow = `SELECT * 
-    FROM public.component as com, public.component_version as com_v 
-    WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
-    pool.query(queryCountdoubleRow, [componentName, inputVersion], (err, result) => {
-        if (!err) {
-            console.log('version: ' + result.rows.length);
-            if (result.rows.length === 0) {
-                insertIntoComponentVersion(pool, id, inputVersion, inputReadme, file);
+const sortComponentAlphabetically = () => {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component ORDER BY LOWER(name) ASC LIMIT 20', (err, result) => {
+            if (!err) {
+                resolve(result.rows);
             } else {
-                console.log('the version already exist!');
+                reject(err.message);
             }
-        } else {
-            console.log(err.message);
-        }
+        });
     });
-}
-
-// inserts the data into component-version table
-function insertIntoComponentVersion (pool, id, inputVersion, inputReadme, file) {
-    const queryComponentVersion = `INSERT INTO component_version
-    (id, uuid, component_id, version, readme, entry_file) 
-    VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, $4 , $5)`
-    pool.query(queryComponentVersion, [uuidv4(), id, inputVersion, inputReadme, file], (err, result) => {
-        if (!err) {
-            console.log('inserted value into component-version!');
-        } else {
-            console.log(err.message);
-        }
-    });
-}
-
-// inserts data into component and component version
-function insertIntoComponentAndComponentVersion (pool, data, file) {
-    const queryComponent = `INSERT INTO component
-        (id, uuid, name, website) 
-        VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3)`
-    pool.query(queryComponent, [uuidv4(), data.componentName, data.website], (err, result) => {
-        if (!err) {
-            console.log('inserted value', result.rows.length > 0 ? result.rows[0].id : 'no result rows');
-            if (result.rows.length > 0) {
-                checkValues(pool, data.componentName, result.rows[0].id, data.inputVersion, data.information, file);
-            }
-        } else {
-            console.log(err.message);
-        }
-    });
-}
-
-// does the name already exists?
-function insertIntoDB (data, file) {
-    const queryCountdoubleName = `SELECT id 
-    FROM public.component AS com
-    WHERE com.name=$1`
-    const pool = pgpool.getPool();
-    pool.query(queryCountdoubleName, [data.componentName], (err, result) => {
-        // if :
-        if (!err && result.rows.length === 0) {
-            // the name doesn't exists -> insert into component and component_version
-            insertIntoComponentAndComponentVersion(pool, data, file);
-        } else if (!err && result.rows.length > 0) {
-            // the name already exisits -> insert only in component_version
-            checkValues(pool, data.componentName, result.rows[0].id, data.inputVersion, data.information, file);
-        } else {
-            console.log(err.message);
-        }
-    });
-}
-
-async function addToDB2 (inputdata) {
-    try {
-        const awaitfile = await fs.promises.readFile('componentData.json');
-        const loadedcomponentData = JSON.parse(awaitfile);
-        const file = loadedcomponentData.component;
-        insertIntoDB(inputdata, file);
-    } catch (error) {
-        console.error('Error occurred while reading file!', error);
-    }
 }
 
 async function addToDB (inputdata) {
@@ -152,21 +64,21 @@ async function addToDB (inputdata) {
         VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3) RETURNING id`
 
     const queryComponentVersion = `INSERT INTO component_version
-    (id, uuid, component_id, version, readme, entry_file) 
+    (id, uuid, component_id, version, information, entry_file) 
     VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, $4 , $5)`
 
     const queryCountdoubleName = `SELECT id 
-    FROM public.component AS com
+    FROM component AS com
     WHERE com.name=$1`
 
     const queryCountdoubleVersion = `SELECT * 
-    FROM public.component as com, public.component_version as com_v 
+    FROM component as com, component_version as com_v 
     WHERE com.id=com_v.component_id AND com.name=$1 AND com_v.version=$2`
 
-    const updateFile = `UPDATE public.component_version 
-    SET entry_file=$1, readme=$3 WHERE component_id=$2;`
+    const updateFile = `UPDATE component_version 
+    SET entry_file=$1, information=$3 WHERE component_id=$2;`
 
-    const updateWebsite = `UPDATE public.component 
+    const updateWebsite = `UPDATE component 
     SET website=$1 WHERE id=$2;`
 
     try {
@@ -181,7 +93,6 @@ async function addToDB (inputdata) {
 
         // insert data under ceratin preconditions
         if (checkName.rows.length > 0 && checkVersion.rows.length > 0) {
-            // console.log('Name with Version exists already. (id,version)' + checkName.rows[0].id + ' ' + checkVersion.rows[0].version);
             await pool.query(updateFile, [file, checkName.rows[0].id, inputdata.information]);
             await pool.query(updateWebsite, [inputdata.website, checkName.rows[0].id]);
         } else if (checkName.rows.length > 0 && checkVersion.rows.length === 0) {
@@ -199,17 +110,5 @@ async function addToDB (inputdata) {
     }
 }
 
-module.exports = { addToDB, readFromDB, readCompFromDB, readCompNameFromDB, readNewestCompFromDB };
+module.exports = { addToDB, readFromDB, searchComponentByName, sortComponentByNewest, sortComponentAlphabetically};
 
-// const query = `INSERT INTO component
-//     (id, uuid, name, website)
-//     VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM component),'0e37df36-f698-11e6-8dd4-cb9ced3df976', 'example text', 'www.name.comnisha') RETURNING id`
-//     var pool = pgpool.getPool();
-//     pool.query(query, (err, result) => {
-//     if (!err) {
-//         console.log("inserted value", result.rows[0].id);
-//     }
-//     else {
-//         console.log(err.message);
-//     }
-// })

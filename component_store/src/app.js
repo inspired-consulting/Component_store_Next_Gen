@@ -17,24 +17,20 @@ app.use(express.json())
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, '../public')));
-// app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/components', express.static(path.join(__dirname, '../uploads')));
 
 app.set('views', './views');
-
-const InfoRouter = require('./routes/info');
-const UploadsRouter = require('./routes/fileUpload');
-const congratulationRouter = require('./routes/congrats');
+const uploadsRouter = require('./routes/fileUpload');
+const componentDetails = require('./routes/congrats');
 const showComponentsRouter = require('./routes/showcomponents');
 
 app.use(fileUpload());
-app.use('/info', InfoRouter);
-app.use('/upload', UploadsRouter);
-app.use('/congrats', congratulationRouter);
-app.use('/components/list', showComponentsRouter);
+app.use('/upload', uploadsRouter);
+app.use('/componentDetails', componentDetails);
+app.use('/components', showComponentsRouter);
 
 app.get('/', (req, res) => {
-    res.render('index', {
+    res.render('homepage', {
         url: '/'
     })
 })

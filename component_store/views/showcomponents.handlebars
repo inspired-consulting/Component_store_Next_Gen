@@ -1,33 +1,32 @@
 <div class="container mb-5">
-
     <h3 class="mt-5 mb-4 text-center text-md-left">All Components</h3>
-    <div class="d-flex flex-row align-items-start">
-        <nav class="filter mr-auto">
+    <div class="d-flex justify-content-between mb-3">
+        <nav class="filter">
             {{#unless component}}
                 <div class="alert alert-warning" role="alert">
                 Component Name {{searchName}} doesn't exists. Try another name.
                 </div>
             {{/unless}}
             {{#if component}}
-            <h6>Filter</h6>
-            <ul class="pagination pagination-sm">
-                <li class="page-item {{#if (getCurrentUrl this 'abc') }} active {{/if}}">
-                    <a href="/components/list?sort=abc" class="page-link">abc</a>
-                </li>
-                <li class="page-item {{#if (getCurrentUrl this 'new') }} active {{/if}}">
-                    <a href="/components/list?sort=new" class="page-link">new</a>
-                </li>
-                <li class="page-item disabled">
-                    <a href="/components/list?sort=fav" class="page-link">fav</a>
-                </li>
-            </ul>
+                <h6>Sorting</h6>
+                <ul class="pagination pagination-sm">
+                    <li class="page-item">
+                        <a href="/components/?sort=abc" class="page-link">Alphabetiacal</a>
+                    </li>
+                    <li class="page-item ">
+                        <a href="/components/?sort=new" class="page-link">Newest</a>
+                    </li>
+                </ul>
             {{/if}}
         </nav>
-        <form action="/components/list" method="get" class="form-inline my-2 my-lg-0">
-            <input name="searchName" class="form-control mr-sm-2" type="search" placeholder="Search for Component"
-                aria-label="Search">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <form action="/components" method="get" class="form-inline my-2 my-lg-0">
+            <div class="input-group">
+                <input type="search" name="searchName" class="form-control" placeholder="Search for Component"/>
+                <button type="submit" class="btn btn-primary">
+                    <span class="searchIcon"></span>
+                </button>
+            </div>
+        </form> 
     </div>
 
     <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
@@ -40,7 +39,7 @@
                     card's content.</p>
                 <div class="d-flex flex-row">
                     <a href="{{this.website}}" class="card-link">Visit our Website</a>
-                    <a href="/congrats/{{this.name}}" class="card-link">Look at our Component</a>
+                    <a href="/componentDetails/{{this.name}}" class="card-link">Look at our Component</a>
                 </div>
             </div>
         </div>

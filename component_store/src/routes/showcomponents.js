@@ -1,15 +1,14 @@
 const express = require('express');
-const { readCompFromDB, readCompNameFromDB, readNewestCompFromDB } = require('../model/componentTest');
+const { sortComponentByNewest, searchComponentByName, sortComponentAlphabetically } = require('../model/componentTest');
 const router = express.Router();
 
 router.get('/', (req, res) => {
     const data = req.query;
     if (data.sort !== undefined && data.sort === 'abc') {
-        console.log('show components in alphabetical order');
-        readCompFromDB().then(rows => {
+        sortComponentAlphabetically().then(rows => {
             const component = rows.length > 0 ? rows : false;
             res.render('showcomponents', {
-                url: '/components/list',
+               // url: '/',
                 sort: 'abc',
                 component,
                 name: component.name,
@@ -20,29 +19,24 @@ router.get('/', (req, res) => {
             return err;
         })
     } else if (data.sort !== undefined && data.sort === 'new') {
-        console.log('show new components');
-        readNewestCompFromDB().then(
-            rows => {
-                const component = rows.length > 0 ? rows : false;
-                res.render('showcomponents', {
-                    url: '/components/list',
-                    sort: 'new',
-                    component,
-                    name: component.name,
-                    website: component.website
-                })
-            }).catch(err => {
+        sortComponentByNewest().then(rows => {
+            const component = rows.length > 0 ? rows : false;
+            res.render('showcomponents', {
+               // url: '/',
+                component,
+                name: component.name,
+                website: component.website
+            })
+        }).catch(err => {
             if (err) return res.status(500).send(err);
             return err;
         })
-    } else if (data.sort !== undefined && data.sort === 'fav') {
-        console.log('show favorite components');
     } else if (data.searchName !== undefined && data.searchName.length > 0) {
         // for the search input
-        readCompNameFromDB(data.searchName).then(rows => {
+        searchComponentByName(data.searchName).then(rows => {
             const component = rows.length > 0 ? rows : false;
             res.render('showcomponents', {
-                url: '/components/list',
+              //  url: '/',
                 component,
                 name: component.name,
                 website: component.website,
@@ -53,10 +47,10 @@ router.get('/', (req, res) => {
             return err;
         })
     } else {
-        readCompFromDB().then(rows => {
+        sortComponentByNewest().then(rows => {
             const component = rows.length > 0 ? rows : false;
             res.render('showcomponents', {
-                url: '/components/list',
+             //   url: '/',
                 component,
                 name: component.name,
                 website: component.website

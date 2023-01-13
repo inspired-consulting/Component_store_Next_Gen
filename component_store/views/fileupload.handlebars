@@ -1,4 +1,4 @@
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <h3 class="mb-4">File upload with express-fileupload</h3>
         <form method='post' action='/upload' enctype="multipart/form-data" id="uploadFile">
             <div class="row">
@@ -6,7 +6,6 @@
                     <div class="form-group">
                         <label for="componentName">Component Name*:</label>
                         <input type="text" class="form-control" id="componentName" aria-describedby="ComponentNameHelp" name="componentName" value="{{component.name}}" required>
-                        <small id="componentNameHelp" class="form-text text-muted">The Component Name already exists.</small>
                     </div>
                 </div>
             </div>
@@ -16,7 +15,6 @@
                     <div class="form-group">
                         <label for="inputVersion">Version*:</label>
                         <input type="text" class="form-control" id="inputVersion" name="inputVersion" value="{{versionData.version}}" required>
-                        <small id="componentNameHelp" class="form-text text-warning">The Version already exists for that Component Name.</small>
                     </div>
                 </div>
             </div>
@@ -25,7 +23,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="fileUpload">Choose file to upload*:</label> <br>
-                        <input type='file' name='fileUpload' id="upload"  required>
+                        <input type='file' name='fileUpload' id="upload" required>
                     </div>
                 </div>
             </div>
@@ -34,7 +32,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="information">Include some instructions to integrate the component:</label>
-                        <textarea class="form-control" id="summernote" name="information" name="componentTextarea" value="{{versionData.information}}"></textarea>
+                        <textarea class="form-control" id="summernote" name="information" name="componentTextarea">{{versionData.information}}</textarea>
                     </div>
                 </div>
             </div>
