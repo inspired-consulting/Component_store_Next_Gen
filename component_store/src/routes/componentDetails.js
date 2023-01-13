@@ -1,5 +1,4 @@
 const express = require('express');
-const fs = require('fs');
 const { readFromDB } = require('../model/componentTest');
 const router = express.Router();
 
@@ -14,6 +13,7 @@ router.get('/:name', (req, res) => {
         .then(rows => {
             const component = rows.length > 0 ? rows.sort(compareIds).shift() : false;
             const newcomp = component;
+            console.log('newcomp components', newcomp);
             const olderversions = rows.length > 0 ? rows : false;
             console.log('older components', olderversions);
             res.render('componentDetails', {
@@ -22,6 +22,7 @@ router.get('/:name', (req, res) => {
                 name: newcomp.name,
                 namelink: req.params.name,
                 version: newcomp.version,
+                publisher: newcomp.publisher,
                 information: newcomp.information,
                 entryFile: newcomp.entry_file
             })

@@ -15,7 +15,6 @@ router.post('/', (req, res, next) => {
 
     data.componentName = data.componentName.replaceAll(path.sep, ' ');
     data.inputVersion = data.inputVersion.replaceAll(path.sep, '');
-    
 
     writeFileLocally(filename)
         .then(result => {
@@ -35,7 +34,6 @@ router.post('/', (req, res, next) => {
                     });
                     sampleFile.mv(`./uploads/${name}/${data.inputVersion}/` + filename, function (err) {
                         if (err) return res.status(500).send(err);
-                        console.log('sending files to uploads.');
                         console.log(name);
                         return res.redirect(`/componentDetails/${name}`);
                     });

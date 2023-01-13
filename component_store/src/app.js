@@ -21,7 +21,7 @@ app.use('/components', express.static(path.join(__dirname, '../uploads')));
 
 app.set('views', './views');
 const uploadsRouter = require('./routes/fileUpload');
-const componentDetails = require('./routes/congrats');
+const componentDetails = require('./routes/componentDetails');
 const showComponentsRouter = require('./routes/showcomponents');
 
 app.use(fileUpload());
