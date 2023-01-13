@@ -5,7 +5,17 @@ const app = express();
 const hbs = expressHandlebars.create({
     partialsDir: 'views/partials/',
     helpers: {
-        getCurrentUrl (req, str) { return str === req.url || str === req.sort; }
+        getCurrentUrl (req, str) {
+            console.log('req##', req.url);
+            console.log('str', str);
+            return str === req.url || str === req.sort;
+        },
+        json: (context) => {
+            return JSON.stringify(context);
+        },
+        eq: (a, b) => {
+            return a === b;
+        }
     }
 });
 const cors = require('cors');
@@ -22,12 +32,12 @@ app.use('/components', express.static(path.join(__dirname, '../uploads')));
 app.set('views', './views');
 const uploadsRouter = require('./routes/fileUpload');
 const componentDetails = require('./routes/componentDetails');
-const showComponentsRouter = require('./routes/showcomponents');
+const componentList = require('./routes/componentlist');
 
 app.use(fileUpload());
 app.use('/upload', uploadsRouter);
 app.use('/componentDetails', componentDetails);
-app.use('/components', showComponentsRouter);
+app.use('/componentlist', componentList);
 
 app.get('/', (req, res) => {
     res.render('homepage', {

@@ -7,8 +7,7 @@ router.get('/', (req, res) => {
     if (data.sort !== undefined && data.sort === 'abc') {
         sortComponentAlphabetically().then(rows => {
             const component = rows.length > 0 ? rows : false;
-            res.render('showcomponents', {
-               // url: '/',
+            res.render('componentList', {
                 sort: 'abc',
                 component,
                 name: component.name,
@@ -21,8 +20,7 @@ router.get('/', (req, res) => {
     } else if (data.sort !== undefined && data.sort === 'new') {
         sortComponentByNewest().then(rows => {
             const component = rows.length > 0 ? rows : false;
-            res.render('showcomponents', {
-               // url: '/',
+            res.render('componentList', {
                 component,
                 name: component.name,
                 website: component.website
@@ -35,8 +33,7 @@ router.get('/', (req, res) => {
         // for the search input
         searchComponentByName(data.searchName).then(rows => {
             const component = rows.length > 0 ? rows : false;
-            res.render('showcomponents', {
-              //  url: '/',
+            res.render('componentList', {
                 component,
                 name: component.name,
                 website: component.website,
@@ -49,8 +46,7 @@ router.get('/', (req, res) => {
     } else {
         sortComponentByNewest().then(rows => {
             const component = rows.length > 0 ? rows : false;
-            res.render('showcomponents', {
-             //   url: '/',
+            res.render('componentList', {
                 component,
                 name: component.name,
                 website: component.website
