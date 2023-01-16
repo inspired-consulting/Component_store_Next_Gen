@@ -18,7 +18,7 @@ async function readFromDB (name) {
 const searchComponentByName = (name) => {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component WHERE LOWER(component.name)=LOWER($1) ORDER BY component.name ASC LIMIT 20', [name], (err, result) => {
+        pool.query('SELECT * FROM component WHERE LOWER(component.name)=LOWER($1) ORDER BY component.name ASC', [name], (err, result) => {
             if (!err) {
                 resolve(result.rows);
             } else {
@@ -31,7 +31,20 @@ const searchComponentByName = (name) => {
 const sortComponentByNewest = () => {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component ORDER BY id DESC LIMIT 20', (err, result) => {
+        pool.query('SELECT * FROM component ORDER BY id DESC', (err, result) => {
+            if (!err) {
+                resolve(result.rows);
+            } else {
+                reject(err.message);
+            }
+        });
+    });
+}
+
+const findAllComponents = () => {
+    const pool = pgpool.getPool()
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM component ORDER BY id ASC', (err, result) => {
             if (!err) {
                 resolve(result.rows);
             } else {
@@ -44,7 +57,7 @@ const sortComponentByNewest = () => {
 const sortComponentAlphabetically = () => {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component ORDER BY LOWER(name) ASC LIMIT 20', (err, result) => {
+        pool.query('SELECT * FROM component ORDER BY LOWER(name) ASC', (err, result) => {
             if (!err) {
                 resolve(result.rows);
             } else {
@@ -52,6 +65,47 @@ const sortComponentAlphabetically = () => {
             }
         });
     });
+}
+const buildSearchCondition = (queryParameter, searchFields) => {
+    const searchConditions = [];
+    searchFields.forEach(searchField => {
+        searchConditions.push(`lower(${searchField}) LIKE lower($1) `)
+    })
+    return `(${searchConditions.join('OR ')})`
+}
+
+const wrap = (component) => {
+    return component
+}
+
+const listComponents = (limit, offset, queryParameter, sortBy = 'id', order = 'ASC') => {
+    console.log('listcomponent#####', limit, offset, queryParameter);
+    const pool = pgpool.getPool();
+    return new Promise((resolve, reject) => {
+        const componentQuery = queryParameter.searchName ? queryParameter.searchName : '';
+        const query = `
+                SELECT * FROM component c 
+                WHERE ` + buildSearchCondition(queryParameter, ['c.name']) + `
+                ORDER BY c.${sortBy} ${order} `
+        pool.query(query + ' LIMIT $2 OFFSET $3', ['%' + componentQuery + '%', limit, offset], (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                pool.query(`
+                SELECT COUNT(c.id) 
+                FROM 
+                component c
+                WHERE ` + buildSearchCondition(queryParameter, ['c.name']),
+                ['%' + componentQuery + '%'], (err, count) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve({ result: result.rows.map(row => { return wrap(row) }), count: count.rows[0].count });
+                    }
+                })
+            }
+        })
+    })
 }
 
 async function addToDB (inputdata) {
@@ -109,4 +163,4 @@ async function addToDB (inputdata) {
     }
 }
 
-module.exports = { addToDB, readFromDB, searchComponentByName, sortComponentByNewest, sortComponentAlphabetically };
+module.exports = { addToDB, readFromDB, searchComponentByName, sortComponentByNewest, sortComponentAlphabetically, listComponents, findAllComponents };

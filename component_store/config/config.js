@@ -1,6 +1,6 @@
 
 exports.load = () => {
     return {
-        ENTRIES_LIMIT_PER_PAGE: 5
+        COMPONENTS_LIMIT_PER_PAGE: 6
     }
 }

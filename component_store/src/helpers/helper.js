@@ -21,14 +21,14 @@ exports.calculatePagination = (offsetString, limit, result) => {
             if (pages >= i) {
                 pageLinks.push({
                     page: i,
-                    offset: (i - 1) * config.ENTRIES_LIMIT_PER_PAGE
+                    offset: (i - 1) * config.COMPONENTS_LIMIT_PER_PAGE
                 })
             }
         }
     } else {
         // eslint-disable-next-line no-var, no-redeclare
         for (var i = currentPage - 4; i < (currentPage + 5); i++) {
-            const offset = (i - 1) * config.ENTRIES_LIMIT_PER_PAGE
+            const offset = (i - 1) * config.COMPONENTS_LIMIT_PER_PAGE
             if (offset <= entriesCount && pages >= i) {
                 pageLinks.push({
                     page: i,

@@ -1,0 +1,18 @@
+{{#ifeq dir 'prev'}}
+{{#if (lookup ../search "hasPrev")}}
+
+<a href="{{link ../url}}{{searchParams ../query ../search.prevOffset}}" role="button" aria-label="Zur vorherigen Seite zurückblättern" title="Zur vorherigen Seite">
+    <span class="arrowLeft" aria-hidden="true"></span>
+    <span class="sr-only">{{ "Previous"}}</span>
+</a>
+{{/if}}
+{{/ifeq}}
+
+{{#ifeq dir 'next'}}
+{{#if (lookup ../search "hasNext")}}
+<a href="{{link ../url}}{{searchParams ../query ../search.nextOffset}}" role="button" aria-label="Zur nächsten Seite weiterblättern" title="Zur nächsten Seite">
+    <span class="arrowRight" aria-hidden="true"></span>
+    <span class="sr-only">{{ "NextPage"}}</span>
+</a>
+{{/if}}
+{{/ifeq}}

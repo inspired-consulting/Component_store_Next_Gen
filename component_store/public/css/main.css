@@ -60,3 +60,118 @@ a {
     position: relative;
     color: #fff
 }
+
+.arrowLeft {
+    display: block;
+    height: 56px;
+    width: 56px;
+    background-image: url(/images/arrowLeft.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #000;
+    background-color: #ddd;
+    border: 1 solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .arrowRight {
+    display: block;
+    height: 56px;
+    width: 56px;
+    background-image: url(/images/arrowRight.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #000;
+    background-color: #ddd;
+    border: 1 solid #ddd;
+    border-radius: 4px;
+  }
+
+
+  .pagination .row {
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .page-link {
+    border: none;
+  }
+  
+  .page-link .arrowRight {
+    border: none;
+    padding: 0;
+  }
+  
+  .page-link .arrowRight,
+  .page-link .arrowLeft {
+    background-color: #fff;
+  }
+  
+  span.page-link,
+  button.btn-link {
+    padding: 0;
+  }
+  
+  .page-link:hover {
+    background-color: #fff;
+  }
+  
+  .page-link ~ .pages {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  /* .btn-link {
+    height: 56px;
+    width: 56px;
+    border: none;
+  } */
+  .arrowLeft {
+    display: block;
+    height: 56px;
+    width: 56px;
+    background-image: url(/images/arrowLeft.svg); 
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #000;
+    background-color: #ddd;
+    border: 1 solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .arrowRight {
+    display: block;
+    height: 56px;
+    width: 56px;
+    background-image: url(/images/arrowRight.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #000;
+    background-color: #ddd;
+    border: 1 solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .currentPage {
+    font-weight: 600;
+  }
+  
+  .new-pagination > a {
+    color: #667079;
+  }
+  .new-pagination > a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .arrowLeft, 
+    .arrowRight {
+      height: 48px;
+      width: 48px;
+    }
+  } 
+  
