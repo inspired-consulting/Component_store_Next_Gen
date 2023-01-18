@@ -15,57 +15,6 @@ async function readFromDB (name) {
     });
 }
 
-const searchComponentByName = (name) => {
-    const pool = pgpool.getPool()
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component WHERE LOWER(component.name)=LOWER($1) ORDER BY component.name ASC', [name], (err, result) => {
-            if (!err) {
-                resolve(result.rows);
-            } else {
-                reject(err.message);
-            }
-        });
-    });
-}
-
-const sortComponentByNewest = () => {
-    const pool = pgpool.getPool()
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component ORDER BY id DESC', (err, result) => {
-            if (!err) {
-                resolve(result.rows);
-            } else {
-                reject(err.message);
-            }
-        });
-    });
-}
-
-const findAllComponents = () => {
-    const pool = pgpool.getPool()
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component ORDER BY id ASC', (err, result) => {
-            if (!err) {
-                resolve(result.rows);
-            } else {
-                reject(err.message);
-            }
-        });
-    });
-}
-
-const sortComponentAlphabetically = () => {
-    const pool = pgpool.getPool()
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component ORDER BY LOWER(name) ASC', (err, result) => {
-            if (!err) {
-                resolve(result.rows);
-            } else {
-                reject(err.message);
-            }
-        });
-    });
-}
 const buildSearchCondition = (queryParameter, searchFields) => {
     const searchConditions = [];
     searchFields.forEach(searchField => {
@@ -74,33 +23,31 @@ const buildSearchCondition = (queryParameter, searchFields) => {
     return `(${searchConditions.join('OR ')})`
 }
 
-const wrap = (component) => {
-    return component
-}
-
-const listComponents = (limit, offset, queryParameter, sortBy = 'id', order = 'ASC') => {
-    console.log('listcomponent#####', limit, offset, queryParameter);
+const listComponents = (limit, offset, queryParameter, sortBy, order) => {
     const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
-        const componentQuery = queryParameter.searchName ? queryParameter.searchName : '';
-        const query = `
-                SELECT * FROM component c 
-                WHERE ` + buildSearchCondition(queryParameter, ['c.name']) + `
-                ORDER BY c.${sortBy} ${order} `
+        let query = `
+        SELECT * FROM component c 
+        WHERE ` + buildSearchCondition(queryParameter, ['c.name'])
+        if (queryParameter === 'abc') {
+            query += ` ORDER BY LOWER(c.${sortBy}) ${order}`
+        } else {
+            query += ` ORDER BY c.${sortBy} ${order}`
+        }
+        const componentQuery = queryParameter.q ? queryParameter.q : '';
         pool.query(query + ' LIMIT $2 OFFSET $3', ['%' + componentQuery + '%', limit, offset], (err, result) => {
             if (err) {
                 reject(err);
             } else {
                 pool.query(`
                 SELECT COUNT(c.id) 
-                FROM 
-                component c
+                FROM component c
                 WHERE ` + buildSearchCondition(queryParameter, ['c.name']),
                 ['%' + componentQuery + '%'], (err, count) => {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve({ result: result.rows.map(row => { return wrap(row) }), count: count.rows[0].count });
+                        resolve({ result: result.rows.map(row => { return row }), count: count.rows[0].count });
                     }
                 })
             }
@@ -163,4 +110,4 @@ async function addToDB (inputdata) {
     }
 }
 
-module.exports = { addToDB, readFromDB, searchComponentByName, sortComponentByNewest, sortComponentAlphabetically, listComponents, findAllComponents };
+module.exports = { addToDB, readFromDB, listComponents };

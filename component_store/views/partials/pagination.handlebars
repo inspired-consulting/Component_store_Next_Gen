@@ -8,7 +8,7 @@
 
                 {{#if (gt currentPage 5)}}
                     <div class="new-pagination">
-                        <a class="mr-2" href="{{searchParams query 0}}" role="button">1</a>
+                        <a class="mr-2" href="{{searchParams params 0}}" role="button">1</a>
                     </div>
                     …&nbsp;
                 {{/if}}
@@ -20,7 +20,7 @@
 
                     {{#if (neq this.page ../currentPage)}}
                     <div class="new-pagination">
-                        <a class="mr-2" href="{{link ../url}}{{searchParams ../query this.offset}}" role="button">
+                        <a class="mr-2" href="{{link ../url}}{{searchParams ../params this.offset}}" role="button">
                             {{this.page}}
                         </a>
                     </div>
@@ -31,7 +31,7 @@
                     {{#if (gt search.pages (add currentPage 4))}}
                         …
                         <div class="new-pagination">
-                            <a class="mr-2" href="{{searchParams query search.lastPageOffset}}" role="button">
+                            <a class="mr-2" href="{{searchParams params search.lastPageOffset}}" role="button">
                                 {{search.pages}}
                             </a>
                         </div>

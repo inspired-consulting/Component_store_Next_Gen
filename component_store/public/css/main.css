@@ -49,7 +49,7 @@ a {
     background-color: #2a2a49;
 }
 
-
+/* SEARCH ICON */
 .searchIcon {
     display: block;
     height: 23px;
@@ -61,34 +61,7 @@ a {
     color: #fff
 }
 
-.arrowLeft {
-    display: block;
-    height: 56px;
-    width: 56px;
-    background-image: url(/images/arrowLeft.svg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    position: relative;
-    color: #000;
-    background-color: #ddd;
-    border: 1 solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .arrowRight {
-    display: block;
-    height: 56px;
-    width: 56px;
-    background-image: url(/images/arrowRight.svg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    position: relative;
-    color: #000;
-    background-color: #ddd;
-    border: 1 solid #ddd;
-    border-radius: 4px;
-  }
-
+/* PAGINATION */
 
   .pagination .row {
     align-items: center;
@@ -122,12 +95,13 @@ a {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
   }
+
+  .page-link.sorting {
+    font-size: 1.2rem;
+    margin-left: 0;
+    padding-left: 0; 
+  }
   
-  /* .btn-link {
-    height: 56px;
-    width: 56px;
-    border: none;
-  } */
   .arrowLeft {
     display: block;
     height: 56px;
@@ -157,7 +131,8 @@ a {
   }
   
   .currentPage {
-    font-weight: 600;
+    font-weight: bolder;
+    color: #000;
   }
   
   .new-pagination > a {
@@ -174,4 +149,9 @@ a {
       width: 48px;
     }
   } 
+
+  .searchTerm,
+  .count {
+    color: #586ead;
+  }
   

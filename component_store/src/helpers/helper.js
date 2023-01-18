@@ -2,17 +2,18 @@ const Configuration = require('../../config/config')
 const config = Configuration.load();
 
 exports.calculatePagination = (offsetString, limit, result) => {
-    let entriesCount = result;
+    console.log('calculatePagination offsetString, limit, result', offsetString, limit, result);
+    let componentCount = result;
     const offset = parseInt(offsetString);
     if (result[0] !== undefined && result[0].entries_count !== undefined) {
-        entriesCount = parseInt(result[0].entries_count);
+        componentCount = parseInt(result[0].entries_count);
     }
-    const pages = entriesCount > limit ? 1 + Math.floor(entriesCount / limit) : 1;
+    const pages = componentCount > limit ? 1 + Math.floor(componentCount / limit) : 1;
     const currentPage = 1 + offset / limit;
     const prevOffset = offset - limit;
     const hasPrev = !(prevOffset < 0);
-    const nextOffset = (offset + limit) > entriesCount ? entriesCount : offset + limit;
-    const hasNext = (nextOffset < entriesCount);
+    const nextOffset = (offset + limit) > componentCount ? componentCount : offset + limit;
+    const hasNext = (nextOffset < componentCount);
 
     const pageLinks = [];
     if (currentPage < 6) {
@@ -29,7 +30,7 @@ exports.calculatePagination = (offsetString, limit, result) => {
         // eslint-disable-next-line no-var, no-redeclare
         for (var i = currentPage - 4; i < (currentPage + 5); i++) {
             const offset = (i - 1) * config.COMPONENTS_LIMIT_PER_PAGE
-            if (offset <= entriesCount && pages >= i) {
+            if (offset <= componentCount && pages >= i) {
                 pageLinks.push({
                     page: i,
                     offset
@@ -43,7 +44,7 @@ exports.calculatePagination = (offsetString, limit, result) => {
         hasPrev,
         nextOffset,
         hasNext,
-        count: entriesCount,
+        count: componentCount,
         offset,
         currentPage,
         pages,

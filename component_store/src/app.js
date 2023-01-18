@@ -41,29 +41,26 @@ const hbs = expressHandlebars.create({
         link: (path) => {
             return path;
         },
-        searchParams: (query, offset) => {
-            return exports.linkParams(query, offset);
+        searchParams: (params, offset) => {
+            return exports.linkParams(params, offset);
         }
     }
 });
-exports.linkParams = (query, offset) => {
+exports.linkParams = (params, offset) => {
     // eslint-disable-next-line no-undef
-    return linkParams(query, offset);
+    return linkParams(params, offset);
 }
-const linkParams = (query, offset) => {
-    const queryParams = [
-        { key: 'q', value: query },
-        { key: 'offset', value: offset }
-    ]
+const linkParams = (params, offset) => {
+    params.offset = offset
     // eslint-disable-next-line no-undef
-    return buildQueryParamsString(queryParams)
+    return buildQueryParamsString(params)
 }
 
-const buildQueryParamsString = (queryParamsArray) => {
+const buildQueryParamsString = (queryParamsObject) => {
     let queryParams = '?'
-    queryParamsArray.forEach(({ key, value }) => {
+    for (const [key, value] of Object.entries(queryParamsObject)) {
         queryParams = value ? queryParams + `${key}=${value}&` : queryParams
-    })
+    }
     return queryParams.endsWith('&') ? queryParams.substring(0, queryParams.length - 1) : queryParams;
 }
 

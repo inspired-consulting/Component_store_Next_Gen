@@ -1,6 +1,6 @@
  <div class="container mb-5">
     <h3 class="mt-5 mb-4 text-center text-md-left">All Components</h3>
-    <div class="d-flex justify-content-between mb-3">
+    <div class="d-flex justify-content-between">
         <nav class="filter">
             {{#unless components}}
                 <div class="alert alert-warning" role="alert">
@@ -8,32 +8,35 @@
                 </div>
             {{/unless}}
             {{#if components}}
-                <h6>Sorting</h6>
+                <h3>Sorting</h3>
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <a href="/componentlist/?sort=abc" class="page-link">Alphabetiacal</a>
+                        <a href="/componentlist?p=abc" class="page-link sorting">Alphabetical</a>
                     </li>
                     <li class="page-item ">
-                        <a href="/componentlist/?sort=new" class="page-link">Newest</a>
+                        <a href="/componentlist?p=new" class="page-link sorting">Newest</a>
                     </li>
                 </ul>
             {{/if}}
         </nav>
         <form action="/componentlist" method="get" class="form-inline my-2 my-lg-0">
             <div class="input-group">
-                <input type="search" name="searchName" class="form-control" placeholder="Search for Component"/>
+                <input type="search" name="q" class="form-control" placeholder="Search component" value=""/>
                 <button type="submit" class="btn btn-primary">
                     <span class="searchIcon"></span>
                 </button>
             </div>
         </form> 
     </div>
+    {{#if query}}
+        <h5 class="mb-4">Searched component is: <strong class="searchTerm">{{query}}</strong> <br> And total number of results found is: <strong class="count">{{count}}</strong></h5>
+    {{/if}}
 
     <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
         {{#each components}}
-        <div class="card mr-3 mb-3" style="width: 18rem;">
+        <div class="card mr-3 mb-3" style="width: 22.1rem;">
             <div class="card-body">
-                <h5 class="card-title">{{this.name}}</h5>
+                <h5 class="card-title">{{this.id}}- {{this.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Component Description</h6>
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                     card's content.</p>
@@ -46,7 +49,7 @@
         {{/each}}
     </div>
 
-      {{> pagination url="/componentlist"}}
+    {{> pagination url="/componentlist" }}
 
 </div> 
 
