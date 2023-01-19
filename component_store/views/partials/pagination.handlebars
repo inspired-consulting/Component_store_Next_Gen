@@ -1,0 +1,46 @@
+<nav class="pagination " aria-label="Entriesergebniss-Seite">
+    <div class="container">
+        <div class="col-12 pb-3">
+            <div class="row">
+                <span class="page-link">
+                    {{> pagination-searchPager url=url dir='prev'}}
+                </span>
+
+                {{#if (gt currentPage 5)}}
+                    <div class="new-pagination">
+                        <a class="mr-2" href="{{searchParams params 0}}" role="button">1</a>
+                    </div>
+                    …&nbsp;
+                {{/if}}
+
+                {{#each pageLinks}}
+                    {{#if (eq this.page ../currentPage)}}
+                        <div class="currentPage mr-2">{{this.page}}</div>
+                    {{/if}}
+
+                    {{#if (neq this.page ../currentPage)}}
+                    <div class="new-pagination">
+                        <a class="mr-2" href="{{link ../url}}{{searchParams ../params this.offset}}" role="button">
+                            {{this.page}}
+                        </a>
+                    </div>
+                    {{/if}}
+                {{/each}}
+
+                {{#if (gt search.pages 9)}}
+                    {{#if (gt search.pages (add currentPage 4))}}
+                        …
+                        <div class="new-pagination">
+                            <a class="mr-2" href="{{searchParams params search.lastPageOffset}}" role="button">
+                                {{search.pages}}
+                            </a>
+                        </div>
+                    {{/if}}
+                {{/if}}
+                <span class="page-link">
+                    {{> pagination-searchPager url=url dir='next'}}
+                </span>
+            </div>
+        </div>
+    </div>
+</nav>

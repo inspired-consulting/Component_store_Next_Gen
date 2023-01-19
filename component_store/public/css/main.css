@@ -8,8 +8,6 @@ body {
     color: #2a2a49f4 !important;
 }
 
-
-
 a:hover {
     color: #2a2a49f4 !important;
 }
@@ -50,3 +48,114 @@ a {
     color: #fff;
     background-color: #2a2a49;
 }
+
+/* FILTERICON */
+.filterIcon {
+  font-size: 22px;
+}
+/* SEARCH ICON */
+.searchIcon {
+    display: block;
+    height: 23px;
+    width: 23px;
+    background-image: url(/images/search.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #fff
+}
+
+/* PAGINATION */
+
+  .pagination .row {
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .page-link {
+    border: none;
+  }
+  
+  .page-link .arrowRight {
+    border: none;
+    padding: 0;
+  }
+  
+  .page-link .arrowRight,
+  .page-link .arrowLeft {
+    background-color: #fff;
+  }
+  
+  span.page-link,
+  button.btn-link {
+    padding: 0;
+  }
+  
+  .page-link:hover {
+    background-color: #fff;
+  }
+  
+  .page-link ~ .pages {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .page-link.sorting {
+    font-size: 1.2rem;
+    margin-left: 0;
+    padding-left: 0; 
+  }
+  
+  .arrowLeft {
+    display: block;
+    height: 56px;
+    width: 56px;
+    background-image: url(/images/arrowLeft.svg); 
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #000;
+    background-color: #ddd;
+    border: 1 solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .arrowRight {
+    display: block;
+    height: 56px;
+    width: 56px;
+    background-image: url(/images/arrowRight.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #000;
+    background-color: #ddd;
+    border: 1 solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .currentPage {
+    font-weight: bolder;
+    color: #000;
+  }
+  
+  .new-pagination > a {
+    color: #667079;
+  }
+  .new-pagination > a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .arrowLeft, 
+    .arrowRight {
+      height: 48px;
+      width: 48px;
+    }
+  } 
+
+  .searchTerm,
+  .count,
+  .activeSorting {
+    color: #1300ff;
+  }
