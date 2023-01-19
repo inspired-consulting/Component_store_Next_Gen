@@ -8,9 +8,8 @@ const config = Configuration.load();
 router.get('/', (req, res) => {
     const offset = req.query.offset || '0';
     const query = req.query.q ? req.query.q : '';
-    console.log('query##', query);
     const preset = req.query.p;
-    console.log('preset##', preset);
+    const presetType = req.query.p === 'abc' ? 'abc' : 'new'
     if (preset) {
         switch (preset) {
         case 'abc':
@@ -24,6 +23,7 @@ router.get('/', (req, res) => {
                         name: components.name,
                         website: components.website,
                         params: { p: preset },
+                        presetType,
                         search,
                         currentPage: search.currentPage,
                         pageLinks: search.pageLinks,
@@ -46,6 +46,7 @@ router.get('/', (req, res) => {
                         name: components.name,
                         website: components.website,
                         params: { p: preset },
+                        presetType,
                         search,
                         currentPage: search.currentPage,
                         pageLinks: search.pageLinks,
@@ -61,7 +62,6 @@ router.get('/', (req, res) => {
             .then(rows => {
                 const components = rows.result;
                 const count = rows.count;
-                console.log('seach result', rows);
                 const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, count);
                 res.render('componentList', {
                     url: '/componentlist',

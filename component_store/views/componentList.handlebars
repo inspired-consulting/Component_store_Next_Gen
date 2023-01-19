@@ -8,13 +8,13 @@
                 </div>
             {{/unless}}
             {{#if components}}
-                <h3>Sorting</h3>
+                <h3>Sorting <span class="filterIcon"><i class="fa-solid fa-filter"></i></span></h3>
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
-                        <a href="/componentlist?p=abc" class="page-link sorting">Alphabetical</a>
+                        <a href="/componentlist?p=abc" class="page-link sorting {{#if (eq presetType 'abc')}}activeSorting{{/if}}">Alphabetical</a>
                     </li>
                     <li class="page-item ">
-                        <a href="/componentlist?p=new" class="page-link sorting">Newest</a>
+                        <a href="/componentlist?p=new" class="page-link sorting {{#if (eq presetType 'new')}}activeSorting{{/if}}">Newest</a>
                     </li>
                 </ul>
             {{/if}}

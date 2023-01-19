@@ -2,7 +2,6 @@ const Configuration = require('../../config/config')
 const config = Configuration.load();
 
 exports.calculatePagination = (offsetString, limit, result) => {
-    console.log('calculatePagination offsetString, limit, result', offsetString, limit, result);
     let componentCount = result;
     const offset = parseInt(offsetString);
     if (result[0] !== undefined && result[0].entries_count !== undefined) {

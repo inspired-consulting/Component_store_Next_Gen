@@ -13,9 +13,7 @@ router.get('/:name', (req, res) => {
         .then(rows => {
             const component = rows.length > 0 ? rows.sort(compareIds).shift() : false;
             const newcomp = component;
-            console.log('newcomp components', newcomp);
             const olderversions = rows.length > 0 ? rows : false;
-            console.log('older components', olderversions);
             res.render('componentDetails', {
                 url: '/componentDetails',
                 component: newcomp,

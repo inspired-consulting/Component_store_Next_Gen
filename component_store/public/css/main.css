@@ -49,6 +49,10 @@ a {
     background-color: #2a2a49;
 }
 
+/* FILTERICON */
+.filterIcon {
+  font-size: 22px;
+}
 /* SEARCH ICON */
 .searchIcon {
     display: block;
@@ -151,7 +155,7 @@ a {
   } 
 
   .searchTerm,
-  .count {
-    color: #586ead;
+  .count,
+  .activeSorting {
+    color: #1300ff;
   }
-  
