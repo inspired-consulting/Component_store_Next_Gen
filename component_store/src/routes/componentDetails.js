@@ -8,8 +8,7 @@ function compareIds (a, b) {
 
 router.get('/:name', (req, res) => {
     const componentName = req.params.name;
-    const parsedcomponentName = componentName.replaceAll('-', ' ');
-    readFromDB(parsedcomponentName)
+    readFromDB(componentName)
         .then(rows => {
             const component = rows.length > 0 ? rows.sort(compareIds).shift() : false;
             const newcomp = component;
