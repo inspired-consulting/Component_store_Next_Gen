@@ -78,10 +78,12 @@ app.use('/components', express.static(path.join(__dirname, '../uploads')));
 app.set('views', './views');
 const uploadsRouter = require('./routes/fileUpload');
 const componentDetails = require('./routes/componentDetails');
+const apiRouter = require('./routes/api');
 const componentList = require('./routes/componentlist');
 
 app.use(fileUpload());
 app.use('/upload', uploadsRouter);
+app.use('/api', apiRouter);
 app.use('/componentDetails', componentDetails);
 app.use('/componentlist', componentList);
 

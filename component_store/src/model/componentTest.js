@@ -102,7 +102,7 @@ async function addToDB (inputdata) {
         } else {
             console.log('Weder der Name noch die Version existieren');
             const insertComponent = await pool.query(queryComponent, [uuidv4(), inputdata.componentName, inputdata.website]);
-            console.log('returns of the inserted component ' + insertComponent.rows[0].id);
+            console.log('id of newly added component is: ' + insertComponent.rows[0].id);
             insertComponent.rows.length > 0 ? await pool.query(queryComponentVersion, [uuidv4(), insertComponent.rows[0].id, inputdata.inputVersion, inputdata.information, file, inputdata.publisher]) : console.log('Error: failed to insert into component');
         }
     } catch (error) {

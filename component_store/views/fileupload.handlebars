@@ -5,7 +5,9 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="componentName">Component name*:</label>
-                        <input type="text" class="form-control requiredFields" id="componentName" aria-describedby="ComponentNameHelp" name="componentName" value="{{component.name}}" required >
+                        <input type="text" class="form-control" id="componentName" aria-describedby="ComponentNameHelp" name="componentName" value="" required >
+                        <div class="col-sm-12 pl-0" id="componentMsg"></div>
+
                     </div>
                 </div>
             </div>
@@ -14,7 +16,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="inputVersion">Version*:</label>
-                        <input type="text" class="form-control requiredFields" id="inputVersion" name="inputVersion" value="{{versionData.version}}" required>
+                        <input type="text" class="form-control" id="inputVersion" name="inputVersion" value="" required>
+                        <div class="col-sm-12 pl-0" id="versionMsg"></div>
                     </div>
                 </div>
             </div>
@@ -23,7 +26,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="fileUpload">Choose file to upload*:</label> <br>
-                        <input type='file' name='fileUpload' class="requiredFields" id="upload" required>
+                        <input type='file' name='fileUpload' id="upload" required>
+                        <div class="col-sm-12 pl-0" id="fileUploadMsg"></div>
                     </div>
                 </div>
             </div>
@@ -32,7 +36,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="information">Include some instructions to integrate the component:</label>
-                        <textarea class="form-control" id="summernote" name="information" name="componentTextarea">{{versionData.information}}</textarea>
+                        <textarea class="form-control" id="summernote" name="information" name="componentTextarea"></textarea>
                     </div>
                 </div>
             </div>
@@ -49,13 +53,13 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <label for="publisher">Publisher:</label>
-                        <input type="text" class="form-control" id="publisher" name="publisher" value="{{versionData.publisher}}">
+                        <label for="publisher">Publisher*:</label>
+                        <input type="text" class="form-control" id="publisher" name="publisher" value="" required>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2" id="submitBtn" disabled="disabled">Upload components</button>
-            <div class="col-sm-12 text-danger pl-0" id="buttonText"></div>
+            <button type="submit" class="btn btn-primary mt-2" id="submitBtn">Upload components</button>
+            <div class="col-sm-12 text-danger pl-0" id="buttonMsg"></div>
         </form>
     </div>
 

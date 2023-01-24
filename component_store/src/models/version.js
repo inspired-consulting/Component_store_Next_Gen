@@ -2,13 +2,12 @@ const pgpool = require('../helpers/pgpool');
 const uuid = require('uuid');
 
 const findVersionData = (key, value) => {
-    var pool = pgpool.getPool();
+    const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM component_version WHERE ' + key + ' = $1', [value], (err, result) => {
-            if (err) { 
+            if (err) {
                 reject(err);
-            }
-            else {
+            } else {
                 resolve(result.rows);
             }
         })
@@ -16,7 +15,6 @@ const findVersionData = (key, value) => {
 }
 
 const createVersion = (data, componentId, filename) => {
-    console.log("inserted filename",filename);
     const versionData = {
         componentName: data.componentName,
         version: data.inputVersion,
@@ -26,8 +24,8 @@ const createVersion = (data, componentId, filename) => {
         website: data.website
     }
     return new Promise((resolve, reject) => {
-        var pool = pgpool.getPool();
-        var versionId = uuid.v4();
+        const pool = pgpool.getPool();
+        const versionId = uuid.v4();
         pool.query(`INSERT INTO component_version
             (id, uuid, component_id, version, information, entry_file)
         VALUES
@@ -35,18 +33,23 @@ const createVersion = (data, componentId, filename) => {
         RETURNING id`,
         [versionId, componentId, versionData.version, versionData.information, versionData.entryfile], 
         (err, result) => {
-            if(err) { return reject(err);}
+            if (err) {
+                return reject(err);
+            }
             const row = result.rows.length > 0 ? result.rows[0] : false;
-            if(!row) {return reject(new InvalidResetError("versiondata could not be created"));}
+            if (!row) {
+                // eslint-disable-next-line no-undef
+                return reject(new InvalidResetError('versiondata could not be created'))
+            }
             resolve(result.rows[0].id)
         })
     })
 }
 
 const getComponentNameAndVersionById = (id) => {
-    var pool = pgpool.getPool();
+    const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
-        pool.query (`
+        pool.query(`
         SELECT
             c.name,
             cv.version,
@@ -57,8 +60,9 @@ const getComponentNameAndVersionById = (id) => {
             LEFT JOIN component_version cv ON cv.component_id = c.id
         WHERE
             c.id = $1;`, [id], (err, result) => {
-            if (err) { reject(err); }
-            else {
+            if (err) {
+                reject(err)
+            } else {
                 resolve(result.rows);
             }
         })
@@ -66,8 +70,7 @@ const getComponentNameAndVersionById = (id) => {
 }
 
 module.exports = {
-    findVersionData: findVersionData,
-    createVersion: createVersion,
-    getComponentNameAndVersionById: getComponentNameAndVersionById
+    findVersionData,
+    createVersion,
+    getComponentNameAndVersionById
 }
-
