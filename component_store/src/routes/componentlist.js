@@ -1,5 +1,5 @@
 const express = require('express');
-const { listComponents } = require('../model/componentTest');
+const { listComponents } = require('../models/component');
 const router = express.Router();
 const helper = require('../helpers/helper');
 const Configuration = require('../../config/config');

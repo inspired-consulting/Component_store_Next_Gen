@@ -31,7 +31,7 @@ const createVersion = (data, componentId, filename) => {
         VALUES
             ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2, $3, $4, $5)
         RETURNING id`,
-        [versionId, componentId, versionData.version, versionData.information, versionData.entryfile], 
+        [versionId, componentId, versionData.version, versionData.information, versionData.entryfile],
         (err, result) => {
             if (err) {
                 return reject(err);
