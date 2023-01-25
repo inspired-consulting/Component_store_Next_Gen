@@ -2,59 +2,6 @@ const pgpool = require('../helpers/pgpool')
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
 
-async function readFromDB (name) {
-    const pool = pgpool.getPool()
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM component,component_version WHERE component.name=$1 AND component.id=component_version.component_id ', [name], (err, result) => {
-            if (!err) {
-                resolve(result.rows);
-            } else {
-                reject(err.message);
-            }
-        });
-    });
-}
-
-const buildSearchCondition = (queryParameter, searchFields) => {
-    const searchConditions = [];
-    searchFields.forEach(searchField => {
-        searchConditions.push(`lower(${searchField}) LIKE lower($1) `)
-    })
-    return `(${searchConditions.join('OR ')})`
-}
-
-const listComponents = (limit, offset, queryParameter, sortBy, order) => {
-    const pool = pgpool.getPool();
-    return new Promise((resolve, reject) => {
-        let query = `
-        SELECT * FROM component c 
-        WHERE ` + buildSearchCondition(queryParameter, ['c.name'])
-        if (queryParameter === 'abc') {
-            query += ` ORDER BY LOWER(c.${sortBy}) ${order}`
-        } else {
-            query += ` ORDER BY c.${sortBy} ${order}`
-        }
-        const componentQuery = queryParameter.q ? queryParameter.q : '';
-        pool.query(query + ' LIMIT $2 OFFSET $3', ['%' + componentQuery + '%', limit, offset], (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
-                pool.query(`
-                SELECT COUNT(c.id) 
-                FROM component c
-                WHERE ` + buildSearchCondition(queryParameter, ['c.name']),
-                ['%' + componentQuery + '%'], (err, count) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve({ result: result.rows.map(row => { return row }), count: count.rows[0].count });
-                    }
-                })
-            }
-        })
-    })
-}
-
 async function addToDB (inputdata) {
     const pool = pgpool.getPool();
     inputdata = JSON.parse(JSON.stringify(inputdata));
@@ -110,4 +57,4 @@ async function addToDB (inputdata) {
     }
 }
 
-module.exports = { addToDB, readFromDB, listComponents };
+module.exports = { addToDB };

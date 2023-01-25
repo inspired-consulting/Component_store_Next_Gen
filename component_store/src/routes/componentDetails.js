@@ -1,5 +1,5 @@
 const express = require('express');
-const { readFromDB } = require('../model/componentTest');
+const { readFromDB } = require('../models/component');
 const router = express.Router();
 
 function compareIds (a, b) {
