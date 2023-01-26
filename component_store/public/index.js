@@ -17,69 +17,119 @@ $('#summernote').summernote({
 });
 
 // File upload
+let isComponentNameOk = false;
+let isVersionOk = false;
+let isRequiredOk = true;
+let isUploadOk = false;
+
 const uploadFile = document.querySelector('#uploadFile')
-document.querySelector('#buttonText').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
+validationMsg('#buttonMsg', 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!', 'Error')
+const submitBtn = document.querySelector('#submitBtn')
+enableUpload();
+
+// Check if input value already exist in database
+const checkExists = (e) => {
+    const source = e.target || e.srcElement;
+    console.log('source', source.name, source.value);
+    const url = '/api/exists/' + source.name + '/' + source.value;
+    const myRequest = new Request(url);
+    const componentName = document.querySelector('#componentName').value;
+    fetch(myRequest)
+        .then((response) => {
+            if (response.ok) {
+                validationMsg('#componentMsg', 'This value already exist, please choose another.', 'Error')
+                validationMsg('#versionMsg', '', 'Error')
+                isComponentNameOk = false
+            } else {
+                validationMsg('#componentMsg', 'Available input', 'Success')
+                isComponentNameOk = true;
+                if (componentName.length <= 0) {
+                    validationMsg('#componentMsg', '', 'Success')
+                    validationMsg('#versionMsg', '', 'Error')
+                    isComponentNameOk = false;
+                } else {
+                    componentNameValidation(componentName);
+                    validationMsg('#versionMsg', '', 'Error')
+                }
+            }
+            enableUpload();
+        })
+}
+
+document.querySelector('#componentName').addEventListener('keyup', checkExists)
+
+// check if file upload has some value
+// eslint-disable-next-line no-undef
+$('#upload').change(function () {
+    // eslint-disable-next-line no-undef
+    if ($(this).val() === '') {
+        isUploadOk = false;
+        validationMsg('#fileUploadMsg', 'Please select the file.', 'Error')
+    } else {
+        isUploadOk = true;
+        validationMsg('#fileUploadMsg', '', 'Error')
+    }
+    enableUpload();
+});
 
 uploadFile.addEventListener('keyup', function (e) {
     const requiredInputs = document.querySelectorAll('input[required]')
-    const submitBtn = document.querySelector('#submitBtn')
-    let buttonDisabled = false
-    requiredInputs.forEach(function (input) {
+    const inputVersion = document.querySelector('#inputVersion').value;
+    const requiredInputsArray = Array.from(requiredInputs);
+    isRequiredOk = true;
+    // eslint-disable-next-line array-callback-return
+    requiredInputsArray.every(input => {
         if (input.value === '' || !input.value.replace(/\s/g, '').length) {
-            buttonDisabled = true
+            isRequiredOk = false;
+            return false;
+        } else {
+            return true;
         }
     })
-    if (buttonDisabled) {
-        document.querySelector('#buttonText').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
-        submitBtn.setAttribute('disabled', 'disabled')
+
+    // check if version is valid
+    if (!symenticVersionValidation(inputVersion) || (inputVersion.length <= 0)) {
+        isVersionOk = false;
+        validationMsg('#versionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0 ; 10.02.23-version', 'Error')
     } else {
-        document.querySelector('#buttonText').innerHTML = '';
-        submitBtn.removeAttribute('disabled')
+        isVersionOk = true;
+        validationMsg('#versionMsg', '', 'Error')
     }
+    enableUpload();
 })
 
-// const uploadFile = document.querySelector('#uploadFile')
-// document.querySelector('#buttonText').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
+// check if component name is valid
+function componentNameValidation (val) {
+    const regexStr = /^[a-z0-9\d-]*$/;
+    if (regexStr.test(val)) {
+        isComponentNameOk = true;
+    } else {
+        validationMsg('#componentMsg', 'Please use only lowecase and hypens to seperate the words.', 'Error')
+        isComponentNameOk = false;
+    }
+    enableUpload();
+}
 
-// uploadFile.addEventListener('keyup', function (e) {
-//     // eslint-disable-next-line no-undef
-//     $('.requiredFields').each(function () {
-//         let buttonDisabled = true;
-//         const componentName = document.querySelector('#componentName').value;
-//         const inputVersion = document.querySelector('#inputVersion').value;
-//         const value = this.value;
-//         if (value && (value.trim() !== '') && componentName && inputVersion) {
-//             console.log('IF CASE');
-//             buttonDisabled = false;
-//             // eslint-disable-next-line no-undef
-//             $('#submitBtn').attr('disabled', false);
-//             document.querySelector('#buttonText').innerHTML = ''
-//         } else {
-//             console.log('ELSE CASE');
-//             // eslint-disable-next-line no-unused-vars
-//             buttonDisabled = true;
-//             // eslint-disable-next-line no-undef
-//             $('#submitBtn').attr('disabled', true);
-//             document.querySelector('#buttonText').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
-//         }
-//     });
-// })
+function symenticVersionValidation (val) {
+    const regexStr = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+    return regexStr.test(val); // validates regex on Version input value and return true if passed.
+}
 
-// // File upload
-// const inputs = document.querySelectorAll('.requiredFields');
-// console.log('inputs', inputs);
-// const button = document.querySelector('#submitBtn');
-// button.disabled = true;
-// document.querySelector('#buttonText').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
-// inputs.addEventListener('change', stateHandle);
+function validationMsg (id, msg, type) {
+    document.querySelector(id).innerHTML = msg;
+    if (type === 'Success') {
+        document.querySelector(id).className = 'text-success'
+    } else {
+        document.querySelector(id).className = 'text-danger'
+    }
+}
 
-// // eslint-disable-next-line no-unused-vars
-// function stateHandle () {
-//     if (document.querySelector('#componentName').value === '') {
-//         button.disabled = true;
-//         document.querySelector('#buttonText').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
-//     } else {
-//         button.disabled = false;
-//         document.querySelector('#buttonText').innerHTML = '';
-//     }
-// }
+function enableUpload () {
+    if (Boolean(isComponentNameOk) && Boolean(isVersionOk) && Boolean(isRequiredOk) && Boolean(isUploadOk)) {
+        submitBtn.removeAttribute('disabled');
+        document.querySelector('#buttonMsg').innerHTML = '';
+    } else {
+        submitBtn.setAttribute('disabled', 'disabled');
+        document.querySelector('#buttonMsg').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
+    }
+}

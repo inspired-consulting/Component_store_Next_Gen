@@ -10,6 +10,7 @@ router.get('/:name', (req, res) => {
     const componentName = req.params.name;
     readFromDB(componentName)
         .then(rows => {
+            console.log('rowsc from componentlist', rows);
             const component = rows.length > 0 ? rows.sort(compareIds).shift() : false;
             const newcomp = component;
             const olderversions = rows.length > 0 ? rows : false;
