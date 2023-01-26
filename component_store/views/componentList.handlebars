@@ -1,14 +1,15 @@
- <div class="container mb-5">
-    <h3 class="mt-5 mb-4 text-center text-md-left">All Components</h3>
-    <div class="d-flex justify-content-between">
+ <div class="container mb-5 mt-5">
+    <h3 class="mb-3 text-start text-md-center">All Components</h3>
+
+    <div class="d-flex flex-column flex-sm-row justify-content-start justify-content-sm-between">
         <nav class="filter">
             {{#unless components}}
                 <div class="alert alert-warning" role="alert">
-                Component Name {{searchName}} doesn't exists. Try another name.
+                    Component Name <strong class="">"{{query}}"</strong> doesn't exists. Please try another name.
                 </div>
             {{/unless}}
             {{#if components}}
-                <h3>Sorting <span class="filterIcon"><i class="fa-solid fa-filter"></i></span></h3>
+                <h3>Sorting <span class="filterIcon ml-2"><i class="fa-solid fa-filter"></i></span></h3>
                 <ul class="pagination pagination-sm">
                     <li class="page-item">
                         <a href="/componentlist?p=abc" class="page-link sorting {{#if (eq presetType 'abc')}}activeSorting{{/if}}">Alphabetical</a>
@@ -19,37 +20,38 @@
                 </ul>
             {{/if}}
         </nav>
-        <form action="/componentlist" method="get" class="form-inline my-2 my-lg-0">
+        <form action="/componentlist" method="get" class="form-inline ">
             <div class="input-group">
-                <input type="search" name="q" class="form-control" placeholder="Search component" value=""/>
+                <input type="search" name="q" class="form-control col-6 col-sm-12" placeholder="Search component" value=""/>
                 <button type="submit" class="btn btn-primary">
                     <span class="searchIcon"></span>
                 </button>
             </div>
-        </form> 
+        </form>
     </div>
+
     {{#if query}}
-        <h5 class="mb-4">Searched component is: <strong class="searchTerm">{{query}}</strong> <br> And total number of results found is: <strong class="count">{{count}}</strong></h5>
+        <h5 class="mb-4 mt-4">Searched component is: <strong class="searchTerm">{{query}}</strong> <br> And total number of results found is: <strong class="count">{{count}}</strong></h5>
     {{/if}}
 
-    <div class="d-flex flex-wrap justify-content-center justify-content-md-start">
+    <div class="row mt-4">
         {{#each components}}
-        <div class="card mr-3 mb-3" style="width: 22.1rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{this.id}}- {{this.name}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Component Description</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <div class="d-flex flex-row">
-                    <a href="{{this.website}}" class="card-link">Visit our Website</a>
-                    <a href="/componentDetails/{{this.name}}" class="card-link">Look at our Component</a>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{this.id}}- {{this.name}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Component Description</h6>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <div class="d-flex flex-column flex-sm-row">
+                                <a href="{{this.website}}" class="card-link mr-3 mb-3">Visit our Website</a>
+                                <a href="/componentDetails/{{this.name}}">Look at our Component</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
         {{/each}}
     </div>
-
-    {{> pagination url="/componentlist" }}
+{{> pagination url="/componentlist" }}
 
 </div> 
 

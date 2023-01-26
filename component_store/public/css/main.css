@@ -159,3 +159,7 @@ a {
   .activeSorting {
     color: #1300ff;
   }
+  .activeSorting {
+    color: black;
+    font-weight: 900;
+  }
