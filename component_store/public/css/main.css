@@ -91,7 +91,7 @@ a {
   .customPagination .page-link:hover {
     background-color: #fff;
   }
-  
+
   span.page-link,
   button.btn-link {
     padding: 0;
@@ -115,7 +115,7 @@ a {
     border: 1 solid #ddd;
     border-radius: 4px;
   }
-  
+
   .arrowRight {
     display: block;
     height: 56px;
@@ -134,7 +134,7 @@ a {
     font-weight: bolder;
     color: #000;
   }
-  
+
   .new-pagination > a {
     color: #667079;
   }
@@ -148,7 +148,7 @@ a {
       height: 48px;
       width: 48px;
     }
-  } 
+  }
 
   .searchTerm,
   .count {
