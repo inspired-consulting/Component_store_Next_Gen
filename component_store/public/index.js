@@ -23,7 +23,7 @@ let isRequiredOk = true;
 let isUploadOk = false;
 
 const uploadFile = document.querySelector('#uploadFile')
-validationMsg('#buttonMsg', 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!', 'Error')
+//validationMsg('#buttonMsg', 'Please note that all fields marked with * are required !', 'Error')
 const submitBtn = document.querySelector('#submitBtn')
 enableUpload();
 
@@ -41,7 +41,8 @@ const checkExists = (e) => {
                 validationMsg('#versionMsg', '', 'Error')
                 isComponentNameOk = false
             } else {
-                validationMsg('#componentMsg', 'Available input', 'Success')
+                validationMsg('#componentMsg', 'This name is available.', 'Success')
+                validationMsg('#versionMsg', '', 'Error')
                 isComponentNameOk = true;
                 if (componentName.length <= 0) {
                     validationMsg('#componentMsg', '', 'Success')
@@ -130,6 +131,6 @@ function enableUpload () {
         document.querySelector('#buttonMsg').innerHTML = '';
     } else {
         submitBtn.setAttribute('disabled', 'disabled');
-        document.querySelector('#buttonMsg').innerHTML = 'Bitte beachte, dass alle mit * markierten Felder Pflichtfelder sind!';
+        document.querySelector('#buttonMsg').innerHTML = 'Please note that all fields marked with * are required !';
     }
 }

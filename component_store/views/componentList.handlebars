@@ -1,5 +1,5 @@
  <div class="container mb-5 mt-5">
-    <h3 class="mb-3 text-start text-md-center">All Components</h3>
+    <h3 class="mb-3 text-start text-md-center">View Components</h3>
 
     <div class="d-flex flex-column flex-sm-row justify-content-start justify-content-sm-between">
         <nav class="filter">
@@ -8,19 +8,20 @@
                     Component Name <strong class="">"{{query}}"</strong> doesn't exists. Please try another name.
                 </div>
             {{/unless}}
+
             {{#if components}}
-                <h3>Sorting <span class="filterIcon ml-2"><i class="fa-solid fa-filter"></i></span></h3>
+                <h3>Sorting <span class="filterIcon ml-2"><i class="fa-solid fa-arrow-down-wide-short"></i></span></h3>
                 <ul class="pagination pagination-sm">
-                    <li class="page-item">
-                        <a href="/componentlist?p=abc" class="page-link sorting {{#if (eq presetType 'abc')}}activeSorting{{/if}}">Alphabetical</a>
+                    <li class="page-item customSorting">
+                        <a href="/componentlist?p=abc" class="page-link {{#if (eq presetType "abc")}}active{{/if}}">Alphabetical</a>
                     </li>
-                    <li class="page-item ">
-                        <a href="/componentlist?p=new" class="page-link sorting {{#if (eq presetType 'new')}}activeSorting{{/if}}">Newest</a>
+                    <li class="page-item customSorting">
+                        <a href="/componentlist?p=new" class="page-link {{#if (eq presetType "new")}}active{{/if}}">Newest</a>
                     </li>
                 </ul>
             {{/if}}
         </nav>
-        <form action="/componentlist" method="get" class="form-inline ">
+        <form action="/componentlist" method="get" class="form-inline">
             <div class="input-group">
                 <input type="search" name="q" class="form-control col-6 col-sm-12" placeholder="Search component" value=""/>
                 <button type="submit" class="btn btn-primary">
@@ -31,7 +32,7 @@
     </div>
 
     {{#if query}}
-        <h5 class="mb-4 mt-4">Searched component is: <strong class="searchTerm">{{query}}</strong> <br> And total number of results found is: <strong class="count">{{count}}</strong></h5>
+        <h5 class="mb-4 mt-4">Searched component: <strong class="searchTerm">{{query}}</strong> <br> Number of results found: <strong class="count">{{count}}</strong></h5>
     {{/if}}
 
     <div class="row mt-4">
