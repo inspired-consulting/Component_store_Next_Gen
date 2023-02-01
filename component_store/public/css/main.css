@@ -131,7 +131,7 @@ svg {
 }
 
 /* PAGINATION */
-/*
+
   .pagination .row {
     align-items: center;
     justify-content: center;
@@ -213,4 +213,3 @@ svg {
   #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg{
     position: absolute;
   }
-  */
