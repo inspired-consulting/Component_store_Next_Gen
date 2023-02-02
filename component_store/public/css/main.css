@@ -61,9 +61,66 @@ a {
     background-color:rgb(66,105,171)
 }
 
+
 .table {
   color: rgb(82,149,168) !important;;
 }
+
+.img-w-75 {
+  max-width: 75%;
+}
+
+.img-w-60 {
+  width: 60%;
+}
+
+/* Styles for displaying the svg-bg and overlapping text*/
+.svg-text{
+  position: absolute; 
+  z-index:2;
+}
+.container-svg {
+  width: 100%;
+  height: 0;
+  padding-top: 43%;
+  position: relative;
+}
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Font resizing and mobile responsive on homepage*/
+@media screen and (max-width: 900px) {
+  .homepage h1 {
+    font-size: 2rem;
+  }
+  .homepage h5 {
+    font-size: 1rem;
+  }
+  .homepage .container-svg {
+    padding-top: 44%;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .homepage h1 {
+    font-size: 1.75rem;
+  }
+  .homepage h5,.homepage p {
+    font-size: 0.85rem;
+  }
+  .homepage .container-svg {
+    padding-top: 40%;
+  }
+  .homepage .row {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 /* SORTING */
 .customSorting .active {
   color: #fff !important;
