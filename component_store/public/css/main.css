@@ -45,7 +45,7 @@ a {
 
 .componentIcon{
   height: 20px;
-  margin-right: 4px;
+  margin-bottom: 2px;
 }
 .bg-light {
   /* background-color: rgb(191,215,222) !important; */
@@ -54,11 +54,16 @@ a {
   background-size: auto, cover, cover;
 }
 
+/* TABLE OLDER VERSION */
 .table .thead-dark th {
     color: #fff;
-    background-color: #2a2a49;
+    /* background-color: #2a2a49; */
+    background-color:rgb(66,105,171)
 }
 
+.table {
+  color: rgb(82,149,168) !important;;
+}
 /* SORTING */
 .customSorting .active {
   color: #fff !important;
@@ -188,23 +193,23 @@ a {
   .homePage p {
     color: white;
     font-size: 18px;
-    margin: 1em 250px;
+    margin: 2em 200px 1em 200px;
   }
 
-  @media (max-width: 950px) {
+  @media (max-width: 850px) {
     .homePage p {
-      margin: 1em 100px;
+      margin: 2em 100px;
     }
   }
   @media (max-width: 450px) {
     .homePage p {
       font-size: 16px;
-      margin: 1em 50px;
+      margin: 2em 50px;
     }
   }
 
 .wordAnimation {
-  min-height: 350px;
+  min-height: 150px; 
   animation: 5s animation_wordsup ease-out ;
 }
  @keyframes animation_wordsup {
@@ -253,5 +258,65 @@ a {
   }
   100% {
     text-shadow: 0 0 black;
+  }
+}
+
+.blink {
+  animation:3s blinker ease-out ;
+  
+}
+@keyframes blinker {  
+  0% { opacity: 0; }
+  50% { opacity: 0; }
+  100% { opacity: 1.0; }
+}
+
+.homeImg {
+  width: 150px;
+  height: 180px;
+}
+
+.graphicImg{
+  height: 250px;
+  width:470px
+}
+@media (max-width: 650px) {
+  .graphicImg {
+    height: 150px;
+    width:200px
+  }
+}
+
+.pop-outin {
+  animation: 6s anim-popoutin ease;
+}
+
+@keyframes anim-popoutin {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+
+  }
+  25% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    /* animate nothing to add pause at the end of animation */
+    transform: scale(1);
+    opacity: 1;
+   
+  }
+}
+
+.fromtop {
+  animation: 6s anim-fromtop linear ;
+}
+@keyframes anim-fromtop {
+  0% { opacity: 0; transform: translateY(-100%);}
+  25% { opacity: 1; transform: translateY(0%);}
+  50% {
+  }
+  100% {
   }
 }
