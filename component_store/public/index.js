@@ -23,9 +23,10 @@ let isRequiredOk = true;
 let isUploadOk = false;
 
 const uploadFile = document.querySelector('#uploadFile')
-//validationMsg('#buttonMsg', 'Please note that all fields marked with * are required !', 'Error')
 const submitBtn = document.querySelector('#submitBtn')
-enableUpload();
+if (submitBtn) {
+    document.querySelector('#buttonMsg').innerHTML = 'Please note that all fields marked with * are required !';
+}
 
 // Check if input value already exist in database
 const checkExists = (e) => {
@@ -36,28 +37,30 @@ const checkExists = (e) => {
     const componentName = document.querySelector('#componentName').value;
     fetch(myRequest)
         .then((response) => {
+            validationMsg('#versionMsg', '', 'Error')
             if (response.ok) {
                 validationMsg('#componentMsg', 'This value already exist, please choose another.', 'Error')
-                validationMsg('#versionMsg', '', 'Error')
+                // validationMsg('#versionMsg', '', 'Error')
                 isComponentNameOk = false
             } else {
                 validationMsg('#componentMsg', 'This name is available.', 'Success')
-                validationMsg('#versionMsg', '', 'Error')
+                // validationMsg('#versionMsg', '', 'Error')
                 isComponentNameOk = true;
                 if (componentName.length <= 0) {
                     validationMsg('#componentMsg', '', 'Success')
-                    validationMsg('#versionMsg', '', 'Error')
+                    // validationMsg('#versionMsg', '', 'Error')
                     isComponentNameOk = false;
                 } else {
                     componentNameValidation(componentName);
-                    validationMsg('#versionMsg', '', 'Error')
+                    // validationMsg('#versionMsg', '', 'Error')
                 }
             }
             enableUpload();
         })
 }
-
-document.querySelector('#componentName').addEventListener('keyup', checkExists)
+if (submitBtn) {
+    document.querySelector('#componentName').addEventListener('keyup', checkExists)
+}
 
 // check if file upload has some value
 // eslint-disable-next-line no-undef
@@ -73,31 +76,46 @@ $('#upload').change(function () {
     enableUpload();
 });
 
-uploadFile.addEventListener('keyup', function (e) {
-    const requiredInputs = document.querySelectorAll('input[required]')
-    const inputVersion = document.querySelector('#inputVersion').value;
-    const requiredInputsArray = Array.from(requiredInputs);
-    isRequiredOk = true;
-    // eslint-disable-next-line array-callback-return
-    requiredInputsArray.every(input => {
-        if (input.value === '' || !input.value.replace(/\s/g, '').length) {
-            isRequiredOk = false;
-            return false;
-        } else {
-            return true;
-        }
-    })
+if (submitBtn) {
+    uploadFile.addEventListener('keyup', function (e) {
+        const requiredInputs = document.querySelectorAll('input[required]')
+        const inputVersion = document.querySelector('#inputVersion').value;
+        const requiredInputsArray = Array.from(requiredInputs);
+        isRequiredOk = true;
+        // eslint-disable-next-line array-callback-return
+        // requiredInputsArray.every(input => {
+        //     console.log('input##', input);
+        //     if (input.value === '' || !input.value.replace(/\s/g, '').length) {
+        //         isRequiredOk = false;
+        //         return false;
+        //     } else {
+        //         return true;
+        //     }
+        // })
 
-    // check if version is valid
-    if (!symenticVersionValidation(inputVersion) || (inputVersion.length <= 0)) {
-        isVersionOk = false;
-        validationMsg('#versionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0 ; 10.02.23-version', 'Error')
-    } else {
-        isVersionOk = true;
-        validationMsg('#versionMsg', '', 'Error')
-    }
-    enableUpload();
-})
+        requiredInputsArray.forEach(input => {
+            console.log('input####', input.value);
+            validationMsg('#versionMsg', '', 'Error')
+            if (input.value === '' || !input.value.replace(/\s/g, '').length) {
+                isRequiredOk = false;
+                return false;
+            } else {
+                return true;
+            }
+        })
+
+        // check if version is valid
+        if (!symenticVersionValidation(inputVersion) || (inputVersion.length <= 0)) {
+            isVersionOk = false;
+            validationMsg('#versionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0 ; 10.02.23-version', 'Error')
+        } else {
+            isVersionOk = true;
+            validationMsg('#versionMsg', '', 'Error')
+        }
+
+        enableUpload();
+    })
+}
 
 // check if component name is valid
 function componentNameValidation (val) {
@@ -112,8 +130,10 @@ function componentNameValidation (val) {
 }
 
 function symenticVersionValidation (val) {
-    const regexStr = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
-    return regexStr.test(val); // validates regex on Version input value and return true if passed.
+    // const regexStr = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+    const regexStr = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
+    const result = regexStr.test(val)
+    return result; // validates regex on Version input value and return true if passed.
 }
 
 function validationMsg (id, msg, type) {
@@ -134,3 +154,33 @@ function enableUpload () {
         document.querySelector('#buttonMsg').innerHTML = 'Please note that all fields marked with * are required !';
     }
 }
+
+const componentSubmitBtn = document.querySelector('#componentSubmitBtn')
+let isUpdateComponentNameOk = false;
+validationMsg('#componentBtnMsg', 'Please fill the existing component names only !', 'Error')
+const checkExists2 = (e) => {
+    const source = e.target || e.srcElement;
+    console.log('source from UPDATE##', source.name, source.value);
+    const url = '/api/exists/' + source.name + '/' + source.value;
+    const myRequest = new Request(url);
+    fetch(myRequest)
+        .then((response) => {
+            if (response.ok) {
+                validationMsg('#updateComponentMsg', 'This  name exist.', 'Success')
+                isUpdateComponentNameOk = true
+            } else {
+                validationMsg('#updateComponentMsg', 'This name do not exists.', 'Error')
+                isUpdateComponentNameOk = false
+            }
+
+            if (isUpdateComponentNameOk) {
+                componentSubmitBtn.removeAttribute('disabled');
+                document.querySelector('#componentBtnMsg').innerHTML = '';
+            } else {
+                componentSubmitBtn.setAttribute('disabled', 'disabled');
+                document.querySelector('#componentBtnMsg').innerHTML = 'Please fill the existing component names only !';
+            }
+        })
+}
+
+document.querySelector('#componentName').addEventListener('keyup', checkExists2)

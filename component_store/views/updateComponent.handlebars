@@ -1,0 +1,72 @@
+    
+    {{#if (isEmpty componentName)}}
+    <div  class="container mt-5 mb-5">
+        {{> componentName }}
+    </div>
+    {{else}}
+    
+
+     <div class="container mt-5 mb-5">
+        <h3 class="mb-4">Update component details</h3>
+        <form method='post' action='/upload/update/{{componentName}}' enctype="multipart/form-data" id="uploadFile">
+        {{!-- <input type="hidden"  name="componentName" value="{{componentName}}" required> --}}
+            <div class="row mt-2">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="updateInputVersion">Version*:</label>
+                        <input type="text" class="form-control" id="updateInputVersion" name="updateInputVersion" value="" required>
+                        <div class="col-sm-12 pl-0 " id="updateVersionMsg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                        <label for="updateFileUpload">Choose file to upload*:</label> <br>
+                        <input type='file' name='updateFileUpload' id="upload" required>
+                        <div class="col-sm-12 pl-0" id="updateFileUploadMsg"></div>
+                </div>
+
+                {{!-- <div class="col ">
+                    <div class="custom-file">
+                    <label class="custom-file-label" for="updateFileUpload">Choose file...</label>
+                    <input type="file" class="custom-file-input" id="upload" name="updateFileUpload" required>
+                    <div class="col-sm-12 pl-0" id="updateFileUploadMsg"></div>
+                    </div>
+                </div>  --}}
+            </div>
+
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="updateInformation">Include some instructions to integrate the component:</label>
+                        <textarea class="form-control" id="summernote" name="updateInformation" name="componentTextarea"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="website">Website:</label>
+                        <input type="text" class="form-control" id="website" name="website" value="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="publisher">Publisher*:</label>
+                        <input type="text" class="form-control" id="publisher" name="publisher" value="" required>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary_custom mt-2" id="updateComponentBtn">Update component</button>
+            <div class="col-sm-12 text-danger pl-0 " id="updateComponentBtn"></div>
+        </form>
+    </div> 
+
+    {{/if}}
+
+   <script src="/index.js" type="module"></script> 
