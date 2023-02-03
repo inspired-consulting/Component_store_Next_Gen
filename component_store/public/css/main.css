@@ -20,7 +20,7 @@ body {
   color: white !important;
 }
 
- a:hover {
+a:hover {
   color: #000!important;
 }
 
@@ -346,13 +346,11 @@ svg {
 }
 
 .graphicImg{
-  height: 250px;
-  width:470px
+  max-width: 90%;
 }
 @media (max-width: 650px) {
   .graphicImg {
-    height: 150px;
-    width:200px
+    max-width: 100%;
   }
 }
 
