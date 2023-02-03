@@ -107,7 +107,7 @@ if (submitBtn) {
         // check if version is valid
         if (!symenticVersionValidation(inputVersion) || (inputVersion.length <= 0)) {
             isVersionOk = false;
-            validationMsg('#versionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0 ; 10.02.23-version', 'Error')
+            validationMsg('#versionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0', 'Error')
         } else {
             isVersionOk = true;
             validationMsg('#versionMsg', '', 'Error')

@@ -33,6 +33,17 @@ a {
     color: rgb(74,119,175)!important;
 }
 
+h3{
+  font-size: 1.75;
+}
+
+
+@media (max-width: 480px) {
+  h3{
+    font-size: 1.5rem !important;
+  }
+}
+
 /* .btn-outline-primary {
     color: rgb(78,136,171);
     border-color: rgb(78,136,171);
@@ -46,8 +57,6 @@ a {
 
 .btn-primary_custom:hover {
     color: black !important;
-    background-color: rgb(78,136,171);
-    border-color: rgb(78,136,171);
 }
 
 .componentIcon{
@@ -142,7 +151,7 @@ svg {
 
 /* FILTERICON */
 .filterIcon {
-  font-size: 22px;
+  font-size: 18px;
 }
 
 /* SEARCH ICON */
@@ -238,10 +247,16 @@ svg {
     color: rgb(74,119,175);
   }
 
-  #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg{
+  #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg {
     position: absolute;
   }
 
+  @media (max-width: 480px) {
+    #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg {
+      font-size: 12px;
+      line-height: 12px;
+    }
+  }
   /* HOMEPAGE */
   .homePage {
     /* min-height: 94vh; */
