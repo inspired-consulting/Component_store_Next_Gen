@@ -1,4 +1,4 @@
- <div class="container mb-5 mt-5">
+ <div class="container mb-5 mt-3">
     <h3 class="mb-3 text-start text-md-center">View Components</h3>
 
     <div class="d-flex flex-column flex-sm-row justify-content-start justify-content-sm-between">
@@ -10,7 +10,7 @@
             {{/unless}}
 
             {{#if components}}
-                <h3>Sorting <span class="filterIcon ml-2"><i class="fa-solid fa-arrow-down-wide-short"></i></span></h3>
+                <h3>Sorting <span class="filterIcon ml-1"><i class="fa-solid fa-arrow-down-wide-short"></i></span></h3>
                 <ul class="pagination pagination-sm">
                     <li class="page-item customSorting">
                         <a href="/componentlist?p=abc" class="page-link {{#if (eq presetType "abc")}}active{{/if}}">Alphabetical</a>
@@ -22,7 +22,7 @@
             {{/if}}
         </nav>
         <form action="/componentlist" method="get" class="form-inline">
-            <div class="input-group">
+            <div class="input-group mt-3">
                 <input type="search" name="q" class="form-control col-6 col-sm-12" placeholder="Search component" value=""/>
                 <button type="submit" class="btn btn-primary_custom">
                     <span class="searchIcon"></span>
