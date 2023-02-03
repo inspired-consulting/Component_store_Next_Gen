@@ -4,7 +4,7 @@
 }
 
 body {
-  font-family: 'RedHatDisplay';
+  font-family: 'RedHatDisplay' !important;
   color: rgb(82,149,168) !important;
 }
 
@@ -80,6 +80,7 @@ h3{
   color: rgb(82,149,168) !important;;
 }
 
+/* image max width for responsive imgs*/
 .img-w-75 {
   max-width: 75%;
 }
@@ -105,10 +106,23 @@ svg {
   left: 0;
 }
 
+/* space for Logo*/
+.header-space {
+  margin: 4rem 0;
+}
+
+/* card margin*/
+.card-margin {
+  margin: 3rem 3.5rem;
+}
+
 /* Font resizing and mobile responsive on homepage*/
 @media screen and (max-width: 900px) {
   .homepage h1 {
     font-size: 2rem;
+  }
+  .homepage h2 {
+    font-size: 1.5rem;
   }
   .homepage h5 {
     font-size: 1rem;
@@ -116,13 +130,22 @@ svg {
   .homepage .container-svg {
     padding-top: 44%;
   }
+  .homepage .header-space{
+    margin: 3rem 0;
+  }
+  .card-margin {
+    margin: 2rem 2.5rem;
+  }
 }
 
 @media screen and (max-width: 440px) {
   .homepage h1 {
     font-size: 1.75rem;
   }
-  .homepage h5,.homepage p {
+  .homepage h2 {
+    font-size: 1.25rem;
+  }
+  .homepage h5,.homepage p,.homepage span {
     font-size: 0.85rem;
   }
   .homepage .container-svg {
@@ -132,6 +155,12 @@ svg {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+  .homepage .header-space{
+    margin: 2rem 0;
+  }
+  .card-margin {
+    margin: 1.5rem 2rem;
   }
 }
 
