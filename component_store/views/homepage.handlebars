@@ -1,16 +1,17 @@
 
     <div class="homePage">
-        <div>
-            <img class="mt-5 flipAnimation" src="images/component_store.png" alt="Componento logo" width="150">
+        <div style="margin: 4rem 0;">
+            <img class="my-5 flipAnimation" src="images/component_store.png" alt="Componento logo" width="150">
         </div>
         {{!-- <p class="wordAnimation">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae ut repellat tempore ratione excepturi distinctio nam voluptate at, sint molestiae provident nesciunt voluptatem dolore architecto quos tenetur quisquam aliquid assumenda ipsum cupiditate modi dolores labore possimus reiciendis! Ipsa, dignissimos illum.</p> --}}
 
-        <div class="card p-3" style="margin: 30px 60px;">
-            <div class="d-flex flex-column flex-md-row">
-                <div class="col-12 col-md-6">
-                    <img class="graphicImg" src="/images/componento_graphic.png" alt="componento_graphic">
+
+        <div class="card p-3 p-sm-5" style="margin: 3rem 3.5rem;">
+            <div class="d-flex flex-column flex-lg-row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <img class="graphicImg" src="/images/component-store-overview5.png" alt="componento_graphic">
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6 mt-lg-0 mt-4">
                         <h2>How Componento works</h2>
                         <span>The Componento store is the central hub between product providers and their distribution partners. It works in a similar way to an app store. However, our store does not provide mobile apps, but "web components" that are integrated into the vendors' websites via standardized mechanisms - worldwide and scalable as desired. <br>
                         Develop once, deploy everywhere. Once you've developed a component and deployed it to the Componento store, it can be included in any website. When you deploy a new version of your component, it is automatically updated in all websites.<br>
@@ -67,8 +68,8 @@
                 <div class="row align-items-center">
                     <div class="col-sm-6">
                         <div class="d-flex flex-column justify-content-center align-items-center mt-lg-4">
-                        <h1 class="">Welcome to the component store!</h1>
-                        <h5>It's where you find the missing piece for your website.</h5>
+                        <h1 class="">Welcome!</h1> {{!-- to the component store! --}}
+                        <h5>Here you find the missing piece for your website.</h5>
                         <p class="mt-2 d-none d-md-block">In this store you can find webcomponents, with completly different functionality and purposes to integrate into your websites.<br>
                             But if you are a company, who wants to make their service available to the whole world, when the component store is also the right place for you.
                         </p>
@@ -77,7 +78,10 @@
                     </div>
                     <div class="col-6 d-none d-sm-block">
                         <div class="d-flex flex-column align-items-center">
-                            <img src="/images/white-jigsaw-puzzle-pieces-pink.jpg" class="img-fluid rounded mb-2 img-w-75" alt="Image by jcomp on Freepik">
+                            <img src="/images/white-jigsaw-puzzle-pieces-bw.png" class="img-fluid rounded mb-2 img-w-75" alt="Image by jcomp on Freepik">
+                            <div>
+                                <a class="text-light" href="https://www.freepik.com/free-photo/white-jigsaw-puzzle-pieces-pink_5507775.htm#query=jigsaw%20pieces&position=49&from_view=search&track=sph">Image by jcomp</a> on Freepik
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,16 +92,20 @@
         <div class="container">
             <div class="d-block d-sm-none">
                 <div class="d-flex flex-column align-items-center">
-                    <img src="/images/white-jigsaw-puzzle-pieces-pink.jpg" class="img-fluid rounded mb-2 img-w-75" alt="Image by jcomp on Freepik">
+                    <img src="/images/white-jigsaw-puzzle-pieces-bw.png" class="img-fluid rounded mb-2 img-w-75" alt="Image by jcomp on Freepik">
+                    <div>
+                        <a class="" href="https://www.freepik.com/free-photo/white-jigsaw-puzzle-pieces-pink_5507775.htm#query=jigsaw%20pieces&position=49&from_view=search&track=sph">Image by jcomp</a> on Freepik
+                    </div>
                 </div>
             </div>
-            <p class="mt-2 d-md-none d-block">In this store you can find webcomponents, with completly different functionality and purposes to integrate into your websites.<br>
+            <p class="mt-3 d-md-none d-block">In this store you can find webcomponents, with completly different functionality and purposes to integrate into your websites.<br>
                 But if you are a company, who wants to make their service available to the whole world, when the component store is also the right place for you.
             </p>
-            {{!-- how does it work --}}
+            
+            {{!-- how does it work 
             <div class="row mt-5 mt-lg-0 ">
                 <div class="col-md-8 col-lg-6 p-3">
-                    <img class="img-fluid" src="/images/component-store-overview.png" alt="picture of webstore and connection with reseller and provider">
+                    <img class="img-fluid" src="/images/component-store-overview5.png" alt="picture of webstore and connection with reseller and provider">
                 </div>
                 <div class="col-md-12 col-lg-6 p-3">
                     <h5>How does it work</h5>
@@ -109,16 +117,19 @@
                     Integrate your service into a component and you are ready for all the websites outwhere.
                     </p>
                 </div>
-            </div>
+            </div>--}}
 
             {{!-- short introduction to web components --}}
-            <div class="row mt-5 border-top">
+            <div class="row mt-5 "> {{!-- border-top --}}
+                <div class="col-md-8 col-lg-6 p-3 d-flex justify-content-center">
+                    <img class="img-fluid img-w-60" alt="picture of code" src="/images/undraw_programmer2.svg">
+                </div>
                 <div class="col-md-12 col-lg-6 p-3 pt-5 ">
                     <h5>Short introduction to web components</h5>
                     <p> 
                     A web component is a piece of javascript code for which you can define your own html-tag. 
                     The html-tag can be integrated anywhere you need it. One example for a web component you see in daily life,
-                    without realising it, is the embedding of videos.
+                    is the embedding of videos.
                     You can find some code examples and how to write web components in the following links:
                     </p>
                     <ul>
@@ -132,9 +143,6 @@
                             <a href="https://www.thinktecture.com/en/web-components/native-web-components-without-framework/">a good intro to web components by thinktecture</a>
                         </li>
                     </ul>
-                </div>
-                <div class="col-md-8 col-lg-6 p-3 d-flex justify-content-center">
-                    <img class="img-fluid img-w-60" alt="picture of code" src="/images/undraw_programmer.svg">
                 </div>
             </div>
         </div>
