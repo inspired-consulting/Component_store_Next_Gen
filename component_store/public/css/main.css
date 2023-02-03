@@ -7,13 +7,18 @@ body {
   font-family: 'RedHatDisplay';
   color: rgb(82,149,168) !important;
 }
+.navbar-light .navbar-nav .nav-link {
+  color: #000
+}
+
 .navbar-brand:hover, 
+.activeNavLink .active,
 .nav-item a:hover {
-  color: rgb(63,98,170)!important;
+  color: white!important;
 }
 
 a:hover {
-    color: rgb(82,149,168) !important;
+  color: #000!important;
 }
 
 h3,
@@ -22,13 +27,13 @@ text-primary,
 .card-link,
 .card-title,
 a {
-    color: rgb(74,119,175);
+    color: rgb(74,119,175)!important;
 }
 
-.btn-outline-primary {
+/* .btn-outline-primary {
     color: rgb(78,136,171);
     border-color: rgb(78,136,171);
-}
+} */
 
 .btn-primary_custom,
 .btn-outline-primary:hover{
@@ -48,7 +53,6 @@ a {
   margin-bottom: 2px;
 }
 .bg-light {
-  /* background-color: rgb(191,215,222) !important; */
   background-color: rgb(78 136 171 / 67%) !important;
   background-image: url(/images/overlay2.png), url(/images/overlay3.svg), linear-gradient(45deg, #9dc66b 5%, #4fa49a 30%, #4361c2);
   background-size: auto, cover, cover;
@@ -56,9 +60,8 @@ a {
 
 /* TABLE OLDER VERSION */
 .table .thead-dark th {
-    color: #fff;
-    /* background-color: #2a2a49; */
-    background-color:rgb(66,105,171)
+  color: #fff;
+  background-color:rgb(66,105,171)
 }
 
 
