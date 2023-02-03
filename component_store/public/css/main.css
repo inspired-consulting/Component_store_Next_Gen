@@ -7,13 +7,16 @@ body {
   font-family: 'RedHatDisplay';
   color: rgb(82,149,168) !important;
 }
+
+.navbar-brand,
 .navbar-light .navbar-nav .nav-link,
-.activeNavLink .nav-link{
+.activeNavLink .nav-link {
   color: #000!important
 }
 
 .navbar-brand:hover, 
-.activeNavLink a:hover{
+.activeNavLink .nav-link.active,
+.activeNavLink .nav-link:hover{
   color: white !important;
 }
 
@@ -35,8 +38,7 @@ a {
     border-color: rgb(78,136,171);
 } */
 
-.btn-primary_custom,
-.btn-outline-primary:hover{
+.btn-primary_custom {
     color: #fff !important;
     background-color: rgb(78,136,171) !important;
     border-color: rgb(78,136,171) !important;
@@ -131,6 +133,9 @@ svg {
   border-color: rgb(78,136,171);
 }
 
+.customSorting .page-link:hover {
+  color: black !important;
+}
 .customSorting .page-link {
   font-size: 1.1rem;
 }
