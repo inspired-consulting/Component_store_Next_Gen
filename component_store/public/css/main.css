@@ -70,14 +70,14 @@ h3{
 }
 
 /* TABLE OLDER VERSION */
-.table .thead-dark th {
+.table th {
   color: #fff;
   background-color:rgb(66,105,171)
 }
 
 
 .table {
-  color: rgb(82,149,168) !important;;
+  color: rgb(82,149,168) !important;
 }
 
 /* image max width for responsive imgs*/

@@ -1,5 +1,9 @@
 <div class="container mt-5 mb-5">
-    <h3 class="mt-5 mb-4">Your Component</h3>
+    <h3 class="mt-5 mb-2">Your Component</h3>
+
+    <div class="mb-3 d-flex justify-content-start justify-content-sm-end">
+        <a href="/upload/update"><button type="submit" class="btn btn-primary_custom mt-2" id="submitBtn">Update component</button></a>
+    </div>
 
     <dl class="row">
         <dt class="col-3">Component Name :</dt>
@@ -18,7 +22,7 @@
     {{#if olderversions}}
     <h3 class="mt-4 mb-3">Older Versions:</h3>
     <table class="table table-hover">
-        <thead class="thead-dark">
+        <thead class="">
             <tr>
                 <th scope="col">Version</th>
                 <th scope="col">Link</th>
