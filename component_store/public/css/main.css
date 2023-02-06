@@ -196,7 +196,6 @@ svg {
 }
 
 /* PAGINATION */
-
   .pagination .row {
     align-items: center;
     justify-content: center;
@@ -276,12 +275,12 @@ svg {
     color: rgb(74,119,175);
   }
 
-  #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg {
+  #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg, #publisherErrorMsg {
     position: absolute;
   }
 
   @media (max-width: 480px) {
-    #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg {
+    #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg, #publisherErrorMsg {
       font-size: 12px;
       line-height: 12px;
     }
@@ -299,49 +298,6 @@ svg {
   }
 
   /* Home page text */
-  .homePage .wordAnimation{
-    color: white;
-    font-size: 18px;
-    margin: 2em 200px 1em 200px;
-  }
-
-  .homePage .p{
-    color: white;
-    font-size: 18px;
-  }
-  @media (max-width: 850px) {
-    .homePage .wordAnimation {
-      margin: 2em 100px;
-    }
-  }
-  @media (max-width: 450px) {
-    .homePage .wordAnimation{
-      font-size: 16px;
-      margin: 2em 50px;
-    }
-  }
-
-.wordAnimation {
-  min-height: 150px; 
-  animation: 5s animation_wordsup ease-out ;
-}
- @keyframes animation_wordsup {
-  0% {
-    opacity: 0;
-    transform: translateY(80%);
-  }
-  20% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
-
 .flipAnimation {
   animation-name: spin, depth;
   animation-timing-function: linear;
@@ -374,60 +330,11 @@ svg {
   }
 }
 
-.blink {
-  animation:5s blinker ease-out ;
-  
-}
-@keyframes blinker {  
-  0% { opacity: 0; }
-  50% { opacity: 0; }
-  100% { opacity: 1.0; }
-}
-
-.homeImg {
-  width: 150px;
-  height: 180px;
-}
-
 .graphicImg{
   max-width: 90%;
 }
 @media (max-width: 650px) {
   .graphicImg {
     max-width: 100%;
-  }
-}
-
-.pop-outin {
-  animation: 6s anim-popoutin ease;
-}
-
-@keyframes anim-popoutin {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-
-  }
-  25% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    /* animate nothing to add pause at the end of animation */
-    transform: scale(1);
-    opacity: 1;
-   
-  }
-}
-
-.fromtop {
-  animation: 6s anim-fromtop linear ;
-}
-@keyframes anim-fromtop {
-  0% { opacity: 0; transform: translateY(-100%);}
-  25% { opacity: 1; transform: translateY(0%);}
-  50% {
-  }
-  100% {
   }
 }
