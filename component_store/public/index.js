@@ -40,19 +40,15 @@ const checkExists = (e) => {
             validationMsg('#versionMsg', '', 'Error')
             if (response.ok) {
                 validationMsg('#componentMsg', 'This value already exist, please choose another.', 'Error')
-                // validationMsg('#versionMsg', '', 'Error')
                 isComponentNameOk = false
             } else {
                 validationMsg('#componentMsg', 'This name is available.', 'Success')
-                // validationMsg('#versionMsg', '', 'Error')
                 isComponentNameOk = true;
                 if (componentName.length <= 0) {
                     validationMsg('#componentMsg', '', 'Success')
-                    // validationMsg('#versionMsg', '', 'Error')
                     isComponentNameOk = false;
                 } else {
                     componentNameValidation(componentName);
-                    // validationMsg('#versionMsg', '', 'Error')
                 }
             }
             enableUpload();
@@ -80,27 +76,19 @@ if (submitBtn) {
     uploadFile.addEventListener('keyup', function (e) {
         const requiredInputs = document.querySelectorAll('input[required]')
         const inputVersion = document.querySelector('#inputVersion').value;
+        const publisher = document.querySelector('#publisher').value;
         const requiredInputsArray = Array.from(requiredInputs);
         isRequiredOk = true;
-        // eslint-disable-next-line array-callback-return
-        // requiredInputsArray.every(input => {
-        //     console.log('input##', input);
-        //     if (input.value === '' || !input.value.replace(/\s/g, '').length) {
-        //         isRequiredOk = false;
-        //         return false;
-        //     } else {
-        //         return true;
-        //     }
-        // })
 
         requiredInputsArray.forEach(input => {
-            console.log('input####', input.value);
             validationMsg('#versionMsg', '', 'Error')
             if (input.value === '' || !input.value.replace(/\s/g, '').length) {
+                if (publisher) {
+                    validationMsg('#publisherErrorMsg', 'Please use the correct way!', 'Error')
+                } else {
+                    validationMsg('#publisherErrorMsg', '', 'Error')
+                }
                 isRequiredOk = false;
-                return false;
-            } else {
-                return true;
             }
         })
 
@@ -128,16 +116,17 @@ function componentNameValidation (val) {
         validationMsg('#componentMsg', 'Please use only lowecase and hypens to seperate the words.', 'Error')
         isComponentNameOk = false;
     }
-    enableUpload();
+    // enableUpload();
 }
 
+// validates regex on Version input value and return true if passed.
 function symenticVersionValidation (val) {
-    // const regexStr = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
     const regexStr = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
     const result = regexStr.test(val)
-    return result; // validates regex on Version input value and return true if passed.
+    return result;
 }
 
+// validation error messages based on Id
 function validationMsg (id, msg, type) {
     document.querySelector(id).innerHTML = msg;
     if (type === 'Success') {
