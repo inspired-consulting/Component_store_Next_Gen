@@ -275,12 +275,14 @@ svg {
     color: rgb(74,119,175);
   }
 
-  #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg, #publisherErrorMsg {
+  #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg, #publisherErrorMsg,
+  #updateVersionMsg, #updateFileUploadMsg, #updatePublisherMsg, #updateComponentBtnMsg {
     position: absolute;
   }
 
   @media (max-width: 480px) {
-    #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg, #publisherErrorMsg {
+    #componentMsg, #versionMsg, #fileUploadMsg, #buttonMsg, #publisherErrorMsg,
+    #updateVersionMsg, #updateFileUploadMsg, #updatePublisherMsg, #updateComponentBtnMsg {
       font-size: 12px;
       line-height: 12px;
     }

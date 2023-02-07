@@ -146,9 +146,13 @@ function enableUpload () {
     }
 }
 
+// For checking if component exist for update purpose
 const componentSubmitBtn = document.querySelector('#componentSubmitBtn')
 let isUpdateComponentNameOk = false;
-validationMsg('#componentBtnMsg', 'Please fill the existing component names only !', 'Error')
+if (componentSubmitBtn) {
+    validationMsg('#componentBtnMsg', 'Please fill the existing component names only !', 'Error')
+}
+
 const checkExists2 = (e) => {
     const source = e.target || e.srcElement;
     console.log('source from UPDATE##', source.name, source.value);
@@ -157,7 +161,7 @@ const checkExists2 = (e) => {
     fetch(myRequest)
         .then((response) => {
             if (response.ok) {
-                validationMsg('#updateComponentMsg', 'This  name exist.', 'Success')
+                validationMsg('#updateComponentMsg', 'This name exist.', 'Success')
                 isUpdateComponentNameOk = true
             } else {
                 validationMsg('#updateComponentMsg', 'This name do not exists.', 'Error')
@@ -174,4 +178,71 @@ const checkExists2 = (e) => {
         })
 }
 
-document.querySelector('#componentName').addEventListener('keyup', checkExists2)
+// For updating the component
+
+if (componentSubmitBtn) {
+    document.querySelector('#componentName').addEventListener('keyup', checkExists2)
+}
+
+function enableUpdate () {
+    if (Boolean(isVersionOk) && Boolean(isRequiredOk) && Boolean(isUploadOk)) {
+        updateComponentBtn.removeAttribute('disabled');
+        document.querySelector('#updateComponentBtnMsg').innerHTML = '';
+    } else {
+        updateComponentBtn.setAttribute('disabled', 'disabled');
+        document.querySelector('#updateComponentBtnMsg').innerHTML = 'Please note that all fields marked with * are required !';
+    }
+}
+
+const updateComponentBtn = document.querySelector('#updateComponentBtn')
+const updateUploadFile = document.querySelector('#updateUploadFile')
+
+if (updateComponentBtn) {
+    enableUpdate();
+}
+if (updateComponentBtn) {
+    updateUploadFile.addEventListener('keyup', function (e) {
+        const requiredInputs = document.querySelectorAll('input[required]')
+        const updateInputVersion = document.querySelector('#updateInputVersion').value;
+        const updatePublisher = document.querySelector('#updatePublisher').value;
+        const requiredInputsArray = Array.from(requiredInputs);
+        isRequiredOk = true;
+
+        requiredInputsArray.forEach(input => {
+            validationMsg('#updateVersionMsg', '', 'Error')
+            if (input.value === '' || !input.value.replace(/\s/g, '').length) {
+                if (updatePublisher) {
+                    validationMsg('#updatePublisherMsg', 'Please fill the value!', 'Error')
+                } else {
+                    validationMsg('#updatePublisherMsg', '', 'Error')
+                }
+                isRequiredOk = false;
+            }
+        })
+
+        // check if version is valid
+        if (updateInputVersion) {
+            if (!symenticVersionValidation(updateInputVersion) || (updateInputVersion.length <= 0)) {
+                isVersionOk = false;
+                validationMsg('#updateVersionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0', 'Error')
+            } else {
+                isVersionOk = true;
+                validationMsg('#updateVersionMsg', '', 'Error')
+            }
+        }
+
+        enableUpdate();
+    })
+}
+// eslint-disable-next-line no-undef
+$('#updateFileUpload').change(function () {
+    // eslint-disable-next-line no-undef
+    if ($(this).val() === '') {
+        isUploadOk = false;
+        validationMsg('#updateFileUploadMsg', 'Please select the file.', 'Error')
+    } else {
+        isUploadOk = true;
+        validationMsg('#updateFileUploadMsg', '', 'Error')
+    }
+    enableUpdate();
+});

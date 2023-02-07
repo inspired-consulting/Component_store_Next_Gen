@@ -46,7 +46,7 @@ async function addToDB (inputdata, existingComponentName) {
         const loadedcomponentData = JSON.parse(awaitfile);
         const file = loadedcomponentData.component;
 
-        // insert data under ceratin preconditions
+        // insert data under certain preconditions
         if (checkName.rows.length > 0 && checkUpdatedVersion.rows.length === 0) {
             console.log('Name existiert schon, Version noch nicht, componentId: ' + checkName.rows[0].id);
             const updatedComponent = await pool.query(updateComponent, [uuidv4(), checkName.rows[0].id, inputdata.updateInputVersion, inputdata.updateInformation, file, inputdata.publisher]);
@@ -103,29 +103,6 @@ async function addToDB (inputdata, existingComponentName) {
 //                 return reject(new InvalidResetError('versiondata could not be created'))
 //             }
 //             resolve(result.rows[0].id)
-//         })
-//     })
-// }
-
-// const getComponentNameAndVersionById = (id) => {
-//     const pool = pgpool.getPool();
-//     return new Promise((resolve, reject) => {
-//         pool.query(`
-//         SELECT
-//             c.name,
-//             cv.version,
-//             cv.information,
-//             cv.entry_file
-//         FROM
-//             component c
-//             LEFT JOIN component_version cv ON cv.component_id = c.id
-//         WHERE
-//             c.id = $1;`, [id], (err, result) => {
-//             if (err) {
-//                 reject(err)
-//             } else {
-//                 resolve(result.rows);
-//             }
 //         })
 //     })
 // }
