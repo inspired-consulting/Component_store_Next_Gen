@@ -13,15 +13,22 @@ router.get('/', (req, res) => {
 
 router.get('/update', (req, res) => {
     const componentName = req.query.componentName
-
-    component.findComponents('name', componentName)
-        .then((rows) => {
-            // console.log('rows from update##', rows);
-            res.render('updateComponent', {
-                url: '/upload/update',
-                componentName
+    if (componentName) {
+        component.getComponentDetailsByName(componentName)
+            .then((rows) => {
+                const existingComponent = rows[0];
+                res.render('updateComponent', {
+                    url: '/upload/update',
+                    componentName,
+                    existingComponent
+                })
             })
+    } else {
+        res.render('updateComponent', {
+            url: '/upload/update',
+            componentName
         })
+    }
 });
 
 router.post('/update/:componentName', (req, res, next) => {

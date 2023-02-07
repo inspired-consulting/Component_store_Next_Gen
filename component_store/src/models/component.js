@@ -37,6 +37,30 @@ const createComponent = (data) => {
     })
 }
 
+const getComponentDetailsByName = (name) => {
+    const pool = pgpool.getPool();
+    return new Promise((resolve, reject) => {
+        pool.query(`
+        SELECT
+            c.name,
+            c.website,
+            cv.version,
+            cv.information,
+            cv.publisher
+        FROM
+            component c
+            LEFT JOIN component_version cv ON cv.component_id = c.id
+        WHERE
+            c.name = $1
+        ORDER BY cv.version DESC;`, [name], (err, result) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(result.rows);
+            }
+        })
+    })
+}
 const readFromDB = (name) => {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
@@ -93,5 +117,6 @@ module.exports = {
     readFromDB,
     findComponents,
     createComponent,
-    listComponents
+    listComponents,
+    getComponentDetailsByName
 }

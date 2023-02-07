@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
             listComponents(config.COMPONENTS_LIMIT_PER_PAGE, offset, 'abc', 'name', 'asc')
                 .then(rows => {
                     const components = rows.result;
-                    console.log('components##', components);
                     const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, rows.count);
                     res.render('componentList', {
                         url: '/componentlist',
@@ -62,7 +61,6 @@ router.get('/', (req, res) => {
         listComponents(config.COMPONENTS_LIMIT_PER_PAGE, offset, req.query, 'id', 'asc')
             .then(rows => {
                 const components = rows.result;
-                console.log('component##', components);
                 const count = rows.count;
                 const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, count);
                 res.render('componentList', {
