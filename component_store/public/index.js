@@ -200,40 +200,12 @@ const updateUploadFile = document.querySelector('#updateUploadFile')
 if (updateComponentBtn) {
     enableUpdate();
 }
+
 if (updateComponentBtn) {
-    updateUploadFile.addEventListener('keyup', function (e) {
-        const requiredInputs = document.querySelectorAll('input[required]')
-        const updateInputVersion = document.querySelector('#updateInputVersion').value;
-        const updatePublisher = document.querySelector('#updatePublisher').value;
-        const requiredInputsArray = Array.from(requiredInputs);
-        isRequiredOk = true;
-
-        requiredInputsArray.forEach(input => {
-            validationMsg('#updateVersionMsg', '', 'Error')
-            if (input.value === '' || !input.value.replace(/\s/g, '').length) {
-                if (updatePublisher) {
-                    validationMsg('#updatePublisherMsg', 'Please fill the value!', 'Error')
-                } else {
-                    validationMsg('#updatePublisherMsg', '', 'Error')
-                }
-                isRequiredOk = false;
-            }
-        })
-
-        // check if version is valid
-        if (updateInputVersion) {
-            if (!symenticVersionValidation(updateInputVersion) || (updateInputVersion.length <= 0)) {
-                isVersionOk = false;
-                validationMsg('#updateVersionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0', 'Error')
-            } else {
-                isVersionOk = true;
-                validationMsg('#updateVersionMsg', '', 'Error')
-            }
-        }
-
-        enableUpdate();
-    })
+    updateUploadFile.addEventListener('change', validateInputUpdate, false);
+    updateUploadFile.addEventListener('keyup', validateInputUpdate, false);
 }
+
 // eslint-disable-next-line no-undef
 $('#updateFileUpload').change(function () {
     // eslint-disable-next-line no-undef
@@ -246,3 +218,37 @@ $('#updateFileUpload').change(function () {
     }
     enableUpdate();
 });
+
+function validateInputUpdate () {
+    const requiredInputs = document.querySelectorAll('input[required]')
+    const updateInputVersion = document.querySelector('#updateInputVersion').value;
+    const updatePublisher = document.querySelector('#updatePublisher').value;
+    const requiredInputsArray = Array.from(requiredInputs);
+    const regspace = /\s/g;
+    isRequiredOk = true;
+
+    requiredInputsArray.forEach(input => {
+        validationMsg('#updateVersionMsg', '', 'Error')
+        if (input.value === '' || !input.value.replace(/\s/g, '').length) {
+            if (updatePublisher.replaceAll(regspace, '') === '') {
+                validationMsg('#updatePublisherMsg', 'Please fill the value!', 'Error')
+            } else {
+                validationMsg('#updatePublisherMsg', '', 'Error')
+            }
+            isRequiredOk = false;
+        }
+    })
+
+    // check if version is valid
+    if (updateInputVersion) {
+        if (!symenticVersionValidation(updateInputVersion) || (updateInputVersion.length <= 0)) {
+            isVersionOk = false;
+            validationMsg('#updateVersionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0', 'Error')
+        } else {
+            isVersionOk = true;
+            validationMsg('#updateVersionMsg', '', 'Error')
+        }
+    }
+
+    enableUpdate();
+}

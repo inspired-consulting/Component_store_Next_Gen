@@ -6,9 +6,9 @@
     {{else}}
     
 
-     <div class="container mt-5 mb-5">
+    <div class="container mt-5 mb-5">
         <h3 class="mb-4">Update component detail for <strong>"{{componentName}}"</strong></h3>
-        <form method='post' action='/upload/update/{{componentName}}' enctype="multipart/form-data" id="updateUploadFile">
+        <form method='post' action='/upload/update/{{componentName}}' enctype="multipart/form-data" id="updateUploadFile" autocomplete="off">
             <div class="row mt-2">
                 <div class="col">
                     <div class="form-group">
@@ -50,7 +50,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="updatePublisher">Publisher*:</label>
-                        <input type="text" class="form-control" id="updatePublisher" name="publisher" value="" required>
+                        <input type="text" class="form-control" id="updatePublisher" name="publisher" value="{{existingComponent.publisher}}" required>
                         <div class="col-sm-12 pl-0" id="updatePublisherMsg"></div>
                     </div>
                 </div>
