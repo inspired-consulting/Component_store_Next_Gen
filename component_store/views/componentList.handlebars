@@ -5,7 +5,7 @@
         <nav class="filter">
             {{#unless components}}
                 <div class="alert alert-info mr-1" role="alert">
-                    Component <strong class="">"{{query}}"</strong> doesn't exists. Please try another component.
+                    Component <strong style="color:black">{{#if query}}{{query}}{{else}}{{/if}}</strong> doesn't exists.
                 </div>
             {{/unless}}
 

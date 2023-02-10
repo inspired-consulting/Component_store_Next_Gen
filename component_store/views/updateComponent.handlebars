@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label for="updateInputVersion">Version*:</label>
                         <input type="text" class="form-control" id="updateInputVersion" name="updateInputVersion" value="" required>
-                        <small class="text-muted">your current version is <strong class="text-dark">{{existingComponent.version}}</strong> Please use version above this value</small>
+                        <span class="text-muted ">Your current version is <strong class="text-dark" id="currentVersion"> {{existingComponent.version}}</strong> Please use version above this value</span>
                         <div class="col-sm-12 pl-0 " id="updateVersionMsg"></div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="updatePublisher">Publisher*:</label>
-                        <input type="text" class="form-control" id="updatePublisher" name="publisher" value="" required>
+                        <input type="text" class="form-control" id="updatePublisher" name="publisher" value="{{existingComponent.publisher}}" required>
                         <div class="col-sm-12 pl-0" id="updatePublisherMsg"></div>
                     </div>
                 </div>

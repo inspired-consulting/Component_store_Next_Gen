@@ -82,6 +82,7 @@ if (submitBtn) {
 
         requiredInputsArray.forEach(input => {
             validationMsg('#versionMsg', '', 'Error')
+            validationMsg('#publisherErrorMsg', '', 'Error')
             if (input.value === '' || !input.value.replace(/\s/g, '').length) {
                 if (publisher) {
                     validationMsg('#publisherErrorMsg', 'Please use the correct way!', 'Error')
@@ -109,11 +110,13 @@ if (submitBtn) {
 
 // check if component name is valid
 function componentNameValidation (val) {
-    const regexStr = /^[a-z0-9\d-]*$/;
+    const regexStr = /^[a-z][a-z0-9\d-]*$/;
+
+    // const regexStr = /([a-z][a-z0-9 ])/
     if (regexStr.test(val)) {
         isComponentNameOk = true;
     } else {
-        validationMsg('#componentMsg', 'Please use only lowecase and hypens to seperate the words.', 'Error')
+        validationMsg('#componentMsg', 'Please start with lowercase optional with numbers and hypens to seperate the words.', 'Error')
         isComponentNameOk = false;
     }
     // enableUpload();
@@ -153,7 +156,7 @@ if (componentSubmitBtn) {
     validationMsg('#componentBtnMsg', 'Please fill the existing component names only !', 'Error')
 }
 
-const checkExists2 = (e) => {
+const checkExistsUpdateComponent = (e) => {
     const source = e.target || e.srcElement;
     console.log('source from UPDATE##', source.name, source.value);
     const url = '/api/exists/' + source.name + '/' + source.value;
@@ -181,7 +184,7 @@ const checkExists2 = (e) => {
 // For updating the component
 
 if (componentSubmitBtn) {
-    document.querySelector('#componentName').addEventListener('keyup', checkExists2)
+    document.querySelector('#componentName').addEventListener('keyup', checkExistsUpdateComponent)
 }
 
 function enableUpdate () {
@@ -200,40 +203,12 @@ const updateUploadFile = document.querySelector('#updateUploadFile')
 if (updateComponentBtn) {
     enableUpdate();
 }
+
 if (updateComponentBtn) {
-    updateUploadFile.addEventListener('keyup', function (e) {
-        const requiredInputs = document.querySelectorAll('input[required]')
-        const updateInputVersion = document.querySelector('#updateInputVersion').value;
-        const updatePublisher = document.querySelector('#updatePublisher').value;
-        const requiredInputsArray = Array.from(requiredInputs);
-        isRequiredOk = true;
-
-        requiredInputsArray.forEach(input => {
-            validationMsg('#updateVersionMsg', '', 'Error')
-            if (input.value === '' || !input.value.replace(/\s/g, '').length) {
-                if (updatePublisher) {
-                    validationMsg('#updatePublisherMsg', 'Please fill the value!', 'Error')
-                } else {
-                    validationMsg('#updatePublisherMsg', '', 'Error')
-                }
-                isRequiredOk = false;
-            }
-        })
-
-        // check if version is valid
-        if (updateInputVersion) {
-            if (!symenticVersionValidation(updateInputVersion) || (updateInputVersion.length <= 0)) {
-                isVersionOk = false;
-                validationMsg('#updateVersionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0', 'Error')
-            } else {
-                isVersionOk = true;
-                validationMsg('#updateVersionMsg', '', 'Error')
-            }
-        }
-
-        enableUpdate();
-    })
+    updateUploadFile.addEventListener('change', validateInputUpdate, false);
+    updateUploadFile.addEventListener('keyup', validateInputUpdate, false);
 }
+
 // eslint-disable-next-line no-undef
 $('#updateFileUpload').change(function () {
     // eslint-disable-next-line no-undef
@@ -246,3 +221,55 @@ $('#updateFileUpload').change(function () {
     }
     enableUpdate();
 });
+
+function validateInputUpdate () {
+    const requiredInputs = document.querySelectorAll('input[required]')
+    const updateInputVersion = document.querySelector('#updateInputVersion').value;
+    const updatePublisher = document.querySelector('#updatePublisher').value;
+    const currentVersion = document.querySelector('#currentVersion').childNodes[0].data;
+    const requiredInputsArray = Array.from(requiredInputs);
+    isRequiredOk = true;
+
+    requiredInputsArray.forEach(input => {
+        validationMsg('#updateVersionMsg', '', 'Error')
+        validationMsg('#updatePublisherMsg', '', 'Error')
+        if (input.value === '' || !input.value.replace(/\s/g, '').length) {
+            if (updatePublisher) {
+                validationMsg('#updatePublisherMsg', 'Please fill the value!', 'Error')
+            } else {
+                validationMsg('#updatePublisherMsg', '', 'Error')
+            }
+            isRequiredOk = false;
+        }
+    })
+
+    // check if version is valid
+    if (updateInputVersion) {
+        if (!symenticVersionValidation(updateInputVersion) || (updateInputVersion.length <= 0)) {
+            isVersionOk = false;
+            validationMsg('#updateVersionMsg', 'Please use sementic version with digits follwed by dot eg: 1.0.0', 'Error')
+        } else if (!isNewerVersion(currentVersion, updateInputVersion)) {
+            isVersionOk = false;
+            validationMsg('#updateVersionMsg', 'Please use higher version than the current version', 'Error')
+        } else {
+            isVersionOk = true;
+            validationMsg('#updateVersionMsg', '', 'Error')
+        }
+    }
+
+    // function to compare the versions
+    function isNewerVersion (oldVer, newVer) {
+        console.log('oldVer,', oldVer, ' newVer', newVer);
+        const oldParts = oldVer.split('.')
+        const newParts = newVer.split('.')
+        for (let i = 0; i < newParts.length; i++) {
+            const a = ~~newParts[i] // parse int
+            const b = ~~oldParts[i] // parse int
+            if (a > b) return true
+            if (a < b) return false
+        }
+        return false
+    }
+
+    enableUpdate();
+}
