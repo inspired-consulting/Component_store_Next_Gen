@@ -9,7 +9,7 @@ const hbs = expressHandlebars.create(templateHelper.getHandlebarHelpers());
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 app.use(cors());
-const port = process.env.PORT || '8383';
+const port = process.env.PORT || '3000';
 
 app.use(express.json())
 app.engine('handlebars', hbs.engine);

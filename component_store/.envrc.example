@@ -1,0 +1,6 @@
+export PORT=9000
+export DB_HOST=127.0.0.1
+export DB_PORT=25443
+export DB_DATABASE=componentstore
+export DB_USER=postgres
+export DB_PASS=password
