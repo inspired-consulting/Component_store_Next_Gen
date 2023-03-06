@@ -1,0 +1,21 @@
+version: "3.5"
+
+services:
+
+  postgres:
+    image: postgres:14.7-bullseye
+    container_name: componento_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_DATABASE}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "25443:5432"
+# uncomment for sql debug
+    command:
+      ["postgres", "-c", "log_statement=Mod"]
+volumes: 
+  pgdata:
