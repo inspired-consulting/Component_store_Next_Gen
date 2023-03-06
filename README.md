@@ -19,6 +19,7 @@ Afterwards perform a `direnv allow .` in your root folder.
 
 ```bash
 docker-compose pull
+docker build -t componento:1.0 .
 docker-compose up
 
 
