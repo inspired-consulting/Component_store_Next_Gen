@@ -23,6 +23,8 @@ const componentDetails = require('./routes/componentDetails');
 const apiRouter = require('./routes/api');
 const componentList = require('./routes/componentlist');
 
+const logger = require('../logger/select-logger');
+
 app.use(fileUpload());
 app.use('/upload', uploadsRouter);
 app.use('/api', apiRouter);
@@ -30,11 +32,12 @@ app.use('/componentDetails', componentDetails);
 app.use('/componentlist', componentList);
 
 app.get('/', (req, res) => {
+    logger.info('homepage requested');
     res.render('homepage', {
         url: '/'
     })
 })
 
 app.listen(port, () => {
-    console.log(`Server listening on Port: ${port}`)
+    logger.info(`Server listening on Port: ${port}`);
 })

@@ -1,0 +1,20 @@
+const { createLogger, format, transports } = require('winston');
+const { combine, timestamp, errors, json, prettyPrint } = format;
+
+function buildProdLogger () {
+    return createLogger({
+        level: 'info',
+        format: combine(
+            timestamp(),
+            errors({ stack: true }),
+            json(),
+            prettyPrint()
+        ),
+        defaultMeta: { service: 'user-service' },
+        transports: [
+            new transports.Console()
+        ]
+    });
+}
+
+module.exports = buildProdLogger();
