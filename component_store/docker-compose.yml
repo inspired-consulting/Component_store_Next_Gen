@@ -6,14 +6,14 @@ services:
     image: postgres:14.7-bullseye
     container_name: componento_db
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER:-componento}
+      POSTGRES_PASSWORD: ${DB_PASS:-secret}
+      POSTGRES_DB: ${DB_DATABASE:-componentstore}
       PGDATA: /var/lib/postgresql/data
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "25443:5432"
+      - "${DB_PORT:-5432}:5432"
 # uncomment for sql debug
     command:
       ["postgres", "-c", "log_statement=Mod"]
