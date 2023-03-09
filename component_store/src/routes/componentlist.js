@@ -4,6 +4,7 @@ const router = express.Router();
 const helper = require('../helpers/helper');
 const Configuration = require('../../config/config');
 const config = Configuration.load();
+const logger = require('../../logger/select-logger');
 
 router.get('/', (req, res) => {
     const offset = req.query.offset || '0';
@@ -30,7 +31,10 @@ router.get('/', (req, res) => {
                         offset: search.offset
                     })
                 }).catch(err => {
-                    if (err) return res.status(500).send(err);
+                    if (err) {
+                        logger.error('component list items failed to load - sorting abc ' + err);
+                        return res.status(500).send(err);
+                    }
                     return err;
                 })
             break;
@@ -53,7 +57,10 @@ router.get('/', (req, res) => {
                         offset: search.offset
                     })
                 }).catch(err => {
-                    if (err) return res.status(500).send(err);
+                    if (err) {
+                        logger.error('component list items failed to load - sorting new ' + err);
+                        return res.status(500).send(err);
+                    }
                     return err;
                 })
         }
@@ -77,7 +84,10 @@ router.get('/', (req, res) => {
                     offset: search.offset
                 })
             }).catch(err => {
-                if (err) return res.status(500).send(err);
+                if (err) {
+                    logger.error('component list items failed to load ' + err);
+                    return res.status(500).send(err);
+                }
                 return err;
             })
     }

@@ -32,7 +32,7 @@ app.use('/componentDetails', componentDetails);
 app.use('/componentlist', componentList);
 
 app.get('/', (req, res) => {
-    logger.info('homepage requested');
+    logger.info('homepage requested!!');
     res.render('homepage', {
         url: '/'
     })

@@ -1,0 +1,11 @@
+2023-03-09 14:04:46 [31merror[39m: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:393:5)
+    at ServerResponse.setHeader (node:_http_outgoing:644:11)
+    at ServerResponse.header (/Users/fenja/github/WebComponent/february-22/Component_store_Next_Gen/component_store/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.location (/Users/fenja/github/WebComponent/february-22/Component_store_Next_Gen/component_store/node_modules/express/lib/response.js:915:15)
+    at ServerResponse.redirect (/Users/fenja/github/WebComponent/february-22/Component_store_Next_Gen/component_store/node_modules/express/lib/response.js:953:18)
+    at /Users/fenja/github/WebComponent/february-22/Component_store_Next_Gen/component_store/src/routes/fileUpload.js:76:36
+    at /Users/fenja/github/WebComponent/february-22/Component_store_Next_Gen/component_store/node_modules/express-fileupload/lib/utilities.js:64:52
+    at WriteStream.<anonymous> (/Users/fenja/github/WebComponent/february-22/Component_store_Next_Gen/component_store/node_modules/express-fileupload/lib/utilities.js:220:5)
+    at WriteStream.emit (node:events:513:28)
+    at emitCloseNT (node:internal/streams/destroy:132:10)

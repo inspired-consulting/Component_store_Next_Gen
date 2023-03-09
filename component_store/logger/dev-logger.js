@@ -16,6 +16,9 @@ function buildDevLogger () {
         ),
         transports: [
             new transports.Console()
+        ],
+        rejectionHandlers: [
+            new transports.File({ filename: './logs/rejections.log' })
         ]
     });
 }

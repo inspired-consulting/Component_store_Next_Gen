@@ -28,7 +28,7 @@ router.get('/:name', (req, res) => {
             })
         })
         .catch(err => {
-            logger.error(err);
+            logger.error('read from DB failed ' + err);
             return res.redirect('/');
         })
 })

@@ -18,7 +18,10 @@ router.get('/exists/:key/:value', (req, res) => {
             }
         })
         .catch((err) => {
-            if (err) return res.status(500).send(err);
+            if (err) {
+                logger.error('something went wrong ' + err);
+                return res.status(500).send(err);
+            }
             return res.status(404).send()
         });
 });
