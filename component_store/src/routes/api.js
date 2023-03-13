@@ -1,4 +1,5 @@
 const express = require('express');
+const logger = require('../../winston_logger');
 const router = express.Router();
 const component = require('../models/component');
 
@@ -9,7 +10,7 @@ router.get('/exists/:key/:value', (req, res) => {
     const tableName = tableNames[req.params.key]
     component.findComponents(tableName, req.params.value)
         .then((rows) => {
-            console.log('Data already exist in DB', rows);
+            logger.warn('Data already exist in DB', rows);
             if (rows.length > 0) {
                 res.status(200).send()
             } else {

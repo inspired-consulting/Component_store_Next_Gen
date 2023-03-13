@@ -4,6 +4,7 @@ const { addToDB } = require('../models/database');
 const path = require('path');
 const router = express.Router();
 const component = require('../models/component');
+const logger = require('../../winston_logger');
 
 router.get('/', (req, res) => {
     res.render('fileupload', {
@@ -116,6 +117,7 @@ async function writeFileLocally (filename) {
         }
         return await fs.promises.writeFile('componentData.json', JSON.stringify(componentData));
     } catch (err) {
+        logger.error(err.stack);
         console.error('Error occurred while writing file!', err);
     }
 }
