@@ -25,6 +25,9 @@ function prodLogger () {
         transports: [
             new transports.File({ filename: './winstonlogs/logInfos.log', level: 'info' }),
             new transports.File({ filename: './winstonlogs/logErrors.log', level: 'error' })
+        ],
+        rejectionHandlers: [
+            new transports.File({ filename: './winstonlogs/logRejections.log' })
         ]
     });
 }

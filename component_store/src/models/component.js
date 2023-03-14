@@ -1,11 +1,13 @@
 const pgpool = require('../helpers/pgpool');
 const uuid = require('uuid');
+const logger = require('../../winston_logger');
 
 const findComponents = (key, value) => {
     const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM component WHERE ' + key + ' = $1', [value], (err, result) => {
             if (err) {
+                logger.error('query for findComponents failed' + err);
                 reject(err);
             } else {
                 resolve(result.rows);
@@ -28,8 +30,12 @@ const createComponent = (data) => {
                 RETURNING id`,
         [componentId, componentData.name, componentData.website],
         (err, result) => {
-            if (err) { return reject(err); }
+            if (err) {
+                logger.error('query for createComponent failed' + err);
+                return reject(err);
+            }
             const row = result.rows.length > 0 ? result.rows[0] : false;
+            logger.error('componentdata could not be created' + err);
             // eslint-disable-next-line no-undef
             if (!row) { return reject(new InvalidResetError('componentdata could not be created')); }
             resolve(result.rows[0].id)
@@ -54,6 +60,7 @@ const getComponentDetailsByName = (name) => {
             c.name = $1
         ORDER BY cv.version DESC;`, [name], (err, result) => {
             if (err) {
+                logger.error('query for getComponentDetailsByName failed' + err);
                 reject(err)
             } else {
                 resolve(result.rows);
@@ -68,6 +75,7 @@ const readFromDB = (name) => {
             if (!err) {
                 resolve(result.rows);
             } else {
+                logger.error('query for readFromDB failed' + err);
                 reject(err.message);
             }
         });
@@ -96,6 +104,7 @@ const listComponents = (limit, offset, queryParameter, sortBy, order) => {
         const componentQuery = queryParameter.q ? queryParameter.q : '';
         pool.query(query + ' LIMIT $2 OFFSET $3', ['%' + componentQuery + '%', limit, offset], (err, result) => {
             if (err) {
+                logger.error('query for listComponents failed' + err);
                 reject(err);
             } else {
                 pool.query(`
@@ -104,6 +113,7 @@ const listComponents = (limit, offset, queryParameter, sortBy, order) => {
                 WHERE ` + buildSearchCondition(queryParameter, ['c.name']),
                 ['%' + componentQuery + '%'], (err, count) => {
                     if (err) {
+                        logger.error('searchquery for listComponents failed' + err);
                         reject(err);
                     } else {
                         resolve({ result: result.rows.map(row => { return row }), count: count.rows[0].count });

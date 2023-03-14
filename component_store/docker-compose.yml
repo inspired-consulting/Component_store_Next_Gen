@@ -4,7 +4,7 @@ services:
 
   postgres:
     image: postgres:14.7-bullseye
-    container_name: componento_db12
+    container_name: componento_db
     environment:
       POSTGRES_USER: ${DB_USER:-componento}
       POSTGRES_PASSWORD: ${DB_PASS:-secret}
