@@ -1,6 +1,7 @@
 const express = require('express');
 const { readFromDB } = require('../models/component');
 const router = express.Router();
+const logger = require('../../winston_logger');
 
 function compareIds (a, b) {
     return b.id - a.id;
@@ -10,7 +11,6 @@ router.get('/:name', (req, res) => {
     const componentName = req.params.name;
     readFromDB(componentName)
         .then(rows => {
-            //  console.log('rowsc from componentlist', rows);
             const component = rows.length > 0 ? rows.sort(compareIds).shift() : false;
             const newcomp = component;
             const olderversions = rows.length > 0 ? rows : false;
@@ -27,7 +27,7 @@ router.get('/:name', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err);
+            logger.error('read from DB failed ' + err);
             return res.redirect('/');
         })
 })

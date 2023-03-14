@@ -46,10 +46,6 @@ exports.getHandlebarHelpers = () => {
     }
 }
 
-// exports.linkParams = (params, offset) => {
-//     // eslint-disable-next-line no-undef
-//     return linkParams(params, offset);
-// }
 const linkParams = (params, offset) => {
     params.offset = offset
     // eslint-disable-next-line no-undef

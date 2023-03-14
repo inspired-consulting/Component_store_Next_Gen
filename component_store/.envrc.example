@@ -4,3 +4,4 @@ export DB_PORT=5432
 export DB_DATABASE=componentstore
 export DB_USER=componento
 export DB_PASS=secret
+export NODE_ENV=development

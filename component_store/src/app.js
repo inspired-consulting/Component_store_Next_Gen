@@ -23,6 +23,8 @@ const componentDetails = require('./routes/componentDetails');
 const apiRouter = require('./routes/api');
 const componentList = require('./routes/componentlist');
 
+const logger = require('../winston_logger');
+
 app.use(fileUpload());
 app.use('/upload', uploadsRouter);
 app.use('/api', apiRouter);
@@ -36,5 +38,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Server listening on Port: ${port}`)
+    logger.info(`Server listening on Port: ${port}`)
 })
