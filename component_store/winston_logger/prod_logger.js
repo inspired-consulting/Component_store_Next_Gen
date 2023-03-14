@@ -1,19 +1,3 @@
-// const { createLogger, transports, format } = require('winston');
-// const { timestamp, combine, printf } = format;
-
-// const customFormat = combine(timestamp(), printf((info) => {
-//     return `${info.timestamp} [${info.level.toUpperCase().padEnd(7)}]: ${info.message}`
-// }))
-
-// const prodLogger = createLogger({
-//     format: customFormat,
-//     transports: [
-//         new transports.Console({ level: 'silly' }),
-//         new transports.File({ filename: 'console.log', level: 'info' })
-//     ]
-// });
-
-// module.exports = prodLogger;
 
 const { format, createLogger, transports } = require('winston');
 const { timestamp, combine, errors, json, prettyPrint } = format;
