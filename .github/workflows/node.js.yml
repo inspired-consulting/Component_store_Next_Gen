@@ -10,12 +10,10 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-nodejs:
 
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: component_store
+    
     
     strategy:
       matrix:
