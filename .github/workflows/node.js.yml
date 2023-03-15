@@ -10,8 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
-    working-directory: component_store
+    defaults:
+      run:
+        working-directory: component_store
 
     strategy:
       matrix:
