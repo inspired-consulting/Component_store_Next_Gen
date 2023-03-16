@@ -24,6 +24,25 @@ module.exports = {
         }
     },
 
+    test: {
+        client: 'postgresql',
+        connection: {
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT_TEST || '5432',
+            database: process.env.DB_DATABASE_TEST || 'component-store-test',
+            user: process.env.DB_USER_TEST || 'componento',
+            password: process.env.DB_PASS_TEST || 'secret',
+            charset: 'utf8'
+        },
+        pool: {
+            min: 2,
+            max: 10
+        },
+        migrations: {
+            tableName: 'knex_migrations_test'
+        }
+    },
+
     production: {
         client: 'postgresql',
         connection: {

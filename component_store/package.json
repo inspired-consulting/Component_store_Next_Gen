@@ -4,7 +4,7 @@
   "description": "components store",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "dev": "nodemon ./src/app.js",
     "start": "node ./src/app.js"
   },
