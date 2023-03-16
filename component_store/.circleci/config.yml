@@ -1,41 +1,117 @@
-version: 2.1
-orbs:
-  node: circleci/node@5.0.2
-  heroku: circleci/heroku@1.2.6
+version: 2
+
+refs:
+  container: &container
+    docker:
+      - image: node:10
+        environment:
+          DATABASE_URL: 'postgres://postgres@127.0.0.1:9000/componentstore'
+      - image: postgres:10.6-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: componentstore
+
+    working_directory: component_store
+
+  steps:
+    - &Install
+      run:
+        name: Install Dependencies
+        command: npm install --frozen-lockfile
+    - &Test
+      run:
+        name: Test
+        command: npm ci:test
+    - &Run_Migrations
+      run:
+        name: Run migrations
+        command: npm migrations:test
 
 jobs:
-  build_and_test:
-    executor: node/default
+  all:
+    <<: *container
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm test
-          name: Run tests
-      - run:
-          command: npm build
-          name: Build app
-      - persist_to_workspace:
-          root: ~/component_store
-          paths:
-            - .
+      - *Install
+      - *Run_Migrations
+      - *Test
 
-  deploy: # this can be any name you choose
-    executor: heroku/default
+  deploy-staging:
+    <<: *container
     steps:
-      - attach_workspace:
-          at: ~/project
-      - heroku/deploy-via-git:
-          force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
+      - checkout
+      - *Install
+      - *Run_Migrations
+      - *Test
+      - run: echo "Run migrations on staging db"
+      - run: echo "Deploy to staging"
+      - run: echo "Post to slack - deployment waiting for approval"
+      - run:
+          name: Post to Slack on FAILURE
+          command: echo "Post to slack - staging build failed"
+          when: on_fail
+
+  deploy-prod:
+    <<: *container
+    steps:
+      - checkout
+      - *Install
+      - *Run_Migrations
+      - *Test
+      - run: echo "Run migrations on production db"
+      - run: echo "Deploy to production"
+      - run:
+          name: Post to Slack on FAILURE
+          command: echo "Post to slack - production build failed"
+          when: on_fail
+
+  nightly:
+    <<: *container
+    steps:
+      - checkout
+      - *Install
+      - *Test
+      - run:
+          name: Post to Slack on FAILURE
+          command: echo "Post to slack - nightly build failed"
+          when: on_fail
 
 workflows:
-  test_my_app:
+  version: 2
+  all:
     jobs:
-      - build_and_test
-      - deploy:
-          requires:
-            - build_and_test # only deploy if the build_and_test job has completed
+      - all:
           filters:
             branches:
-              only: main # only deploy when on main
+              ignore:
+                - main
+
+  main:
+    jobs:
+      - deploy-staging:
+          filters:
+            branches:
+              only: main
+      - approve-prod:
+          type: approval
+          requires:
+            - deploy-staging
+          filters:
+            branches:
+              only: main
+      - deploy-prod:
+          requires:
+            - approve-prod
+          filters:
+            branches:
+              only: main
+
+  nightly:
+    triggers:
+      - schedule:
+          cron: '0 1 * * *'
+          filters:
+            branches:
+              only: main
+    jobs:
+      - nightly
