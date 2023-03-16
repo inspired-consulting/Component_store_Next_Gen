@@ -27,7 +27,7 @@ module.exports = {
     test: {
         client: 'postgresql',
         connection: {
-            host: process.env.DB_HOST,
+            host: process.env.DB_HOST || 'postgres-test',
             port: process.env.DB_PORT_TEST || '5432',
             database: process.env.DB_DATABASE_TEST || 'component-store-test',
             user: process.env.DB_USER_TEST || 'componento',

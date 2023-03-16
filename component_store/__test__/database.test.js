@@ -27,6 +27,15 @@ describe('test db queries', () => {
         const checkName = await pool.query(queryCountdoubleName, [existingComponentName]);
         expect(checkName.rows.length).toBe(0);
     });
+    test('insert example component', async () => {
+        const queryComponent = `INSERT INTO component
+                                (id, uuid, name, website) 
+                            VALUES
+                                ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3) 
+                            RETURNING id`
+        const checkName = await pool.query(queryComponent, ['eea139d4-5127-445c-8c0b-c6fdba34d679', 'component', 'website']);
+        expect(checkName.rows.length).toBe(1);
+    });
     /* test('test add component to DB', () => {
         const inputdata = { componentName: 'component-test', inputVersion: '1.0.0', information: '<p>some instructions - do this, ...<br></p>', website: 'https://www.startpage.com', publisher: 'the publisher' };
         const existingComponentName = undefined;
