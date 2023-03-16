@@ -42,8 +42,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: docker-compose up -d postgres-test
-    - name: Sleep for 20 seconds
-      uses: jakejarvis/wait-action@master
-      with:
-        time: '20s'
+    # - name: Sleep for 20 seconds
+    #   uses: jakejarvis/wait-action@master
+    #   with:
+    #     time: '20s'
     - run: npm test
