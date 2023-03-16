@@ -13,7 +13,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-5433}:5432"
 # uncomment for sql debug
     command:
       ["postgres", "-c", "log_statement=Mod"]
