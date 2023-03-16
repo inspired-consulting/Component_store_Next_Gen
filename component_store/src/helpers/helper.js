@@ -16,8 +16,7 @@ exports.calculatePagination = (offsetString, limit, result) => {
 
     const pageLinks = [];
     if (currentPage < 6) {
-        // eslint-disable-next-line no-var
-        for (var i = 1; i < 10; i++) {
+        for (let i = 1; i < 10; i++) {
             if (pages >= i) {
                 pageLinks.push({
                     page: i,
@@ -26,8 +25,7 @@ exports.calculatePagination = (offsetString, limit, result) => {
             }
         }
     } else {
-        // eslint-disable-next-line no-var, no-redeclare
-        for (var i = currentPage - 4; i < (currentPage + 5); i++) {
+        for (let i = currentPage - 4; i < (currentPage + 5); i++) {
             const offset = (i - 1) * config.COMPONENTS_LIMIT_PER_PAGE
             if (offset <= componentCount && pages >= i) {
                 pageLinks.push({

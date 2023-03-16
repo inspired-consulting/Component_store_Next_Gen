@@ -19,21 +19,17 @@ exports.getHandlebarHelpers = () => {
                 return a !== b;
             },
             ifeq: (a, b, options) => {
-                if (a instanceof Number && b instanceof Number) {
-                    // eslint-disable-next-line eqeqeq
-                    return a == b;
+                if (a === b) {
+                    return options.fn(this);
+                } else {
+                    return undefined;
                 }
-                // eslint-disable-next-line eqeqeq
-                if (a == b) { return options.fn(this); }
-                return options.inverse(this);
             },
             isEmpty: (list) => {
-                // eslint-disable-next-line eqeqeq
-                return (list == null || list === undefined || list.length == 0)
+                return (list == null || list === undefined || list.length === 0)
             },
             gt: (a, b) => {
-                // eslint-disable-next-line eqeqeq
-                if (a == undefined) return false;
+                if (a === undefined) return false;
                 return (a > b);
             },
             link: (path) => {
@@ -48,7 +44,6 @@ exports.getHandlebarHelpers = () => {
 
 const linkParams = (params, offset) => {
     params.offset = offset
-    // eslint-disable-next-line no-undef
     return buildQueryParamsString(params)
 }
 
