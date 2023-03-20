@@ -14,9 +14,10 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "${DB_PORT:-5433}:5432"
-# uncomment for sql debug
+    # uncomment for sql debug
     command:
       ["postgres", "-c", "log_statement=Mod"]
+
   postgres-test:
     image: postgres:14.7-bullseye
     container_name: componento_db_test
@@ -29,7 +30,7 @@ services:
       - pgdatatest:/var/lib/postgresql/data
     ports:
       - "${DB_PORT_TEST:-5432}:5432"
-# uncomment for sql debug
+    # uncomment for sql debug
     command:
       ["postgres", "-c", "log_statement=Mod"]
 volumes: 

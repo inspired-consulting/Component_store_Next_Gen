@@ -1,4 +1,3 @@
-// const database = require('../src/models/database');
 const pgpool = require('../src/helpers/pgpool');
 const childprocess = require('child_process');
 const pool = pgpool.getPool();
@@ -16,11 +15,6 @@ afterAll(async () => {
 })
 
 describe('test db queries', () => {
-    // connect to a test database with pgpool
-    // now with node_env test
-    // run migration
-    // insert production data? or test data
-    // write a test
     test('check if component name exists', async () => {
         const existingComponentName = 'search-engine';
         const queryCountdoubleName = 'SELECT id FROM component AS com WHERE com.name=$1'
