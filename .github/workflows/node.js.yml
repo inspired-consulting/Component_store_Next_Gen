@@ -13,6 +13,15 @@ jobs:
   build-nodejs:
 
     runs-on: ubuntu-latest
+    services:
+      # Label used to access the service container
+      postgres-test:
+        # Docker Hub image
+        image: postgres:14.7-bullseye
+        #
+        ports:
+          # Opens tcp port 6379 on the host and service container
+          - 5432:5432
     defaults:
       run:
         working-directory: component_store
@@ -32,4 +41,9 @@ jobs:
         cache-dependency-path: '**/package-lock.json'
     - run: npm ci
     - run: npm run build --if-present
+    - run: docker-compose up -d postgres-test
+    # - name: Sleep for 20 seconds
+    #   uses: jakejarvis/wait-action@master
+    #   with:
+    #     time: '20s'
     - run: npm test
