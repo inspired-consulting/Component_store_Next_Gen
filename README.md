@@ -45,3 +45,11 @@ Start the application with:
 cd component_store
 nodemon src/app.js
 ```
+For Test:
+
+You do have a database `component-store-test` as user `componento` and password "secret".
+
+```bash
+cd component_store
+npm test
+```
