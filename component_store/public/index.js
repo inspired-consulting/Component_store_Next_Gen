@@ -103,7 +103,6 @@ if (submitBtn) {
                 validationMsg('#versionMsg', '', 'Error')
             }
         }
-
         enableUpload();
     })
 }
@@ -153,7 +152,7 @@ function enableUpload () {
 const componentSubmitBtn = document.querySelector('#componentSubmitBtn')
 let isUpdateComponentNameOk = false;
 if (componentSubmitBtn) {
-    validationMsg('#componentBtnMsg', 'Please fill the existing component names only !', 'Error')
+    validationMsg('#componentBtnMsg', 'Please fill the existing component name only !', 'Error')
 }
 
 const checkExistsUpdateComponent = (e) => {
@@ -176,7 +175,7 @@ const checkExistsUpdateComponent = (e) => {
                 document.querySelector('#componentBtnMsg').innerHTML = '';
             } else {
                 componentSubmitBtn.setAttribute('disabled', 'disabled');
-                document.querySelector('#componentBtnMsg').innerHTML = 'Please fill the existing component names only !';
+                document.querySelector('#componentBtnMsg').innerHTML = 'Please fill the existing component name only !';
             }
         })
 }
