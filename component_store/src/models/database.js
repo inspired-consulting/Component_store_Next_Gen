@@ -9,13 +9,13 @@ async function addToDB (inputdata, existingComponentName) {
     const pool = pgpool.getPool();
     inputdata = JSON.parse(JSON.stringify(inputdata));
     // queries
-    const queryComponent = `INSERT INTO component
+    const createComponent = `INSERT INTO component
                                 (id, uuid, name, website) 
                             VALUES
                                 ((SELECT COALESCE(MAX(id), 0) + 1 FROM component), $1, $2, $3) 
                             RETURNING id`
 
-    const queryComponentVersion = `INSERT INTO component_version
+    const createComponentVersion = `INSERT INTO component_version
                                     (id, uuid, component_id, version, information, entry_file, publisher) 
                                     VALUES
                                         ((SELECT COALESCE(MAX(id), 0) + 1 FROM component_version), $1, $2 , $3, $4 , $5, $6)`
@@ -42,6 +42,7 @@ async function addToDB (inputdata, existingComponentName) {
         // requests to check name and version
         const checkName = await pool.query(queryCountdoubleName, [existingComponentName]);
         const checkUpdatedVersion = await pool.query(queryCountdoubleVersion, [existingComponentName, inputdata.updateInputVersion]);
+
         // retrieve file data
         const awaitfile = await fs.promises.readFile('componentData.json');
         const loadedcomponentData = JSON.parse(awaitfile);
@@ -54,9 +55,9 @@ async function addToDB (inputdata, existingComponentName) {
             logger.info('updatedComponent' + updatedComponent.rows.length)
         } else {
             logger.warn('Weder der Name noch die Version existieren');
-            const insertComponent = await pool.query(queryComponent, [uuidv4(), inputdata.componentName, inputdata.website]);
+            const insertComponent = await pool.query(createComponent, [uuidv4(), inputdata.componentName, inputdata.website]);
             logger.info('id of newly added component is: ' + insertComponent.rows[0].id);
-            insertComponent.rows.length > 0 ? await pool.query(queryComponentVersion, [uuidv4(), insertComponent.rows[0].id, inputdata.inputVersion, inputdata.information, file, inputdata.publisher]) : console.log('Error: failed to insert into component');
+            insertComponent.rows.length > 0 ? await pool.query(createComponentVersion, [uuidv4(), insertComponent.rows[0].id, inputdata.inputVersion, inputdata.information, file, inputdata.publisher]) : console.log('Error: failed to insert into component');
         }
     } catch (error) {
         logger.error(error);

@@ -28,9 +28,9 @@ module.exports = {
         client: 'postgresql',
         connection: {
             host: process.env.DB_HOST,
-            port: process.env.DB_PORT_TEST || '5432',
+            port: process.env.DB_PORT_TEST || '5433',
             database: process.env.DB_DATABASE_TEST || 'component-store-test',
-            user: process.env.DB_USER_TEST || 'componento',
+            user: process.env.DB_USER || 'componento',
             password: process.env.DB_PASS_TEST || 'secret',
             charset: 'utf8'
         },
