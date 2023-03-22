@@ -33,9 +33,9 @@ knex migrate:latest
 
 Use `secret` as the password.
 
-Creating bootstrap file
+For bootstraping the database, we can use example.sql:
 
-pg_dump -U postgres -h 127.0.0.1 -p 25443 componentstore > /tmp/bootstrap.sql
+psql -h 127.0.0.1 -d componentstore -U componento -f example.sql
 
 ## Startup
 
