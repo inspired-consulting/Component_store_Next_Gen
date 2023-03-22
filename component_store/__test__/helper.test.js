@@ -1,5 +1,4 @@
 const calculatePagination = require('../src/helpers/helper');
-/* eslint-disable no-undef */
 
 describe('helper function', () => {
     it('calculate first pagination', () => {
