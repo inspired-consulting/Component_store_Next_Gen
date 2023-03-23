@@ -13,7 +13,7 @@
          <dt class="col-3">Publisher :</dt>
         <dd class="col-9">{{publisher}}</dd>
         <dt class="col-3">Generated Link :</dt>
-        <dd class="col-9"><a href="/components/{{namelink}}/{{version}}/{{entryFile}}" download>
+        <dd class="col-9"><a {{#if (eq name 'example-component')}}href="/example.js"{{else}}href="/components/{{namelink}}/{{version}}/{{entryFile}}"{{/if}} download>
                 https://store.componento.eu/components/{{namelink}}/{{version}}/{{entryFile}}</a></dd>
         <dt class="col-3">How to use the component :</dt>
         <dd class="col-9 mb-4">{{{information}}}</dd>

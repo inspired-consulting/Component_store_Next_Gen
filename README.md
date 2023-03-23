@@ -47,9 +47,21 @@ nodemon src/app.js
 ```
 For Test:
 
-You do have a database `component-store-test` as user `componento` and password "secret".
+You do have a database `component-store-test` as user `componento` and password `secret`.
 
 ```bash
 cd component_store
 npm test
+```
+
+Everytime  you do 
+```
+docker-compose down -v
+```
+Also run
+```bash
+cd component_store
+rm -R uploads
+
+To make your uplods empty
 ```
