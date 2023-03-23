@@ -3,3 +3,4 @@
 .envrc
 **/uploads
 **/winstonlogs
+componentData.json
