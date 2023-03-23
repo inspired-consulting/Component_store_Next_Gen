@@ -33,9 +33,9 @@ knex migrate:latest
 
 Use `secret` as the password.
 
-For bootstraping the database, we can use example.sql:
+For bootstraping the database, we can use this command:
 
-psql -h 127.0.0.1 -d componentstore -U componento -f example.sql
+node ./bin/insert-data.js
 
 ## Startup
 
