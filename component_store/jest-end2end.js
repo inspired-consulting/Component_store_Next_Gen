@@ -1,7 +1,7 @@
 module.exports = {
     preset: 'jest-puppeteer',
     globals: {
-        URL: 'http://localhost:' + (process.env.PORT || 3000)
+        URL: 'http://localhost:3006'
     },
     testMatch: [
         '<rootDir>/end2end/**/*.js'
