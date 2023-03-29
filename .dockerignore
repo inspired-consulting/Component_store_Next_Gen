@@ -5,5 +5,3 @@ Dockerfile
 .gitignore
 .dockerignore
 **/bin
-**/end2end
-**/__test__
