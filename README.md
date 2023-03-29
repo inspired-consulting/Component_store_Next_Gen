@@ -45,13 +45,22 @@ Start the application with:
 cd component_store
 nodemon src/app.js
 ```
-For Test:
+For Backend Test:
 
 You do have a database `component-store-test` as user `componento` and password `secret`.
 
 ```bash
 cd component_store
 npm test
+```
+
+For frontend Test:
+
+You do have a database `component-store-test` as user `componento` and password `secret`.
+
+```bash
+cd component_store
+npm run end2end
 ```
 
 Everytime  you do 

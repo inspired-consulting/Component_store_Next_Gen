@@ -1,5 +1,6 @@
 module.exports = {
     server: {
+        port: 3006,
         command: "node ./src/app.js",
     },
     launch: {
