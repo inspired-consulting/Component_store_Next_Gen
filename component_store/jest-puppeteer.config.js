@@ -3,8 +3,8 @@ module.exports = {
         command: "node ./src/app.js",
     },
     launch: {
-        headless: true,
-        slowMo: false,
+        headless: false,
+        slowMo: 70,
         devtools: false
     }
 }
