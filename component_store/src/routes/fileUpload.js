@@ -60,10 +60,10 @@ router.post('/update/:componentName', (req, res, next) => {
                     });
                 })
             })
-                .catch(err => {
-                    if (err) return res.status(500).send('addToDB throws error');
-                    return next(err);
-                })
+            .catch(err => {
+                if (err) return res.status(500).send('addToDB throws error');
+                return next(err);
+            })
         })
         .catch(err => {
             if (err) return res.status(500).send(err);
@@ -102,13 +102,13 @@ router.post('/', (req, res, next) => {
                     });
                 })
             })
-                .catch(err => {
-                    if (err) {
-                        logger.error('something went wrong ' + err);
-                        return res.status(500).send('addToDB throws error ' + err);
-                    }
-                    return next(err);
-                })
+            .catch(err => {
+                if (err) {
+                    logger.error('something went wrong ' + err);
+                    return res.status(500).send('addToDB throws error ' + err);
+                }
+                return next(err);
+            })
         })
         .catch(err => {
             if (err) {

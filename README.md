@@ -33,10 +33,11 @@ knex migrate:latest
 
 Use `secret` as the password.
 
-For bootstraping the database, we can use this command:
+### For bootstraping database,use this command:
 
+```bash
 node ./bin/insert-data.js
-
+```
 ## Startup
 
 Start the application with:
@@ -45,13 +46,23 @@ Start the application with:
 cd component_store
 nodemon src/app.js
 ```
-For Test:
+## Tests
+
+For Backend Tests:
 
 You do have a database `component-store-test` as user `componento` and password `secret`.
 
 ```bash
 cd component_store
 npm test
+```
+For Frontend ( end to end ) Tests:
+
+You do have a database `component-store-test` as user `componento` and password `secret`.
+
+```bash
+cd component_store
+npm run end2end
 ```
 
 Everytime  you do 
