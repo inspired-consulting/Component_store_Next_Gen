@@ -33,6 +33,23 @@ services:
     # uncomment for sql debug
     command:
       ["postgres", "-c", "log_statement=Mod"]
+
+  frontend-test:
+    image: postgres:14.7-bullseye
+    container_name: componento_frontend_test
+    environment:
+      POSTGRES_USER: ${DB_USER:-componento}
+      POSTGRES_PASSWORD: ${DB_PASS_TEST:-secret}
+      POSTGRES_DB: ${DB_DATABASE_TEST:-component-frontend-test}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - pgdatatest1:/var/lib/postgresql/data
+    ports:
+      - 3006:3000
+    # uncomment for sql debug
+    command:
+      ["postgres", "-c", "log_statement=Mod"]
 volumes: 
   pgdata:
   pgdatatest:
+  pgdatatest1:
