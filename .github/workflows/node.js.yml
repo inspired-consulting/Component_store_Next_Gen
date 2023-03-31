@@ -39,7 +39,16 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
+
+    - name: Run API in background
+      working-directory: packages/api
+      run: |
+        npm install
+        npm mock &
+        env:
+          PORT: 9000
     - run: npm ci
     - run: npm run build --if-present
     - run: docker-compose up -d postgres-test
     - run: npm test
+    - run: npm npm run end2end
