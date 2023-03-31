@@ -41,7 +41,7 @@ jobs:
         cache-dependency-path: '**/package-lock.json'
 
     - name: Run API in background
-      working-directory: packages/api
+      working-directory: component_store
       run: |
         npm install
         npm mock &
@@ -52,3 +52,6 @@ jobs:
     - run: docker-compose up -d postgres-test
     - run: npm test
     - run: npm npm run end2end
+    env:
+          CI: true
+          API_URI: http://localhost:9000/
