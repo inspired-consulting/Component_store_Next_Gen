@@ -54,9 +54,6 @@ jobs:
       run: npm install
       ports: 
          - 3006:3000
-
-    - name: Run and test app
-      working-directory: component_store
     - run: npm ci
     - run: npm run build --if-present
     - run: docker-compose up -d postgres-test
