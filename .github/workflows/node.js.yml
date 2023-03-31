@@ -44,9 +44,7 @@ jobs:
       working-directory: component_store
       run: |
         npm install
-        npm mock &
-        
-        PORT: 9000
+
     - run: npm ci
     - run: npm run build --if-present
     - run: docker-compose up -d postgres-test
