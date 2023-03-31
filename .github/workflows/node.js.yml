@@ -51,7 +51,7 @@ jobs:
     - run: npm run build --if-present
     - run: docker-compose up -d postgres-test
     - run: npm test
-    - run: npm npm run end2end
+    - run: npm run end2end
     env:
           CI: true
           API_URI: http://localhost:9000/
