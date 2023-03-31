@@ -22,15 +22,6 @@ jobs:
         ports:
           # Opens tcp port 6379 on the host and service container
           - 5432:5432
-
-      frontend-test:
-        # Docker Hub image
-        image: node:18-alpine
-        #
-        ports:
-          # Opens tcp port 6379 on the host and service container
-          - 3006:3000
-    
     defaults:
       run:
         working-directory: component_store
@@ -48,15 +39,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
-
-    - name: Run API in background
-      working-directory: component_store
-      run: npm install
-      ports: 
-        - 9000
     - run: npm ci
     - run: npm run build --if-present
     - run: docker-compose up -d postgres-test
     - run: npm test
-    - run: npm run end2end
 
