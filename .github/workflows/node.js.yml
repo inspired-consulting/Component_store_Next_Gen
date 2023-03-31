@@ -45,8 +45,8 @@ jobs:
       run: |
         npm install
         npm mock &
-        env:
-          PORT: 9000
+        
+        PORT: 9000
     - run: npm ci
     - run: npm run build --if-present
     - run: docker-compose up -d postgres-test
