@@ -20,7 +20,7 @@ describe('test upload workflow', () => {
         const input = await page.evaluate(componentname => componentname.value, componentname);
         await expect(input).toBe(testValue);
     })
-    
+
     test(('fill mandatory fields and upload'), async () => {
         // add component name, version and publisher
         await page.type('input[id=componentName]', testName);
@@ -62,7 +62,7 @@ describe('test upload workflow', () => {
 
         // wait for correct url
         expect(response.url()).toBe(URL + '/componentDetails/' + testName);
-    }, 7000)
+    }, 5000)
 
     test(('inspect uploaded component detail page'), async () => {
         await page.goto(URL + '/componentDetails/' + testName, { waitUntil: "domcontentloaded" });
