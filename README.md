@@ -18,7 +18,6 @@ Afterwards perform a `direnv allow .` in your root folder.
 ### Database Setup
 
 ```bash
-docker-compose pull
 docker build -t componento:1.0 .
 docker-compose up
 
@@ -59,13 +58,14 @@ npm test
 For Frontend ( end to end ) Tests:
 
 You do have a database `component-store-test` as user `componento` and password `secret`.
+The test framework tests the frontend on the port `3006`.
 
 ```bash
 cd component_store
 npm run end2end
 ```
 
-Everytime  you do 
+</br>Everytime you do 
 ```
 docker-compose down -v
 ```
@@ -74,5 +74,5 @@ Also run
 cd component_store
 rm -R uploads/*
 
-To make your uplods empty
+To make your uploads empty
 ```
