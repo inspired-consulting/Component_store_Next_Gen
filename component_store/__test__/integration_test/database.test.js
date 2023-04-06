@@ -1,4 +1,4 @@
-const pgpool = require('../src/helpers/pgpool');
+const pgpool = require('../../src/helpers/pgpool');
 const childprocess = require('child_process');
 const pool = pgpool.getPool();
 

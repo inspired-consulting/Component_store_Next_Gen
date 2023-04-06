@@ -1,4 +1,4 @@
-const temphelpers = require('../src/helpers/templateHelper');
+const temphelpers = require('../../src/helpers/templateHelper');
 const path = require('path');
 
 const object = { name: 'hello world' }
