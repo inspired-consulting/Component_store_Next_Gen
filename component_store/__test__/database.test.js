@@ -4,14 +4,14 @@ const pool = pgpool.getPool();
 
 beforeAll(() => {
     childprocess.execSync(
+        'knex migrate:rollback'
+    )
+    childprocess.execSync(
         'knex migrate:latest'
     )
 })
 
 afterAll(async () => {
-    childprocess.execSync(
-        'knex migrate:rollback'
-    )
     await pool.end();
 })
 

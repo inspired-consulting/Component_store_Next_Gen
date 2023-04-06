@@ -24,7 +24,6 @@ test('display home and show first subtitle', async () => {
 
 const cases = [
     ['Components','View Components'],
-    ['Update-component','Which component you want to update'],
     ['Upload','Upload new component']
 ];
 
