@@ -4,8 +4,8 @@ module.exports = {
         command: "node ./src/app.js",
     },
     launch: {
-        headless: false,
-        slowMo: 70,
+        headless: true,
+        slowMo: 30,
         devtools: false
     }
 }
