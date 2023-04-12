@@ -1,5 +1,13 @@
+const childprocess = require('child_process');
+
 beforeEach(async () => {
     await page.goto(URL + '/upload', { waitUntil: "domcontentloaded" });
+})
+
+afterAll(async () => {
+    childprocess.execSync(
+        'rm -R uploads/test-c/* && rm -R uploads/test-c'
+    );
 })
 
 const testName = 'test-c';
