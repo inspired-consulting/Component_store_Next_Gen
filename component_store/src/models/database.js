@@ -3,9 +3,9 @@ const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
 const logger = require('../../winston_logger');
 
-async function addToDB (inputdata, existingComponentName) {
-    logger.info('inputdata', inputdata);
-    logger.info('existingComponentName', existingComponentName);
+async function addToDB (inputdata, existingComponentName, file) {
+    logger.info('inputdata ' + inputdata);
+    logger.info('existingComponentName ' + existingComponentName);
     const pool = pgpool.getPool();
     inputdata = JSON.parse(JSON.stringify(inputdata));
     // queries
@@ -42,11 +42,6 @@ async function addToDB (inputdata, existingComponentName) {
         // requests to check name and version
         const checkName = await pool.query(queryCountdoubleName, [existingComponentName]);
         const checkUpdatedVersion = await pool.query(queryCountdoubleVersion, [existingComponentName, inputdata.updateInputVersion]);
-
-        // retrieve file data
-        const awaitfile = await fs.promises.readFile('componentData.json');
-        const loadedcomponentData = JSON.parse(awaitfile);
-        const file = loadedcomponentData.component;
 
         // insert data under certain preconditions
         if (checkName.rows.length > 0 && checkUpdatedVersion.rows.length === 0) {
