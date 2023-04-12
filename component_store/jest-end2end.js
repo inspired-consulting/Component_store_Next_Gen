@@ -8,6 +8,7 @@ module.exports = {
     ],
     testPathIgnorePatterns: [
         '__test__/integration_test',
-        '__test__/unit_test'
+        '__test__/unit_test',
+        'uploads'
     ]
 }
