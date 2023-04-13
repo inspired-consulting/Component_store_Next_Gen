@@ -34,28 +34,40 @@ router.post('/update/:componentName', (req, res, next) => {
     const data = req.body;
     const inputVersion = data.updateInputVersion;
 
-    addToDB(data, componentName, filename).then(() => {
-        fs.mkdir(`./uploads/${componentName}/${inputVersion}`, { recursive: true }, (err) => {
-            if (err) throw err;
-            fs.readdir(`./uploads/${componentName}/${inputVersion}`, (err, files) => {
-                if (err) throw err;
-                if (files.length > 0) {
-                    for (const file of files) {
-                        fs.unlink(path.join(`./uploads/${componentName}/${inputVersion}`, file), (err) => {
-                            if (err) throw err;
-                        });
-                    }
+    fs.mkdir(`./uploads/${componentName}/${inputVersion}`, { recursive: true }, (err) => {
+        if (err) {
+            logger.error(`Creating the directory ${componentName}/${inputVersion} failed ` + err);
+            return res.status(500).send(err);
+        }
+        fs.readdir(`./uploads/${componentName}/${inputVersion}`, (err, files) => {
+            if (err) {
+                logger.error(`Reading the directory ${componentName}/${inputVersion} failed ` + err);
+                return res.status(500).send(err);
+            }
+            if (files.length > 0) {
+                for (const file of files) {
+                    fs.unlink(path.join(`./uploads/${componentName}/${inputVersion}`, file), (err) => {
+                        if (err) { logger.error(`Removing the file ${file} failed ` + err); }
+                    });
                 }
-            });
-            sampleFile.mv(`./uploads/${componentName}/${inputVersion}/` + filename, function (err) {
-                if (err) return res.status(500).send(err);
+            }
+        });
+        sampleFile.mv(`./uploads/${componentName}/${inputVersion}/` + filename, function (err) {
+            if (err) {
+                logger.error(`Can not move file ${filename} into directory failed ` + err);
+                return res.status(500).send(err);
+            }
+            addToDB(data, componentName, filename).then(() => {
                 return res.redirect(`/componentDetails/${componentName}`);
-            });
-        })
-    })
-    .catch(err => {
-        if (err) return res.status(500).send('addToDB throws error');
-        return next(err);
+            })
+            .catch(err => {
+                if (err) {
+                    logger.error('addToDB throws error ' + err);
+                    return res.status(500).send('addToDB throws error ' + err);
+                }
+                return next(err);
+            })
+        });
     })
 });
 
@@ -66,34 +78,40 @@ router.post('/', (req, res, next) => {
     const componentName = data.componentName;
     const inputVersion = data.inputVersion;
 
-    addToDB(data, '', filename).then(() => {
-        fs.mkdir(`./uploads/${componentName}/${inputVersion}`, { recursive: true }, (err) => {
-            if (err) { logger.error('Creating the directory failed ' + err); }
-            fs.readdir(`./uploads/${componentName}/${inputVersion}`, (err, files) => {
-                if (err) { logger.error('Reading the directory failed ' + err); }
-                if (files.length > 0) {
-                    for (const file of files) {
-                        fs.unlink(path.join(`./uploads/${componentName}/${inputVersion}`, file), (err) => {
-                            if (err) { logger.error('Removing the file failed ' + err); }
-                        });
-                    }
-                }
-            });
-            sampleFile.mv(`./uploads/${componentName}/${inputVersion}/` + filename, function (err) {
-                if (err) {
-                    logger.error(`Can not move file ${filename} into directory failed ` + err);
-                    return res.status(500).send(err);
-                }
-                return res.redirect(`/componentDetails/${componentName}`);
-            });
-        })
-    })
-    .catch(err => {
+    fs.mkdir(`./uploads/${componentName}/${inputVersion}`, { recursive: true }, (err) => {
         if (err) {
-            logger.error('something went wrong ' + err);
-            return res.status(500).send('addToDB throws error ' + err);
+            logger.error(`Creating the directory ${componentName}/${inputVersion} failed ` + err);
+            return res.status(500).send(err);
         }
-        return next(err);
+        fs.readdir(`./uploads/${componentName}/${inputVersion}`, (err, files) => {
+            if (err) {
+                logger.error(`Reading the directory ${componentName}/${inputVersion} failed ` + err);
+                return res.status(500).send(err);
+            }
+            if (files.length > 0) {
+                for (const file of files) {
+                    fs.unlink(path.join(`./uploads/${componentName}/${inputVersion}`, file), (err) => {
+                        if (err) { logger.error(`Removing the file ${file} failed ` + err); }
+                    });
+                }
+            }
+        });
+        sampleFile.mv(`./uploads/${componentName}/${inputVersion}/` + filename, function (err) {
+            if (err) {
+                logger.error(`Can not move file ${filename} into directory failed ` + err);
+                return res.status(500).send(err);
+            }
+            addToDB(data, '', filename).then(() => {
+                return res.redirect(`/componentDetails/${componentName}`);
+            })
+            .catch(err => {
+                if (err) {
+                    logger.error('addToDB throws error ' + err);
+                    return res.status(500).send('addToDB throws error ' + err);
+                }
+                return next(err);
+            })
+        });
     })
 });
 
