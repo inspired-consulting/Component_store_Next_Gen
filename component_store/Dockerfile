@@ -10,7 +10,7 @@ ENV NODE_ENV production
 USER node
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app && chown -R node:node /usr/src/app
 
 # Copy the package.json and package-lock.json files to the container
 COPY --chown=node:node package*.json ./
