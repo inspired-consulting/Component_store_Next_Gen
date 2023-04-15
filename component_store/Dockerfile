@@ -6,11 +6,13 @@ RUN apt update && apt upgrade -y && apt install -y --no-install-recommends dumb-
 # Optimize tools like express
 ENV NODE_ENV production
 
+# Create app directory
+WORKDIR /usr/src/app
+
+RUN mkdir /usr/src/app/node_modules && chown -R node:node /usr/src/app/node_modules
+
 # Least-privileged User
 USER node
-
-# Create app directory
-WORKDIR /usr/src/app && chown -R node:node /usr/src/app
 
 # Copy the package.json and package-lock.json files to the container
 COPY --chown=node:node package*.json ./
