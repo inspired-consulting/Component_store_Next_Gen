@@ -7,6 +7,9 @@ function compareIds (a, b) {
     return b.id - a.id;
 }
 
+/**
+ * This get request renders the details of a component
+ */
 router.get('/:name', (req, res) => {
     const componentName = req.params.name;
     readFromDB(componentName)

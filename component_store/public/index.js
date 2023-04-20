@@ -31,7 +31,6 @@ if (submitBtn) {
 // Check if input value already exist in database
 const checkExists = (e) => {
     const source = e.target || e.srcElement;
-    console.log('source', source.name, source.value);
     const url = '/api/exists/' + source.name + '/' + source.value;
     const myRequest = new Request(url);
     const componentName = document.querySelector('#componentName').value;
@@ -73,7 +72,7 @@ $('#upload').change(function () {
 });
 
 if (submitBtn) {
-    uploadFile.addEventListener('keyup', function (e) {
+    uploadFile.addEventListener('keyup', function () {
         const requiredInputs = document.querySelectorAll('input[required]')
         const inputVersion = document.querySelector('#inputVersion').value;
         const publisher = document.querySelector('#publisher').value;
@@ -150,6 +149,9 @@ function enableUpload () {
 
 // For updating the component
 
+const updateComponentBtn = document.querySelector('#updateComponentBtn')
+const updateUploadFile = document.querySelector('#updateUploadFile')
+
 function enableUpdate () {
     if (Boolean(isVersionOk) && Boolean(isRequiredOk) && Boolean(isUploadOk)) {
         updateComponentBtn.removeAttribute('disabled');
@@ -159,9 +161,6 @@ function enableUpdate () {
         document.querySelector('#updateComponentBtnMsg').innerHTML = 'Please note that all fields marked with * are required !';
     }
 }
-
-const updateComponentBtn = document.querySelector('#updateComponentBtn')
-const updateUploadFile = document.querySelector('#updateUploadFile')
 
 if (updateComponentBtn) {
     enableUpdate();

@@ -1,10 +1,21 @@
 const pgpool = require('../helpers/pgpool');
-const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
 const logger = require('../../winston_logger');
 
+/**
+ * Save the component or it's version inside of database
+ * @param {Object} inputdata
+ * @param {"component"} inputdata.componentName - name of component
+ * @param {"1.0.0"} inputdata.inputVersion - version of component
+ * @param {"<p>some info<br></p>"} inputdata.information - additional information for component
+ * @param {"https://www.google.com"} inputdata.website - website of publisher/organisation
+ * @param {"the publisher"} inputdata.publisher - publisher of component
+ * @param {string} existingComponentName - Name of component if it already exists
+ * @param {string} file - file name, which should be uploaded
+ */
+
 async function addToDB (inputdata, existingComponentName, file) {
-    logger.info('inputdata ' + inputdata);
+    logger.info('inputdata ' + JSON.stringify(inputdata));
     logger.info('existingComponentName ' + existingComponentName);
     const pool = pgpool.getPool();
     inputdata = JSON.parse(JSON.stringify(inputdata));
@@ -52,7 +63,7 @@ async function addToDB (inputdata, existingComponentName, file) {
             logger.warn('Weder der Name noch die Version existieren');
             const insertComponent = await pool.query(createComponent, [uuidv4(), inputdata.componentName, inputdata.website]);
             logger.info('id of newly added component is: ' + insertComponent.rows[0].id);
-            insertComponent.rows.length > 0 ? await pool.query(createComponentVersion, [uuidv4(), insertComponent.rows[0].id, inputdata.inputVersion, inputdata.information, file, inputdata.publisher]) : console.log('Error: failed to insert into component');
+            insertComponent.rows.length > 0 ? await pool.query(createComponentVersion, [uuidv4(), insertComponent.rows[0].id, inputdata.inputVersion, inputdata.information, file, inputdata.publisher]) : logger.error('Error: failed to insert into component');
         }
     } catch (error) {
         logger.error(error);

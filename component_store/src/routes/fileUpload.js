@@ -6,12 +6,21 @@ const router = express.Router();
 const component = require('../models/component');
 const logger = require('../../winston_logger');
 
+/**
+ * This get request renders the upload page,
+ * where components can be uploaded
+ */
 router.get('/', (req, res) => {
     res.render('fileupload', {
         url: '/upload'
     })
 });
 
+/**
+ * This get request shows the update page,
+ * which is triggered when you click on the Update component button,
+ * on a componentDetail page
+ */
 router.get('/update', (req, res) => {
     const componentName = req.query.componentName
     if (componentName) {
@@ -27,6 +36,15 @@ router.get('/update', (req, res) => {
     }
 });
 
+/**
+ * This post request updates an existing component
+ *
+ * - makes new directory with the name and the version of the component if it doesn't exist yet,
+ * - deletes files inside directory,
+ * - puts file inside the empty folder,
+ * - adds the component version data to the database
+ * - redirects to componentDetails Page
+ */
 router.post('/update/:componentName', (req, res, next) => {
     const sampleFile = req.files.updateFileUpload;
     const componentName = req.params.componentName;
@@ -70,6 +88,15 @@ router.post('/update/:componentName', (req, res, next) => {
     })
 });
 
+/**
+ * This post request creates a new component
+ *
+ * - makes new directory with the name and the version of the component if it doesn't exist yet,
+ * - deletes files inside directory,
+ * - puts file inside the empty folder,
+ * - adds the component data to the database
+ * - redirects to componentDetails Page
+ */
 router.post('/', (req, res, next) => {
     const sampleFile = req.files.fileUpload;
     const filename = sampleFile.name;
