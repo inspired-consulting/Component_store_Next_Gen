@@ -17,7 +17,7 @@ router.get('/:name', (req, res) => {
             res.render('componentDetails', {
                 url: '/componentDetails',
                 component: newcomp,
-                olderversions,
+                olderversions: olderversions,
                 name: newcomp.name,
                 namelink: req.params.name,
                 version: newcomp.version,

@@ -1,13 +1,11 @@
 const childprocess = require('child_process');
 
 beforeEach(async () => {
-    await page.goto(URL + '/upload', { waitUntil: "domcontentloaded" });
+    await page.goto(URL + '/upload', { waitUntil: 'domcontentloaded' });
 })
 
 afterAll(async () => {
-    childprocess.execSync(
-        'rm -R uploads/test-c/* && rm -R uploads/test-c'
-    );
+    childprocess.execSync('rm -R uploads/test-c/* && rm -R uploads/test-c');
 })
 
 const testName = 'test-c';
@@ -73,38 +71,36 @@ describe('test upload workflow', () => {
     }, 5000)
 
     test(('inspect uploaded component detail page'), async () => {
-        await page.goto(URL + '/componentDetails/' + testName, { waitUntil: "domcontentloaded" });
+        await page.goto(URL + '/componentDetails/' + testName, { waitUntil: 'domcontentloaded' });
 
         const title = await page.$('h3');
         const hasTitle = await page.evaluate(title => title.innerHTML, title);
         await expect(hasTitle).toBe('Your Component');
 
-        let arg = [testName, testVersion, testPublisher];
+        const arg = [testName, testVersion, testPublisher];
 
         await page.evaluate((arg) => {
             const elements = [...document.querySelectorAll('dd.col-9')];
-            let intersection = elements.filter(x => arg.includes(x));
+            const intersection = elements.filter(x => arg.includes(x));
             arg = intersection;
         }, arg);
 
         await expect(arg).toEqual([testName, testVersion, testPublisher]);
     })
 
-
     test(('check if uploaded component is visible on component page'), async () => {
-        await page.goto(URL + '/componentlist', { waitUntil: "domcontentloaded" });
+        await page.goto(URL + '/componentlist', { waitUntil: 'domcontentloaded' });
 
-        let arg = '1- ' + testName;
+        const arg = '1- ' + testName;
 
         await page.evaluate((arg, testName) => {
             const elements = [...document.querySelectorAll('h5.card-title')];
             const hasTitle = elements.includes(arg);
             const elementsHref = [...document.querySelectorAll('a')];
-            const hasHref = elementsHref.find(element => element.href === ('/componentDetails/' + testName));;
+            const hasHref = elementsHref.find(element => element.href === ('/componentDetails/' + testName));
             hasHref ? arg = (true && hasTitle) : arg = (false && hasTitle);
         }, arg, testName);
 
         await expect(arg).toBeTruthy();
-
     })
 })

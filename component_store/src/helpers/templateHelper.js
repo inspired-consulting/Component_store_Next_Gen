@@ -1,9 +1,21 @@
+const buildQueryParamsString = (queryParamsObject) => {
+    let queryParams = '?'
+    for (const [key, value] of Object.entries(queryParamsObject)) {
+        queryParams = value ? queryParams + `${key}=${value}&` : queryParams
+    }
+    return queryParams.endsWith('&') ? queryParams.substring(0, queryParams.length - 1) : queryParams;
+}
+
+const linkParams = (params, offset) => {
+    params.offset = offset
+    return buildQueryParamsString(params)
+}
 
 exports.getHandlebarHelpers = () => {
     return {
         // Specify helpers which are only registered on this instance.
         helpers: {
-            getCurrentUrl (req, str) {
+            getCurrentUrl: (req, str) => {
                 return str === req.url || str === req.sort;
             },
             json: (context) => {
@@ -40,17 +52,4 @@ exports.getHandlebarHelpers = () => {
             }
         }
     }
-}
-
-const linkParams = (params, offset) => {
-    params.offset = offset
-    return buildQueryParamsString(params)
-}
-
-const buildQueryParamsString = (queryParamsObject) => {
-    let queryParams = '?'
-    for (const [key, value] of Object.entries(queryParamsObject)) {
-        queryParams = value ? queryParams + `${key}=${value}&` : queryParams
-    }
-    return queryParams.endsWith('&') ? queryParams.substring(0, queryParams.length - 1) : queryParams;
 }

@@ -5,26 +5,26 @@ const object = { name: 'hello world' }
 const object2 = { name: 'hello world' }
 
 describe('getCurrentURL helper function', () => {
-    test('test with static req.url', () => {
+    test('test with same req.url and string', () => {
         const req = { url: 'home' };
         const result = temphelpers.getHandlebarHelpers().helpers.getCurrentUrl(req, 'home');
         expect(result).toBe(true);
     });
 
-    test('test with static req.url', () => {
+    test('test with different req.url and string', () => {
         const req = { url: 'home' };
         const result = temphelpers.getHandlebarHelpers().helpers.getCurrentUrl(req, 'homes');
         expect(result).toBe(false);
     });
 
-    test('test with static req.sort', () => {
+    test('test with req.sort same as string', () => {
         const req = { sort: 'abc' };
         const result = temphelpers.getHandlebarHelpers().helpers.getCurrentUrl(req, 'abc');
         expect(result).toBe(true);
     });
 
-    test('test with static req.url', () => {
-        const req = { url: 'abc' };
+    test('test with different req.sort and string', () => {
+        const req = { sort: 'abc' };
         const result = temphelpers.getHandlebarHelpers().helpers.getCurrentUrl(req, 'new');
         expect(result).toBe(false);
     });
@@ -66,12 +66,12 @@ describe('eq helper function', () => {
         expect(result).toBe(false);
     });
 
-    test('test with different chars', () => {
+    test('compare equality of objects', () => {
         const result = temphelpers.getHandlebarHelpers().helpers.eq(object, object2);
         expect(result).toBe(false);
     });
 
-    test('test with different chars', () => {
+    test('compare equlaity of property name of objects', () => {
         const result = temphelpers.getHandlebarHelpers().helpers.eq(object.name, object2.name);
         expect(result).toBe(true);
     });

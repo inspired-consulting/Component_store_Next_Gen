@@ -20,8 +20,8 @@ router.get('/update', (req, res) => {
                 const existingComponent = rows[0];
                 res.render('updateComponent', {
                     url: '/upload/update',
-                    componentName,
-                    existingComponent
+                    componentName: componentName,
+                    existingComponent: existingComponent
                 })
             })
     }
@@ -54,18 +54,17 @@ router.post('/update/:componentName', (req, res, next) => {
         });
         sampleFile.mv(`./uploads/${componentName}/${inputVersion}/` + filename, function (err) {
             if (err) {
-                logger.error(`Can not move file ${filename} into directory failed ` + err);
+                logger.error(`Can not move file ${filename} into directory ` + err);
                 return res.status(500).send(err);
             }
             addToDB(data, componentName, filename).then(() => {
                 return res.redirect(`/componentDetails/${componentName}`);
-            })
-            .catch(err => {
-                if (err) {
-                    logger.error('addToDB throws error ' + err);
-                    return res.status(500).send('addToDB throws error ' + err);
+            }).catch(error => {
+                if (error) {
+                    logger.error('addToDB throws error ' + error);
+                    return res.status(500).send('addToDB throws error ' + error);
                 }
-                return next(err);
+                return next(error);
             })
         });
     })
@@ -103,8 +102,7 @@ router.post('/', (req, res, next) => {
             }
             addToDB(data, '', filename).then(() => {
                 return res.redirect(`/componentDetails/${componentName}`);
-            })
-            .catch(err => {
+            }).catch(err => {
                 if (err) {
                     logger.error('addToDB throws error ' + err);
                     return res.status(500).send('addToDB throws error ' + err);

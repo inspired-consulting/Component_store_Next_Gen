@@ -19,12 +19,12 @@ router.get('/', (req, res) => {
                     const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, rows.count);
                     res.render('componentList', {
                         url: '/componentlist',
-                        components,
+                        components: components,
                         name: components.name,
                         website: components.website,
                         params: { p: preset },
-                        presetType,
-                        search,
+                        presetType: presetType,
+                        search: search,
                         currentPage: search.currentPage,
                         pageLinks: search.pageLinks,
                         offset: search.offset
@@ -42,12 +42,12 @@ router.get('/', (req, res) => {
                     const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, rows.count);
                     res.render('componentList', {
                         url: '/componentlist',
-                        components,
+                        components: components,
                         name: components.name,
                         website: components.website,
                         params: { p: preset },
-                        presetType,
-                        search,
+                        presetType: presetType,
+                        search: search,
                         currentPage: search.currentPage,
                         pageLinks: search.pageLinks,
                         offset: search.offset
@@ -65,13 +65,13 @@ router.get('/', (req, res) => {
                 const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, count);
                 res.render('componentList', {
                     url: '/componentlist',
-                    components,
+                    components: components,
                     name: components.name,
                     website: components.website,
-                    query,
-                    count,
+                    query: query,
+                    count: count,
                     params: { q: query },
-                    search,
+                    search: search,
                     currentPage: search.currentPage,
                     pageLinks: search.pageLinks,
                     offset: search.offset
