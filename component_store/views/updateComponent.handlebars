@@ -1,11 +1,3 @@
-    
-    {{#if (isEmpty componentName)}}
-    <div  class="container mt-5 mb-5">
-        {{> componentName }}
-    </div>
-    {{else}}
-    
-
     <div class="container mt-5 mb-5">
         <h3 class="mb-4">Update component detail for <strong>"{{componentName}}"</strong></h3>
         <form method='post' action='/upload/update/{{componentName}}' enctype="multipart/form-data" id="updateUploadFile" autocomplete="off">
@@ -59,7 +51,5 @@
             <div class="col-sm-12 text-danger pl-0 " id="updateComponentBtnMsg"></div>
         </form>
     </div> 
-
-    {{/if}}
 
    <script src="/index.js" type="module"></script> 

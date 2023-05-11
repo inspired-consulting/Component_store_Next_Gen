@@ -31,7 +31,6 @@ if (submitBtn) {
 // Check if input value already exist in database
 const checkExists = (e) => {
     const source = e.target || e.srcElement;
-    console.log('source', source.name, source.value);
     const url = '/api/exists/' + source.name + '/' + source.value;
     const myRequest = new Request(url);
     const componentName = document.querySelector('#componentName').value;
@@ -73,7 +72,7 @@ $('#upload').change(function () {
 });
 
 if (submitBtn) {
-    uploadFile.addEventListener('keyup', function (e) {
+    uploadFile.addEventListener('keyup', function () {
         const requiredInputs = document.querySelectorAll('input[required]')
         const inputVersion = document.querySelector('#inputVersion').value;
         const publisher = document.querySelector('#publisher').value;
@@ -148,43 +147,10 @@ function enableUpload () {
     }
 }
 
-// For checking if component exist for update purpose
-const componentSubmitBtn = document.querySelector('#componentSubmitBtn')
-let isUpdateComponentNameOk = false;
-if (componentSubmitBtn) {
-    validationMsg('#componentBtnMsg', 'Please fill the existing component name only !', 'Error')
-}
-
-const checkExistsUpdateComponent = (e) => {
-    const source = e.target || e.srcElement;
-    console.log('source from UPDATE##', source.name, source.value);
-    const url = '/api/exists/' + source.name + '/' + source.value;
-    const myRequest = new Request(url);
-    fetch(myRequest)
-        .then((response) => {
-            if (response.ok) {
-                validationMsg('#updateComponentMsg', 'This name exist.', 'Success')
-                isUpdateComponentNameOk = true
-            } else {
-                validationMsg('#updateComponentMsg', 'This name do not exists.', 'Error')
-                isUpdateComponentNameOk = false
-            }
-
-            if (isUpdateComponentNameOk) {
-                componentSubmitBtn.removeAttribute('disabled');
-                document.querySelector('#componentBtnMsg').innerHTML = '';
-            } else {
-                componentSubmitBtn.setAttribute('disabled', 'disabled');
-                document.querySelector('#componentBtnMsg').innerHTML = 'Please fill the existing component name only !';
-            }
-        })
-}
-
 // For updating the component
 
-if (componentSubmitBtn) {
-    document.querySelector('#componentName').addEventListener('keyup', checkExistsUpdateComponent)
-}
+const updateComponentBtn = document.querySelector('#updateComponentBtn')
+const updateUploadFile = document.querySelector('#updateUploadFile')
 
 function enableUpdate () {
     if (Boolean(isVersionOk) && Boolean(isRequiredOk) && Boolean(isUploadOk)) {
@@ -195,9 +161,6 @@ function enableUpdate () {
         document.querySelector('#updateComponentBtnMsg').innerHTML = 'Please note that all fields marked with * are required !';
     }
 }
-
-const updateComponentBtn = document.querySelector('#updateComponentBtn')
-const updateUploadFile = document.querySelector('#updateUploadFile')
 
 if (updateComponentBtn) {
     enableUpdate();

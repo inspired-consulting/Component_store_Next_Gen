@@ -6,14 +6,19 @@ const component = require('../models/component');
 const tableNames = {
     componentName: 'name'
 }
+
+/**
+ * this get request checks, if the inserted component name is already used for uploading a new component.
+ */
 router.get('/exists/:key/:value', (req, res) => {
     const tableName = tableNames[req.params.key]
     component.findComponents(tableName, req.params.value)
         .then((rows) => {
-            logger.warn('Data already exist in DB', rows);
             if (rows.length > 0) {
+                logger.warn('Component name already exist in DB ' + rows.length);
                 res.status(200).send()
             } else {
+                logger.info('Component name is available ' + rows.length);
                 res.status(404).send()
             }
         })

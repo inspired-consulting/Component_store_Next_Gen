@@ -4,9 +4,11 @@ module.exports = {
         URL: 'http://localhost:3006'
     },
     testMatch: [
-        '<rootDir>/end2end/**/*.js'
+        '<rootDir>/__test__/end2end/**/*.js'
     ],
     testPathIgnorePatterns: [
-        '__test__'
+        '__test__/integration_test',
+        '__test__/unit_test',
+        'uploads'
     ]
 }

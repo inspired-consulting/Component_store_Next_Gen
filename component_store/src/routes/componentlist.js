@@ -5,6 +5,17 @@ const helper = require('../helpers/helper');
 const Configuration = require('../../config/config');
 const config = Configuration.load();
 
+/**
+ * loads the components from the db and
+ * sorts the components in the following ways:
+ *  - alphabetically
+ *  - newest components first (default)
+ *  - ascending
+ *  - specific with search string
+ *
+ * it is also possible to set the components,
+ * which should be displayed per page.
+ */
 router.get('/', (req, res) => {
     const offset = req.query.offset || '0';
     const query = req.query.q ? req.query.q : '';
@@ -19,12 +30,12 @@ router.get('/', (req, res) => {
                     const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, rows.count);
                     res.render('componentList', {
                         url: '/componentlist',
-                        components,
+                        components: components,
                         name: components.name,
                         website: components.website,
                         params: { p: preset },
-                        presetType,
-                        search,
+                        presetType: presetType,
+                        search: search,
                         currentPage: search.currentPage,
                         pageLinks: search.pageLinks,
                         offset: search.offset
@@ -42,12 +53,12 @@ router.get('/', (req, res) => {
                     const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, rows.count);
                     res.render('componentList', {
                         url: '/componentlist',
-                        components,
+                        components: components,
                         name: components.name,
                         website: components.website,
                         params: { p: preset },
-                        presetType,
-                        search,
+                        presetType: presetType,
+                        search: search,
                         currentPage: search.currentPage,
                         pageLinks: search.pageLinks,
                         offset: search.offset
@@ -65,13 +76,13 @@ router.get('/', (req, res) => {
                 const search = helper.calculatePagination(offset, config.COMPONENTS_LIMIT_PER_PAGE, count);
                 res.render('componentList', {
                     url: '/componentlist',
-                    components,
+                    components: components,
                     name: components.name,
                     website: components.website,
-                    query,
-                    count,
+                    query: query,
+                    count: count,
                     params: { q: query },
-                    search,
+                    search: search,
                     currentPage: search.currentPage,
                     pageLinks: search.pageLinks,
                     offset: search.offset

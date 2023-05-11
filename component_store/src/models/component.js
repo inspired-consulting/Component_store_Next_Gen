@@ -2,6 +2,11 @@ const pgpool = require('../helpers/pgpool');
 const uuid = require('uuid');
 const logger = require('../../winston_logger');
 
+/**
+ * function, which checks if the row of component table has already an entry with the given value.
+ * @param {string} key - row of table component
+ * @param {string} value - filter by value
+ */
 const findComponents = (key, value) => {
     const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
@@ -15,6 +20,10 @@ const findComponents = (key, value) => {
         })
     })
 }
+
+/**
+ * function, which creates a component and adds it to the database.
+ */
 const createComponent = (data) => {
     const componentData = {
         name: data.componentName,
@@ -43,6 +52,10 @@ const createComponent = (data) => {
     })
 }
 
+/**
+ * function, which collects information for update page from component and component_version
+ * filtered by a specific name.
+ */
 const getComponentDetailsByName = (name) => {
     const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {
@@ -68,6 +81,11 @@ const getComponentDetailsByName = (name) => {
         })
     })
 }
+
+/**
+ * function, which collects information for componentDetails page from component and component_version
+ * filtered by a specific name.
+ */
 const readFromDB = (name) => {
     const pool = pgpool.getPool()
     return new Promise((resolve, reject) => {
@@ -90,6 +108,15 @@ const buildSearchCondition = (queryParameter, searchFields) => {
     return `(${searchConditions.join('OR ')})`
 }
 
+/**
+ * function, which collects information for componentlist page
+ * from database.
+ * @param {number} limit - number of rows, which are returned by the query
+ * @param {string} offset - skips number of rows, before beginning to return the rows
+ * @param {string} queryParameter - sorted alphabetically, new
+ * @param {string} sortBy - name, id
+ * @param {string} order - asc, desc
+ */
 const listComponents = (limit, offset, queryParameter, sortBy, order) => {
     const pool = pgpool.getPool();
     return new Promise((resolve, reject) => {

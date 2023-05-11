@@ -30,22 +30,22 @@ exports.calculatePagination = (offsetString, limit, result) => {
             if (offset <= componentCount && pages >= i) {
                 pageLinks.push({
                     page: i,
-                    offset
+                    offset: offset
                 })
             }
         }
     }
     const pagination = {
         lastPageOffset: (pages - 1) * limit,
-        prevOffset,
-        hasPrev,
-        nextOffset,
-        hasNext,
+        prevOffset: prevOffset,
+        hasPrev: hasPrev,
+        nextOffset: nextOffset,
+        hasNext: hasNext,
         count: componentCount,
-        offset,
-        currentPage,
-        pages,
-        pageLinks
+        offset: offset,
+        currentPage: currentPage,
+        pages: pages,
+        pageLinks: pageLinks
     };
     return pagination;
 }

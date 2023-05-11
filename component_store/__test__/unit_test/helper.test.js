@@ -1,4 +1,4 @@
-const calculatePagination = require('../src/helpers/helper');
+const calculatePagination = require('../../src/helpers/helper');
 
 describe('helper function', () => {
     it('calculate first pagination', () => {

@@ -1,13 +1,9 @@
 const childprocess = require('child_process');
 
 beforeAll(async () => {
-    await page.goto(URL, { waitUntil: "domcontentloaded"});
-    childprocess.execSync(
-        'knex migrate:rollback'
-    );
-    childprocess.execSync(
-        'knex migrate:latest'
-    );
+    await page.goto(URL, { waitUntil: 'domcontentloaded' });
+    childprocess.execSync('knex migrate:rollback');
+    childprocess.execSync('knex migrate:latest');
 });
 
 test('test title of page', async () => {
@@ -17,15 +13,14 @@ test('test title of page', async () => {
 
 test('display home and show first subtitle', async () => {
     const titleOutput = await page.$('h2');
-    const html = await page.evaluate(titleOutput => titleOutput.innerHTML, 
+    const html = await page.evaluate(titleOutput => titleOutput.innerHTML,
         titleOutput);
     expect(html).toBe('How Componento works');
 })
 
 const cases = [
-    ['Components','View Components'],
-    ['Update-component','Which component you want to update'],
-    ['Upload','Upload new component']
+    ['Components', 'View Components'],
+    ['Upload', 'Upload new component']
 ];
 
 test.each(cases)('navigate to %s page', async (arg, result) => {
@@ -35,7 +30,7 @@ test.each(cases)('navigate to %s page', async (arg, result) => {
         element.click();
     }, arg);
     const titleOutput = await page.waitForSelector('h3');
-    const html = await page.evaluate(titleOutput => titleOutput.innerHTML, 
+    const html = await page.evaluate(titleOutput => titleOutput.innerHTML,
         titleOutput);
     expect(html).toBe(result);
 })

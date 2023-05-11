@@ -1,5 +1,6 @@
 module.exports = {
     testPathIgnorePatterns: [
-        '../end2end'
+        '../__test__/end2end',
+        '../uploads'
     ]
 }
