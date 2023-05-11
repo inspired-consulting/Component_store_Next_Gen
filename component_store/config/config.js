@@ -10,7 +10,7 @@ exports.load = () => {
 
     if (process.env.NODE_ENV === 'test') {
         configobject.DB_PORT = process.env.DB_PORT_TEST || '5433'
-        configobject.DB_DATABASE = process.env.DB_PORT_TEST || 'component-store-test'
+        configobject.DB_DATABASE = process.env.DB_DATABASE_TEST || 'component-store-test'
         configobject.DB_PASS = process.env.DB_PASS_TEST || 'secret'
         return configobject;
     }
